@@ -1,4 +1,3 @@
-
 system_prompt_z = """
 You have an image of what is predicted to be a single step transformation. Atoms are mapped to make it easier for you to follow what is happening regarding the connectivity of atoms and how that changes in this transformation. Please pay close attention to that, because this is essential for mechanistic understanding of transformations. You are also give iupac predicted names of compounds to make your job easier.
 

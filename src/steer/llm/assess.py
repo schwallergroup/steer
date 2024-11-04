@@ -2,24 +2,27 @@
 
 import asyncio
 import base64
+import importlib
 import os
+from typing import Optional
 
 import pandas as pd
 from dotenv import load_dotenv
-from llms import router
-from prompts import *
-from prompts.molecules.toxicity import PREFIX, SUFFIX
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 from steer.utils.rxnimg import get_rxn_img
+
+from .llms import router
+from .prompts import *
 
 
 class Heuristic(BaseModel):
     """LLM Heuristic for scoring reactions."""
 
     model: str = "gpt-4o"
-    PREFIX: str = ""
-    SUFFIX: str = ""
+    prefix: str = ""
+    suffix: str = ""
+    prompt: Optional[str] = None  # Path to the prompt module
 
     async def run(self, smiles: str):
         """Run the LLM."""
@@ -35,19 +38,27 @@ class Heuristic(BaseModel):
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": self.PREFIX},
+                        {"type": "text", "text": self.prefix},
                         {
                             "type": "image_url",
                             "image_url": {
                                 "url": f"data:image/png;base64,{b64img}"
                             },
                         },
-                        {"type": "text", "text": self.SUFFIX},
+                        {"type": "text", "text": self.suffix},
                     ],
                 },
             ],
         )
         return response.choices[0].message.content
+
+    @model_validator(mode="after")
+    def load_prompts(self):
+        if self.prompt is not None:
+            module = importlib.import_module(self.prompt)
+            self.prefix = module.prefix
+            self.suffix = module.suffix
+        return self
 
     @staticmethod
     def _parse_score(response):
@@ -60,7 +71,11 @@ class Heuristic(BaseModel):
 
 
 async def main():
-    heur = Heuristic(model="gpt-4o", PREFIX=PREFIX, SUFFIX=SUFFIX)
+    from steer.llm.prompts import toxicity
+
+    heur = Heuristic(
+        model="gpt-4o", PREFIX=toxicity.prefix, SUFFIX=toxicity.suffix
+    )
 
     smis = pd.read_csv("src/steer/benchmark/smiles.csv", header=None)
     labls = pd.read_csv(

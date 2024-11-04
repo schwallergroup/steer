@@ -1,8 +1,10 @@
-PREFIX = """You are an expert organic chemist tasked with analyzing and rating molecules based on their potential toxicity. Your goal is to provide a detailed analysis of a molecule's toxicity based on its structure, functional groups, and potential interactions with biological systems.
+"""Prompt for assessing toxicity."""
+
+prefix = """You are an expert organic chemist tasked with analyzing and rating molecules based on their potential toxicity. Your goal is to provide a detailed analysis of a molecule's toxicity based on its structure, functional groups, and potential interactions with biological systems.
 
 Examine the following molecule image carefully:"""
 
-SUFFIX = """Using your expertise in organic chemistry and toxicology, perform the following analysis:
+suffix = """Using your expertise in organic chemistry and toxicology, perform the following analysis:
 
 1. Identify all functional groups present in the molecule.
 2. Analyze potential interactions with biological systems, including:
