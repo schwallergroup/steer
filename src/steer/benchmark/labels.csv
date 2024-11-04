@@ -1,0 +1,50 @@
+1;; Unlikely reaction;; Substitution reaction unknown, likely to be impossible due to low reactivity/steric hindrance.
+2;; Plausible 1 step;; Similar reaction reported [Patent: EP1916240, 2008, A1]; similar reagent reported.
+3;; Plausible 1 step;; Same as 2.
+4;; Plausible 1 step;; Exact match reported in [Patent: WO2016/138532, 2016, A1].
+5;; Unlikely reaction;; No similar matches in literature, can be incorrect generalisation of carboxylic acid derivatives homologation.
+6;; Plausible 1 step;; Similar reaction reported in [Patent: WO2018/226150, 2018, A1], where ester is replaced with the Br.
+7;; Plausible 2+ step;; Two-step process plausible – 1) hydrolysis, 2) chloroanhydride formation. Potential issues with regioselectivity expected.
+8;; Plausible 2+ step;; Two-step process plausible – 1) decarboxylative halogenation, 2) nucleophilic substitution.
+9;; Plausible 2+ step;; Pd-catalysed C-C coupling is possible, similar reaction has been reported– [Patent: WO2013/150416, 2013, A1] following halogenation 1st step.
+10;; Plausible 1 step;; One-step analogue of 9).
+11;; Plausible 1 step;; Plausible C-H activation/borylation, similar reported.
+12;; Plausible 2+ step;; Plausible two-step process: 1) catalytic C=C hydrogenation, 2) LiAlH4 amide to amine reduction.
+13;; Plausible 2+ step;; Plausible two-step process, similar to 9): 1) C-C bond formation with C-H activation, 2) ester hydrolysis.
+14;; Plausible 2+ step;; Plausible two-step process: 1) radical benzylic halogenation, 2) SN2 replacement by sulphate.
+15;; Plausible 2+ step;; Plausible two-step process: 1) ketone reduction, 2) SN2 alkylation of the alcohol.
+16;; Plausible 1 step;; Reaction reported as Mg-induced or through electrolysis.
+17;; Plausible 1 step;; Similar to 16).
+18;; Plausible 1 step;; Standard reductive amination. Potentially needs protection of the carboxylic acid as an extra step.
+19;; Plausible 2+ step;; Plausible two-step process: 1) benzylic halogenation, 2) carboxylation via Gringard intermediate.
+20;; Plausible 1 step;; Similar reaction reported in [Patent: US2012/245124, 2012, A1]. There might be issues with regioselectivity (2 Cl atoms, compared to one in the reported case).
+21;; Plausible 2+ step;; Similar reaction reported. Require 2 steps: 1) bromination, 2) Pd-catalysed C-C bond formation.
+22;; Plausible 2+ step;; Similar to 21).
+23;; Plausible 1 step;; Close analogue reported.
+24;; Plausible 2+ step;; Plausible two-step process: 1) ester hydrolysis, 2) amide coupling.
+25;; Plausible 1 step;; Similar reaction reported.
+26;; Unlikely reaction;; No similar reaction reported. Regiochemistry is likely to be wrong as aldehyde will react first with the NH2-group of the hydrazide leading selectively to a different regioisomer.
+27;; Unlikely reaction;; No similar reaction found. Likely to be wrong generalisation of reductive amination – amides are not reacting in reductive amination reactions as amines.
+28;; Plausible 1 step;; No similar reaction found for this scaffold, although it is likely to proceed as the Bamford–Stevens reaction followed by capturing of the diazo intermediate by the alkyne.
+29;; Plausible 2+ step;; Plausible two-step process: 1) Pd-catalysed arylation of the nitrile, 2) oxygen-mediated aromatisation towards the isoquinoline aromatic product.
+30;; Plausible 1 step;; Standard C=C bond hydrogenation.
+31;; Plausible 2+ step;; Plausible two-step process: 1) Sulfuric acid formation, 2) peroxysulfuric acid formation in an electrolysis step.
+32;; Plausible 2+ step;; Similar to 31).
+33;; Plausible 2+ step;; Plausible two-step process: 1) Boc deprotection, 2) chloroformate standard amination.
+34;; Plausible 1 step;; Standard amine Chloro sulphonation.
+35;; Plausible 1 step;; Similar to published reaction.
+36;; Plausible 2+ step;; Plausible two-step process: 1) standard indole iodination, 2) Boc-protection.
+37;; Plausible 1 step;; Similar to published reaction.
+38;; Plausible 1 step;; Standard aryldiazonium salt formation.
+39;; Plausible 1 step;; Standard formylation reaction [Patent: EP3805231, 2021, A1].
+40;; Plausible 1 step;; No similar reaction reported for this scaffold, but the aldol reaction likely followed by intramolecular cyclisation.
+41;; Plausible 2+ step;; Likely to proceed as a three-step process: 1) ester hydrolysis, 2) conversion to the acid chloride, 3) condensation to the azaquinoline product.
+42;; Plausible 2+ step;; Likely to proceed as a multi-step process: 1) aromatic halogenation, 2) Pd-catalysed arylation of the nitrile, similar to 29), 3) cyclization reaction between ketone and primary amine.
+43;; Plausible 1 step;; Similar to [Patent: WO2021/7477, 2021, A1].
+44;; Plausible 1 step;; Similar to 43.
+45;; Plausible 1 step;; Can proceed as a Mitsunobu reaction.
+46;; Plausible 1 step;; Similar to published reaction.
+47;; Plausible 1 step;; Standard Suzuki reaction.
+48;; Plausible 1 step;; Standard alcohol sulphonation reaction.
+49;; Plausible 1 step;; Similar to standard Boc protection with a close reagent analogue.
+50;; Plausible 2+ step;; Plausible two-step process: 1) cyclisation with CDI, 2) chlorination with POCl3.
