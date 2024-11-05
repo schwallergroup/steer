@@ -4,7 +4,7 @@ import asyncio
 import base64
 import importlib
 import os
-from typing import Optional
+from typing import Optional, Dict
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -23,10 +23,13 @@ class Heuristic(BaseModel):
     prefix: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
+    cache: Dict | str = {}
 
     async def run(self, smiles: str):
         """Run the LLM."""
         load_dotenv()
+        if smiles in self.cache:
+            return self.cache[smiles] 
 
         b64img = get_rxn_img(smiles)
         if b64img is None:
@@ -50,6 +53,8 @@ class Heuristic(BaseModel):
                 },
             ],
         )
+    
+        self.cache[smiles] = response.choices[0].message.content
         return response.choices[0].message.content
 
     @model_validator(mode="after")
@@ -58,11 +63,18 @@ class Heuristic(BaseModel):
             module = importlib.import_module(self.prompt)
             self.prefix = module.prefix
             self.suffix = module.suffix
+
+        if isinstance(self.cache, str):
+            self.cache = pd.read_csv(self.cache, header=None).to_dict()
+
         return self
 
     @staticmethod
     def _parse_score(response):
-        return response.split("<score>")[1].split("</score>")[0]
+        try:
+            return float(response.split("<score>")[1].split("</score>")[0])
+        except:
+            return 10.0  # Default score max.
 
     async def _run_row(self, row):
         smi = row[1]["smiles"].split(">>")[0]
