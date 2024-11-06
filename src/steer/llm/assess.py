@@ -1,5 +1,6 @@
 """Evaluate a given reaction."""
 
+import weave
 import asyncio
 import base64
 import importlib
@@ -24,7 +25,9 @@ class Heuristic(BaseModel):
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
     cache: Dict | str = {}
+    project_name: str = ""
 
+    @weave.op()
     async def run(self, smiles: str):
         """Run the LLM."""
         load_dotenv()
@@ -59,6 +62,8 @@ class Heuristic(BaseModel):
 
     @model_validator(mode="after")
     def load_prompts(self):
+        if self.project_name:
+            weave.init(self.project_name)
         if self.prompt is not None:
             module = importlib.import_module(self.prompt)
             self.prefix = module.prefix
