@@ -71,6 +71,7 @@ def get_rxn_img(smiles) -> str | None:
         # Save the image to a BytesIO object in PNG format
         buffered = BytesIO()
         final_img.save(buffered, format="PNG")
+        return final_img
 
         # Get the byte data and encode it to base64
         img_str = base64.b64encode(buffered.getvalue()).decode()
