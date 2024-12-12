@@ -17,9 +17,13 @@ from steer.utils.rxnimg import get_rxn_img
 
 from .llms import router
 from .prompts import *
+from litellm import Timeout
 from synthegy.chem import FixedRetroReaction
 from synthegy.reactiontree import ReactionTree
+from weave.trace.context.call_context import get_current_call
+from steer.logger import setup_logger
 
+logger = setup_logger(__name__)
 
 
 class LM(BaseModel):
@@ -67,28 +71,30 @@ class LM(BaseModel):
             ]
             img_msgs.extend(msg)
 
-        response = await router.acompletion(
-            model=self.model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": self.prefix.format(query=query)},
-                        *img_msgs,
-                        # {
-                        #     "type": "image_url",
-                        #     "image_url": {
-                        #         "url": f"data:image/png;base64,{b64img}"
-                        #     },
-                        # },
-                        {"type": "text", "text": self.suffix},
-                    ],
-                },
-            ],
-        )
+        try:
+            response = await router.acompletion(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": self.prefix.format(query=query)},
+                            *img_msgs,
+                            {"type": "text", "text": self.suffix},
+                        ],
+                    },
+                ],
+            )
+        except Timeout as e:
+            logger.error(f"API Timeout: {e}")
+            return "<score>0</score>"
     
+        current_call = get_current_call()
         # self.cache[smiles] = response.choices[0].message.content
-        return response.choices[0].message.content
+        return dict(
+            response=response.choices[0].message.content,
+            url=current_call.ui_url,
+        )
 
     @model_validator(mode="after")
     def load_prompts(self):
@@ -129,35 +135,19 @@ class LM(BaseModel):
 
 
 async def main():
-    # from steer.llm.prompts import toxicity
+    import json
 
-    # heur = Evaluator(
-    #     model="gpt-4o", PREFIX=toxicity.prefix, SUFFIX=toxicity.suffix
-    # )
+    lm = LM(
+        prompt="steer.llm.prompts.fullroute",
+        model="gpt-4o",
+        project_name="steer-test",
+    )
 
-    # smis = pd.read_csv("src/steer/benchmark/smiles.csv", header=None)
-    # labls = pd.read_csv(
-    #     "src/steer/benchmark/labels.csv", sep=";;", header=None
-    # )
-
-    # df = pd.concat([smis, labls], axis=1)
-    # df.columns = ["smiles", "id", "label", "comment"]
-    # df["cat"] = df["label"].apply(lambda x: 0 if "Unlikely" in x else 1)
-
-    # df = df.iloc[:5]
-    # from time import time
-
-    # t0 = time()
-    # answers = await asyncio.gather(
-    #     *[heur._run_row(row) for row in df.iterrows()]
-    # )
-    # print(time() - t0, df.shape[0])
-    # scores = [Evaluator._parse_score(ans) for ans in answers]
-
-    # df["answer"] = answers
-    # df["llm_score"] = scores
-    # df.to_csv("src/steer/benchmark/answers_3.csv", index=False)
-    return 0
+    with open("data/aizynth_output.json", "r") as f:
+        data = json.load(f)[0]
+    
+    result = await lm.run(ReactionTree.from_dict(data), "Metal free synthesis")
+    return result
 
 
 if __name__ == "__main__":

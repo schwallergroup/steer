@@ -5,7 +5,7 @@ import os
 from litellm import Router
 
 router = Router(
-    [
+    model_list = [
         {
             "model_name": "gpt-4o",  # model alias
             "litellm_params": {
@@ -36,6 +36,11 @@ router = Router(
             },
         },
     ],
+    timeout=60,
+    num_retries=0,
+    retry_after=0,
+    # allowed_fails=1,
+    # cooldown_time=60,
 )
 
 ######### For llama, images are passed diferently ###########
