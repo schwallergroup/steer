@@ -5,3 +5,4 @@
 from .api import *  # noqa
 from .llm import *  # noqa
 from .utils import *  # noqa
+from .logger import setup_logger  # noqa
