@@ -1,12 +1,12 @@
 # For a given synthetic route, define a score. This is query dependent.
 # For each query, we define a metric to evaluate the synthetic route.
 
-from typing import Callable
+from typing import Callable, List, Tuple
 
-class DepthCondition:
+class BaseScoring:
     """Find out at which depth of the tree a condition is met."""
 
-    def __call__(self, data) -> float:
+    def __call__(self, data) -> Tuple[List[float], List[float]]:
         """Evaluate the synthetic route."""
         pass
 
@@ -35,7 +35,7 @@ class DepthCondition:
         # lmscore = [d['lmdata']['routescore'] for d in data]
         pass
 
-    def depth_score(self, data, target_depth: Callable):
+    def where_condition_met(self, data, target_depth: Callable):
         """Provide a score based on the depth at which the condition is met."""
         depth = [self.depth_score(d) for d in data]
         lmscore = [d["lmdata"]["routescore"] for d in data]
