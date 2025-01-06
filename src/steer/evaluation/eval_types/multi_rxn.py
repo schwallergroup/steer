@@ -14,7 +14,7 @@ class MultiRxnCondBase:
             conds.append(cond)
             lengths.append(length)
             score.append(d['lmdata']['routescore'])
-        return conds, lengths, score
+        return conds, score # lengths
 
     def detect_piperidine(self, rxn):
         oxoisoindolinone = "C1CN[CH2]CC1"
