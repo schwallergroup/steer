@@ -1,3 +1,4 @@
+"""RingBreakerDepth scoring function"""
 
 from .base import BaseScoring
 from typing import Dict
