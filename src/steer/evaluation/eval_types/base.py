@@ -6,7 +6,11 @@ from typing import Callable
 class DepthCondition:
     """Find out at which depth of the tree a condition is met."""
 
-    def __call__(self, d):
+    def __call__(self, data) -> float:
+        """Evaluate the synthetic route."""
+        pass
+
+    def depth_score(self, d):
         return self.condition_depth(d["children"][0]) + 1
 
     def hit_condition(self, d):
@@ -33,7 +37,7 @@ class DepthCondition:
 
     def depth_score(self, data, target_depth: Callable):
         """Provide a score based on the depth at which the condition is met."""
-        depth = [self(d) for d in data]
+        depth = [self.depth_score(d) for d in data]
         lmscore = [d["lmdata"]["routescore"] for d in data]
 
         # For now let's say difference with target_depth is the score
