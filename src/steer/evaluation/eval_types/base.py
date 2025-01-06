@@ -1,5 +1,5 @@
-# For a given synthetic route, define a score. This is query dependent.
-# For each query, we define a metric to evaluate the synthetic route.
+"""Base class for scoring synthetic routes.
+For a given synthetic route, define a score - this is query dependent."""
 
 from typing import Callable, List, Tuple
 
