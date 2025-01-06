@@ -2,12 +2,12 @@
   {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
     "prompt": "Late imidazole ring formation",
-    "id": "5686e27deac7d2973ba51b3077ca8586",
+    "id": "280b79ef56e06a8af1a7d6b72c52148d",
     "evaluate": "RingBreakDepth",
     "eval_config": {
       "target_depth": {
         "type": "diff",
-        "value": 10
+        "value": 1
       }
     }
   },
@@ -18,10 +18,10 @@
     "eval_config": {
       "target_depth": {
         "type": "diff",
-        "value": 1
+        "value": 10
       }
     },
-    "id": "dffc3152e834612520ae9ef4d5e53691"
+    "id": "e579d80f176371344bab95ea15e6b9ab"
   },
   {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
@@ -38,7 +38,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "5171022aab2428f7b82dbbccfe16aa4e"
+    "id": "1823f3241b82133bbca85d6576cbed65"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -55,7 +55,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "39513fa7b5109d865f7167f971336807"
+    "id": "d1adcbb806bf58cfd56293a867628bd4"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -65,7 +65,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "dad65fc4d846cbb15596ee58dc5d6c00"
+    "id": "6791544faa03a4c3cbf7a4040d89a2e1"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -75,7 +75,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "ee6b30dbe8de2424670ac8c43659fc26"
+    "id": "0c0ea36bcefee71d4956cfc21454fe12"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -91,7 +91,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "be16c12628a29d75d448792c928e793a"
+    "id": "dd7bc734fd02683b3fbd233a2fd73875"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -107,7 +107,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "9a622c4734cec0518da6e67ff3aab832"
+    "id": "c0832f1d769024f69777b7f109bebb5d"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -117,7 +117,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "86267cec5598669b3f2ada9cab1864c3"
+    "id": "cb1673f4eead31e69002292a503c5bb5"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -127,7 +127,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "198ff12bf9501803839e9e3bdeb56750"
+    "id": "0e654459c99472cbfece9306fd04e7bd"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -137,7 +137,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "85def4339ae045cd03f926d61025fe20"
+    "id": "ca06156bee8f14dcf0bd7e14f68eddcc"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -147,7 +147,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "b2f9ac161f08f410d22965e8f837a381"
+    "id": "b7593440c612f17a7201aef6d6667d0b"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -157,7 +157,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "0df90a944680037bd597d79a3e2c0942"
+    "id": "dfc8116ec63329c437281f7a40dda876"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -167,7 +167,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "bbe8abd80a6516bdfa101c93d9a13178"
+    "id": "aa9f65695c29a78dce1de6739180a675"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -177,7 +177,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "ce5a0fa02e074296d3a2e3b52b839663"
+    "id": "273f52d7b5ee3376516cacdf300e863c"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -187,7 +187,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "88a96b9bb4f247bd00aa378e3e3b79f7"
+    "id": "bf6e6641ffc7bf54d328bdb1568e1787"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -197,7 +197,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "eb1dfb714912721b3ec7bc7b88b3df5b"
+    "id": "3f6295f391df6bbabd348648493418ba"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -207,7 +207,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "007b9e4e8baf9826c5c8ac37596f124a"
+    "id": "4e369b2cafa24467fc5f9f86cd7c1d73"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -217,7 +217,7 @@
       "time_lim": 1000,
       "max_tree": 10
     },
-    "id": "215f20106e3d84dabb0b1828c85fcb7a"
+    "id": "647106455dc6317a9dcb43336eeb6880"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -234,7 +234,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "f19c1b536448981929081e0bbb248ebb"
+    "id": "6137420e765c02d74671c89ca569ce41"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -251,7 +251,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "6860768b48c203665ddf91c9da4e1a0f"
+    "id": "00813afd159c009f6a6c9bf1207b07f4"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -268,7 +268,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "a83bba8a79ac7fa5ad184d173b3956d1"
+    "id": "564d6fbe8d4540931e8a93ef36c895e2"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -285,7 +285,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "447a5c2e9ed62844d840971d1c3f60b1"
+    "id": "ea8df340d54596eda93e23f04dff3a9b"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -302,7 +302,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "9982d6b3a795a8ba9bebf8779b1605e1"
+    "id": "4bfe366ec7f5d64678d500f9084cbb35"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -312,7 +312,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "bbe8abd80a6516bdfa101c93d9a13178"
+    "id": "aa9f65695c29a78dce1de6739180a675"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -328,7 +328,7 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "48a3dc70772de448d809f8723c9c3782"
+    "id": "46f06d1a1e359b3230cfc1b81473a474"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -344,6 +344,6 @@
       "time_lim": 1000,
       "max_tree": 20
     },
-    "id": "6eafdcb4d466eccfd96b25374a785056"
+    "id": "1002fe2d610a74e4478530e12ab930e3"
   }
 ]
