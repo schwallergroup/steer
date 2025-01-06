@@ -132,6 +132,12 @@
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break piperidine-2,6-dione and oxoisoindolinone rings in the retrosynthesis. Get the other piperidine ring from commercially available materials",
+    "evaluate": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": false,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": true
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
@@ -142,6 +148,12 @@
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break piperidine and oxoisoindolinone rings in the synthesis. Get the piperidine-2,6-dione from commercially available materials",
+    "evaluate": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": true,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": false
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
@@ -152,6 +164,12 @@
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break only oxoisoindolinone ring in synthesis. Get piperidine-2,6-dione and piperidine rings from commercially available materials",
+    "evaluate": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": false,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": false
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
