@@ -79,22 +79,6 @@
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
-    "prompt": "Form piperidine and oxoisoindolinone rings in the synthesis. Make sure that oxoisoindolinone is created before piperidine ring. Get the piperidine-2,6-dione from commercially available materials.",
-    "evaluate": "MultiRxnCond",
-    "eval_config": {
-      "allow_piperidine": true,
-      "allow_oxoisoindolinone": true,
-      "allow_piperidine26diox": false
-    },
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    },
-    "id": "dd7bc734fd02683b3fbd233a2fd73875"
-  },
-  {
-    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Find routes with no ring formations.",
     "evaluate": "MultiRxnCond",
     "eval_config": {
@@ -176,16 +160,6 @@
       "max_tree": 20
     },
     "id": "dfc8116ec63329c437281f7a40dda876"
-  },
-  {
-    "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
-    "prompt": "Break piperazine ring in the late stage. But break 1,2-dihydro-3H-pyrazol-3-one in the early stage",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    },
-    "id": "aa9f65695c29a78dce1de6739180a675"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -337,9 +311,9 @@
     "prompt": "Break pyrimidine in the early stage but get all other rings from commercially available materials",
     "evaluate": "MultiRxnCond",
     "eval_config": {
-      "allow_piperidine": false,
-      "allow_oxoisoindolinone": false,
-      "allow_piperidine26diox": false
+      "allow_pyrimidine": false,
+      "allow_piridine": false,
+      "allow_piperazine": false
     },
     "config": {
       "iter_lim": 500,
@@ -351,11 +325,12 @@
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
     "prompt": "Don't break any ring but get all rings from commercial materials",
-    "evaluate": "MultiRxnCond",
+    "evaluate": "RingBreakDepth",
     "eval_config": {
-      "allow_piperidine": false,
-      "allow_oxoisoindolinone": false,
-      "allow_piperidine26diox": false
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
     },
     "config": {
       "iter_lim": 500,
