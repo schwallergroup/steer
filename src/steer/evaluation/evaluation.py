@@ -22,6 +22,7 @@ PROMPT_TYPE = 'fullroute'
 #     gt_score, lmscore = evaluator(data, task)
 
 
+
 with open(f'{RESULTS_PATH}/fullroute/Early_imidazole_ring_formation.json', 'r') as f:
     data = json.load(f)
 
@@ -44,7 +45,6 @@ gt_score, lmscore = ringbreaker_depth(data)
 print(gt_score, lmscore)
 
 
-# 0...9 apply, 17...22. 25, 28, 29, 30, 32
 with open(f'{RESULTS_PATH}/fullroute_no_feasibility/Identify_the_disconnection_strategy_that_will_cut_the_molecule_in_two_similarly_sized_intermediates._The_disconnection_should_be_made_between_two_pipe.json', 'r') as f:
     data = json.load(f)
 
@@ -85,30 +85,40 @@ gt_score, lmscore = ev(data)
 print(gt_score, lmscore)
 
 
+with open(f'{RESULTS_PATH}/fullroute/Form_piperidine-2,6-dione_and_oxoisoindolinone_rings_in_the_retrosynthesis._Get_the_piperidine_ring_.json', 'r') as f:
+    data = json.load(f)
+
+ringbreaker_depth = MultiRxnCond(config={"allow_piperidine": False, "allow_oxoisoindolinone": True, "allow_piperidine26diox": True})
+gt_score, length, lmscore = ringbreaker_depth(data)
+print(gt_score, lmscore)
+
+with open(f'{RESULTS_PATH}/fullroute/Form_piperidine_and_oxoisoindolinone_rings_in_the_synthesis._Get_the_piperidine-2,6-dione_from_comme.json', 'r') as f:
+    data = json.load(f)
+
+ringbreaker_depth = MultiRxnCond(config={"allow_piperidine": True, "allow_oxoisoindolinone": True, "allow_piperidine26diox": False})
+gt_score, length, lmscore = ringbreaker_depth(data)
+print(gt_score, lmscore)
 
 
-# with open(f'{RESULTS_PATH}/fullroute/Form_piperidine-2,6-dione_and_oxoisoindolinone_rings_in_the_retrosynthesis._Get_the_piperidine_ring_.json', 'r') as f:
-#     data = json.load(f)
+with open(f'{RESULTS_PATH}/fullroute/Form_only_oxoisoindolinone_ring_in_synthesis._Get_piperidine-2,6-dione_and_piperidine_rings_from_com.json', 'r') as f:
+    data = json.load(f)
 
-# ringbreaker_depth = MultiRxnCond()
-# gt_score, length, lmscore = ringbreaker_depth.is_condition_met(data)
+ringbreaker_depth = MultiRxnCond(config={"allow_piperidine": False, "allow_oxoisoindolinone": True, "allow_piperidine26diox": False})
+gt_score, length, lmscore = ringbreaker_depth(data)
+print(gt_score, lmscore)
 
-# with open(f'{RESULTS_PATH}/fullroute/Form_piperidine_and_oxoisoindolinone_rings_in_the_synthesis._Get_the_piperidine-2,6-dione_from_comme.json', 'r') as f:
-#     data = json.load(f)
-# ringbreaker_depth = MultiRxnCond_single()
-# gt_score, length, lmscore = ringbreaker_depth.is_condition_met(data)
+with open(f'{RESULTS_PATH}/fullroute/Form_piperidine_and_oxoisoindolinone_rings_in_the_synthesis._Make_sure_that_oxoisoindolinone_is_crea.json', 'r') as f:
+    data = json.load(f)
 
-# with open(f'{RESULTS_PATH}/fullroute/Form_only_oxoisoindolinone_ring_in_synthesis._Get_piperidine-2,6-dione_and_piperidine_rings_from_com.json', 'r') as f:
-#     data = json.load(f)
-# ringbreaker_depth = MultiRxnCond_single()
-# gt_score, length, lmscore = ringbreaker_depth.is_condition_met(data)
 
-# with open(f'{RESULTS_PATH}/fullroute/Form_piperidine_and_oxoisoindolinone_rings_in_the_synthesis._Make_sure_that_oxoisoindolinone_is_crea.json', 'r') as f:
-#     data = json.load(f)
-# ringbreaker_depth = MultiRxnCond_single()
-# gt_score, length, lmscore = ringbreaker_depth.is_condition_met(data)
-# with open(f'{RESULTS_PATH}/fullroute/Find_routes_with_no_ring_formations..json', 'r') as f:
-#     data = json.load(f)
+ringbreaker_depth = MultiRxnCond(config={"allow_piperidine": True, "allow_oxoisoindolinone": True, "allow_piperidine26diox": False})
+gt_score, length, lmscore = ringbreaker_depth(data)
+print(gt_score, lmscore)
 
-# ringbreaker_depth = MultiRxnCond_single()
-# gt_score, length, lmscore = ringbreaker_depth.is_condition_met(data)
+
+with open(f'{RESULTS_PATH}/fullroute/Find_routes_with_no_ring_formations..json', 'r') as f:
+    data = json.load(f)
+
+ringbreaker_depth = MultiRxnCond(config={"allow_piperidine": False, "allow_oxoisoindolinone": False, "allow_piperidine26diox": False})
+gt_score, length, lmscore = ringbreaker_depth(data)
+print(gt_score, lmscore)
