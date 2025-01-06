@@ -11,12 +11,26 @@ class Task(BaseModel):
     smiles: str
     prompt: str
     evaluate: Literal["RingBreakDepth", "SpecificBondBreak", "MultiRxnCond"]
-    config: dict
+    eval_config: dict
 
     @model_validator(mode="after")
     def setup_eval_class(self):
-        self.evaluate = eval(self.evaluate)(self.config)
+        self.evaluate = eval(self.evaluate)(self.eval_config)
         return self
+
+    @classmethod
+    def load_from_json(cls, data):
+        return cls(**data)
+
+def load_default_tasks(dir):
+    import json
+    tasks = []
+    with open(f'{dir}/prompt_specs.json', 'r') as f:
+        data = json.load(f)
+        for task in data:
+            print(task)
+            tasks.append(Task.load_from_json(task))
+    return tasks
 
 
 if __name__ == "__main__":
