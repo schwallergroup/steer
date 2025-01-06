@@ -48,9 +48,12 @@ class MultiRxnCondBase:
 
 class MultiRxnCond(MultiRxnCondBase):
     def __init__(self, config):
-        self.allow_piperidine = config["allow_piperidine"]
-        self.allow_oxoisoindolinone = config["allow_oxoisoindolinone"]
-        self.allow_piperidine26diox = config["allow_piperidine26diox"]
+        self.allow_piperidine = config.get("allow_piperidine") or False
+        self.allow_oxoisoindolinone = config.get("allow_oxoisoindolinone") or False
+        self.allow_piperidine26diox = config.get("allow_piperidine26diox") or False
+        self.allow_pyrimidine = config.get("allow_pyrimidine") or False
+        self.allow_piridine = config.get("allow_piridine") or False
+        self.allow_piperazine = config.get("allow_piperazine") or False
 
     def condition_depth(self, d) -> Tuple[bool, int]:
         """Extract all the reactions from tree, and find if condition is met."""
@@ -59,11 +62,17 @@ class MultiRxnCond(MultiRxnCondBase):
         oxo = any(self.detect_oxoisoindolinone(r) for r in reactions)
         pipe26 = any(self.detect_pipe26diox(r) for r in reactions)
         pip = any(self.detect_piperidine(r) for r in reactions)
+        pyrimidine = any(self.detect_specific_break(r, "c1cncnc1") for r in reactions)
+        piridine = any(self.detect_specific_break(r, "c1ccncc1") for r in reactions)
+        piperazine = any(self.detect_specific_break(r, "C1CNCCN1") for r in reactions)
 
         condition = (
             oxo == self.allow_oxoisoindolinone and 
             pipe26 == self.allow_piperidine26diox and 
-            pip == self.allow_piperidine
+            pip == self.allow_piperidine and
+            pyrimidine == self.allow_pyrimidine and
+            piridine == self.allow_piridine and
+            piperazine == self.allow_piperazine
         )
 
         return condition, len(reactions)

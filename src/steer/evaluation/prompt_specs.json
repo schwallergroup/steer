@@ -301,7 +301,7 @@
     "prompt": "Break piperazine ring in the late stage. But break 1,2-dihydro-3H-pyrazol-3-one in the early stage",
     "config": {
       "iter_lim": 500,
-      "time_lim": 1000,
+,
       "max_tree": 20
     },
     "id": "aa9f65695c29a78dce1de6739180a675"
@@ -311,7 +311,7 @@
     "prompt": "Break pyrimidine in the early stage but get all other rings from commercially available materials",
     "evaluate": "MultiRxnCond",
     "eval_config": {
-      "allow_pyrimidine": false,
+      "allow_pyrimidine": true,
       "allow_piridine": false,
       "allow_piperazine": false
     },

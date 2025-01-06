@@ -20,7 +20,10 @@ class Task(BaseModel):
 
     @classmethod
     def load_from_json(cls, data):
-        return cls(**data)
+        if data.get("evaluate") is not None:
+            return cls(**data)
+        return None
+
 
 def load_default_tasks(dir):
     import json
@@ -28,8 +31,9 @@ def load_default_tasks(dir):
     with open(f'{dir}/prompt_specs.json', 'r') as f:
         data = json.load(f)
         for task in data:
-            print(task)
-            tasks.append(Task.load_from_json(task))
+            t = Task.load_from_json(task)
+            if t is not None:
+                tasks.append(t)
     return tasks
 
 

@@ -901,3 +901,4 @@ FodyWeavers.xsd
 scratch/
 
 notebooks/
+.vscode/*
