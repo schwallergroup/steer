@@ -3,10 +3,11 @@ For a given synthetic route, define a score - this is query dependent."""
 
 from typing import Callable, List, Tuple
 
+
 class BaseScoring:
     """Find out at which depth of the tree a condition is met."""
 
-    def __call__(self, data) -> Tuple[List[float], List[float]]:
+    def __call__(self, data) -> Tuple[List[float], List[float]]:  # type: ignore
         """Evaluate the synthetic route."""
         pass
 

@@ -1,7 +1,8 @@
 """Scoring function for breaking a specific bond in a reaction."""
 
-from .base import BaseScoring
 from rdkit import Chem
+
+from .base import BaseScoring
 
 
 class SpecificBondBreak(BaseScoring):
@@ -16,18 +17,22 @@ class SpecificBondBreak(BaseScoring):
         """Disconnection happens (!=-1), + should happen late-stage roughly."""
         if x == -1:
             return 99
-        return x-1
+        return x - 1
 
     def hit_condition(self, d):
         """Determine if the bond between A1 and A2 is broken in current reaction."""
 
-        rxn = d['metadata']['mapped_reaction_smiles'].split(">>")
+        rxn = d["metadata"]["mapped_reaction_smiles"].split(">>")
         prod = Chem.MolFromSmiles(rxn[0])
         reacts = [Chem.MolFromSmiles(r) for r in rxn[1].split(".")]
 
-        if (self.atom_1 in  [a.GetAtomMapNum() for a in prod.GetAtoms()]) and (self.atom_2 in  [a.GetAtomMapNum() for a in prod.GetAtoms()]):
+        if (self.atom_1 in [a.GetAtomMapNum() for a in prod.GetAtoms()]) and (
+            self.atom_2 in [a.GetAtomMapNum() for a in prod.GetAtoms()]
+        ):
             for r in reacts:
-                if (self.atom_1 in [a.GetAtomMapNum() for a in r.GetAtoms()]) ^ (self.atom_2 in [a.GetAtomMapNum() for a in r.GetAtoms()]):
+                if (
+                    self.atom_1 in [a.GetAtomMapNum() for a in r.GetAtoms()]
+                ) ^ (self.atom_2 in [a.GetAtomMapNum() for a in r.GetAtoms()]):
                     return True
         return False
 
