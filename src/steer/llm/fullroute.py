@@ -1,27 +1,26 @@
 """Evaluate a full route against a query."""
 
-import weave
 import asyncio
 import base64
 import importlib
 import os
-from typing import Optional, Dict, List, Any
 from io import BytesIO
+from typing import Any, Dict, List, Optional
+
+import pandas as pd  # type: ignore
+import weave  # type: ignore
+from dotenv import load_dotenv  # type: ignore
 from PIL.Image import Image
+from pydantic import BaseModel, model_validator  # type: ignore
+from synthegy.chem import FixedRetroReaction  # type: ignore
+from synthegy.reactiontree import ReactionTree  # type: ignore
+from weave.trace.context.call_context import get_current_call  # type: ignore
 
-import pandas as pd
-from dotenv import load_dotenv
-from pydantic import BaseModel, model_validator
-
+from steer.logger import setup_logger
 from steer.utils.rxnimg import get_rxn_img
 
 from .llms import router
 from .prompts import *
-from litellm import Timeout
-from synthegy.chem import FixedRetroReaction
-from synthegy.reactiontree import ReactionTree
-from weave.trace.context.call_context import get_current_call
-from steer.logger import setup_logger
 
 logger = setup_logger(__name__)
 
@@ -44,7 +43,7 @@ class LM(BaseModel):
         response = await self.lmcall(imgs, query)
         # score = self._parse_score(response)
         return response
-    
+
     @weave.op()
     async def lmcall(self, imgs: List[Image], query: str):
         """Run the LLM."""
@@ -59,14 +58,12 @@ class LM(BaseModel):
             b64img = base64.b64encode(buffered.getvalue()).decode()
             if b64img is None:
                 raise ValueError("Failed to retrieve the image.")
-            
+
             msg = [
                 {"type": "text", "text": f"Reaction #{i+1}"},
                 {
                     "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/png;base64,{b64img}"
-                    },
+                    "image_url": {"url": f"data:image/png;base64,{b64img}"},
                 },
             ]
             img_msgs.extend(msg)
@@ -78,17 +75,23 @@ class LM(BaseModel):
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": self.prefix.format(query=query)},
+                            {
+                                "type": "text",
+                                "text": self.prefix.format(query=query),
+                            },
                             *img_msgs,
                             {"type": "text", "text": self.suffix},
                         ],
                     },
                 ],
             )
-        except Timeout as e:
-            logger.error(f"API Timeout: {e}")
-            return "<score>0</score>"
-    
+        except Exception as e:
+            logger.error(f"{e}")
+            return dict(
+                response="<score>0</score>",
+                url="",
+            )
+
         current_call = get_current_call()
         # self.cache[smiles] = response.choices[0].message.content
         return dict(
@@ -115,7 +118,7 @@ class LM(BaseModel):
         try:
             return float(response.split("<score>")[1].split("</score>")[0])
         except:
-            return 0 # Default score (min)
+            return 0  # Default score (min)
 
     # async def _run_row(self, row):
     #     smi = row[1]["smiles"].split(">>")[0]
@@ -127,11 +130,10 @@ class LM(BaseModel):
         smiles = []
         for m in tree.graph.nodes():
             if isinstance(m, FixedRetroReaction):
-                rsmi = m.metadata['mapped_reaction_smiles'].split('>>')
+                rsmi = m.metadata["mapped_reaction_smiles"].split(">>")
                 rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
                 smiles.append(rvsmi)
         return smiles
-
 
 
 async def main():
@@ -139,13 +141,13 @@ async def main():
 
     lm = LM(
         prompt="steer.llm.prompts.fullroute",
-        model="gpt-4o",
+        model="claude-3-5-sonnet",
         project_name="steer-test",
     )
 
     with open("data/aizynth_output.json", "r") as f:
         data = json.load(f)[0]
-    
+
     result = await lm.run(ReactionTree.from_dict(data), "Metal free synthesis")
     return result
 
