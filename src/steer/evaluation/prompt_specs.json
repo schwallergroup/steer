@@ -2,38 +2,60 @@
   {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
     "prompt": "Late imidazole ring formation",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
+    "id": "280b79ef56e06a8af1a7d6b72c52148d",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
     }
   },
   {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
     "prompt": "Early imidazole ring formation",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    }
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 10
+      }
+    },
+    "id": "e579d80f176371344bab95ea15e6b9ab"
   },
   {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
     "prompt": "No ring formation reaction",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
     "config": {
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "1823f3241b82133bbca85d6576cbed65"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Disconnect the piperidine-2,6-dione system before the oxoisoinidoline",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
     "config": {
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "d1adcbb806bf58cfd56293a867628bd4"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -42,7 +64,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "6791544faa03a4c3cbf7a4040d89a2e1"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -51,25 +74,24 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
-  },
-  {
-    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
-    "prompt": "Form piperidine and oxoisoindolinone rings in the synthesis. Make sure that oxoisoindolinone is created before piperidine ring. Get the piperidine-2,6-dione from commercially available materials.",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    }
+    },
+    "id": "0c0ea36bcefee71d4956cfc21454fe12"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Find routes with no ring formations.",
+    "eval_type": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": false,
+      "allow_oxoisoindolinone": false,
+      "allow_piperidine26diox": false
+    },
     "config": {
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "c0832f1d769024f69777b7f109bebb5d"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -78,7 +100,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "cb1673f4eead31e69002292a503c5bb5"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -87,43 +110,56 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "0e654459c99472cbfece9306fd04e7bd"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break piperidine-2,6-dione and oxoisoindolinone rings in the retrosynthesis. Get the other piperidine ring from commercially available materials",
+    "eval_type": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": false,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": true
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "ca06156bee8f14dcf0bd7e14f68eddcc"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break piperidine and oxoisoindolinone rings in the synthesis. Get the piperidine-2,6-dione from commercially available materials",
+    "eval_type": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": true,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": false
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "b7593440c612f17a7201aef6d6667d0b"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Break only oxoisoindolinone ring in synthesis. Get piperidine-2,6-dione and piperidine rings from commercially available materials",
+    "eval_type": "MultiRxnCond",
+    "eval_config": {
+      "allow_piperidine": false,
+      "allow_oxoisoindolinone": true,
+      "allow_piperidine26diox": false
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
-  },
-  {
-    "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
-    "prompt": "Break piperazine ring in the late stage. But break 1,2-dihydro-3H-pyrazol-3-one in the early stage",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    }
+    },
+    "id": "dfc8116ec63329c437281f7a40dda876"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -132,7 +168,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "273f52d7b5ee3376516cacdf300e863c"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -141,7 +178,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "bf6e6641ffc7bf54d328bdb1568e1787"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -150,7 +188,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "3f6295f391df6bbabd348648493418ba"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -159,7 +198,8 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "4e369b2cafa24467fc5f9f86cd7c1d73"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
@@ -168,52 +208,93 @@
       "iter_lim": 50,
       "time_lim": 1000,
       "max_tree": 10
-    }
+    },
+    "id": "647106455dc6317a9dcb43336eeb6880"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
     "prompt": "Identify the disconnection strategy that will cut the molecule in two similarly sized intermediates. One intermediate will have piperidine, indole and aniline rings. Other intermediate will have thiophenol, chlorobenzene, diazepine, triazole, piperazine, and the other piperidine rings.",
+    "eval_type": "SpecificBondBreak",
+    "eval_config": {
+      "bond_to_break": {
+        "atom_1": 29,
+        "atom_2": 33
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "6137420e765c02d74671c89ca569ce41"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
     "prompt": "Identify the disconnection strategy that will cut the molecule in two similarly sized intermediates. The disconnection should be made between two piperidine rings",
+    "eval_type": "SpecificBondBreak",
+    "eval_config": {
+      "bond_to_break": {
+        "atom_1": 29,
+        "atom_2": 33
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "00813afd159c009f6a6c9bf1207b07f4"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
     "prompt": "Identify the disconnection strategy that will cut the molecule in two similarly sized intermediates. The disconnection should be made between piperazine and piperidine rings",
+    "eval_type": "SpecificBondBreak",
+    "eval_config": {
+      "bond_to_break": {
+        "atom_1": 24,
+        "atom_2": 26
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "564d6fbe8d4540931e8a93ef36c895e2"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
     "prompt": "Identify the disconnection strategy that will cut the molecule in two intermediates. The disconnection should be made between diazepine and piperazine rings",
+    "eval_type": "SpecificBondBreak",
+    "eval_config": {
+      "bond_to_break": {
+        "atom_1": 17,
+        "atom_2": 21
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "ea8df340d54596eda93e23f04dff3a9b"
   },
   {
     "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
     "prompt": "Identify the disconnection strategy where the key disconnection will be made between indole and amino-piperidine rings",
+    "eval_type": "SpecificBondBreak",
+    "eval_config": {
+      "bond_to_break": {
+        "atom_1": 36,
+        "atom_2": 38
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "4bfe366ec7f5d64678d500f9084cbb35"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
@@ -222,24 +303,40 @@
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "aa9f65695c29a78dce1de6739180a675"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
     "prompt": "Break pyrimidine in the early stage but get all other rings from commercially available materials",
+    "eval_type": "MultiRxnCond",
+    "eval_config": {
+      "allow_pyrimidine": true,
+      "allow_piridine": false,
+      "allow_piperazine": false
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "46f06d1a1e359b3230cfc1b81473a474"
   },
   {
     "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
     "prompt": "Don't break any ring but get all rings from commercial materials",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
     "config": {
       "iter_lim": 500,
       "time_lim": 1000,
       "max_tree": 20
-    }
+    },
+    "id": "1002fe2d610a74e4478530e12ab930e3"
   }
 ]
