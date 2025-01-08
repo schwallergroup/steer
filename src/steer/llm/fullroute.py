@@ -35,19 +35,13 @@ class LM(BaseModel):
     # cache: Dict | str = {}
     project_name: str = ""
 
+    @weave.op()
     async def run(self, tree: ReactionTree, query: str):
-        # First get list of smiles
+        """Get smiles and run LLM."""
+
         smiles = self.get_smiles(tree)
 
         imgs = [get_rxn_img(s) for s in smiles]
-        response = await self.lmcall(imgs, query)
-        # score = self._parse_score(response)
-        return response
-
-    @weave.op()
-    async def lmcall(self, imgs: List[Image], query: str):
-        """Run the LLM."""
-        load_dotenv()
 
         # Create sequence of image prompts
         img_msgs = []
@@ -101,6 +95,7 @@ class LM(BaseModel):
 
     @model_validator(mode="after")
     def load_prompts(self):
+        load_dotenv()
         if self.project_name:
             weave.init(self.project_name)
         if self.prompt is not None:
@@ -118,7 +113,7 @@ class LM(BaseModel):
         try:
             return float(response.split("<score>")[1].split("</score>")[0])
         except:
-            return 0  # Default score (min)
+            return -1  # Default score (min)
 
     # async def _run_row(self, row):
     #     smi = row[1]["smiles"].split(">>")[0]
