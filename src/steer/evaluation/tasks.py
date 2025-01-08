@@ -1,9 +1,9 @@
 # Here define the classes for the tasks
 
-from typing import Callable, Literal, Optional
+from typing import Callable, Literal, Optional 
 
 from eval_types import MultiRxnCond, RingBreakDepth, SpecificBondBreak
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, Field
 
 EVAL_CLASSES = {
     "RingBreakDepth": RingBreakDepth,
@@ -18,7 +18,7 @@ class Task(BaseModel):
     prompt: str
     eval_type: Literal["RingBreakDepth", "SpecificBondBreak", "MultiRxnCond"]
     eval_config: dict
-    evaluate: Callable
+    evaluate: Callable = Field(default=lambda x: None)
 
     @model_validator(mode="after")
     def setup_eval_class(self):

@@ -43,6 +43,8 @@ def run_task(task):
 
 
 def metric(gt, lm):
+    if isinstance(gt[0], bool):
+        gt = [10 if x else 1 for x in gt]
     return np.mean(np.abs(np.array(gt) - np.array(lm)))
 
 
