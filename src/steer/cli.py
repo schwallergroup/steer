@@ -16,18 +16,26 @@ later, but that will cause problems--the code will get executed twice:
 import logging
 
 import click
+import asyncio
+from steer.logger import setup_logger
 
 __all__ = [
     "main",
 ]
 
-logger = logging.getLogger(__name__)
+logger = setup_logger(__name__)
 
 
 @click.group()
 @click.version_option()
 def main():
     """CLI for steer."""
+
+@click.command()
+def run():
+    from steer.llm.fullroute import main
+    asyncio.run(main())
+
 
 
 if __name__ == "__main__":
