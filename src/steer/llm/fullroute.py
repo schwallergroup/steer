@@ -30,16 +30,19 @@ class LM(BaseModel):
     model: str = "gpt-4o"
     prefix: str = ""
     suffix: str = ""
+    intermed: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
     # cache: Dict | str = {}
     project_name: str = ""
 
-    async def run(self, list_rxns: List[str], query: Optional[str] = None, return_score: bool = False):
+    async def run(self, rxn: str, list_rxns: List[str], query: Optional[str] = None, return_score: bool = False):
         # First get list of smiles
+        rxnimg = get_rxn_img(rxn)
+
         smiles = list_rxns
 
         imgs = [get_rxn_img(s) for s in smiles]
-        response = await self.lmcall(imgs, query)
+        response = await self.lmcall(rxnimg, imgs, query)
         if return_score:
             score = self._parse_score(response)
             return score
@@ -47,9 +50,24 @@ class LM(BaseModel):
             return response
     
     @weave.op()
-    async def lmcall(self, imgs: List[Image], query: Optional[str]):
+    async def lmcall(self, rxnimg: Image, imgs: List[Image], query: Optional[str]):
         """Run the LLM."""
         load_dotenv()
+
+
+        buffered = BytesIO()
+        rxnimg.save(buffered, format="PNG")
+        b64img = base64.b64encode(buffered.getvalue()).decode()
+        rxn_msg = [
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/png;base64,{b64img}"
+                },
+            },
+            {"type": "text", "text": self.intermed},
+        ]
+
 
         # Create sequence of image prompts
         img_msgs = []
@@ -79,7 +97,8 @@ class LM(BaseModel):
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": self.prefix.format(query=query)} if query else {"type": "text", "text": self.prefix},
+                            {"type": "text", "text": self.prefix},
+                            *rxn_msg,
                             *img_msgs,
                             {"type": "text", "text": self.suffix},
                         ],
@@ -105,6 +124,10 @@ class LM(BaseModel):
             module = importlib.import_module(self.prompt)
             self.prefix = module.prefix
             self.suffix = module.suffix
+            try:
+                self.intermed = module.intermed
+            except:
+                self.intermed = ""
 
         # if isinstance(self.cache, str):
         #     self.cache = pd.read_csv(self.cache, header=None).to_dict()
@@ -129,8 +152,8 @@ class LM(BaseModel):
 
 async def main():
     lm = LM(
-        prompt="steer.llm.prompts.mechanism_w_human_query",
-        model="gpt-4o",
+        prompt="steer.llm.prompts.alphamol",
+        model="claude-3-5-sonnet",
         project_name="steer-mechanism-test",
     )
 
