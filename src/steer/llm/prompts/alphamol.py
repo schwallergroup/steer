@@ -5,7 +5,8 @@ Here is the target reaction you should keep in mind:
 <target_reaction>"""
 
 intermed = """</target_reaction>
-Now, here is the proposed mechanism you need to evaluate:
+The mechanistic sequence of steps you will evaluate are usually incomplete, e.g. they not always connect to the product. However you should evaluate their potential to explain the target reaction, upon completion. This will help us identify if this is a promising direction or not.
+Now, here are the proposed steps you need to evaluate:
 <proposed_mechanism>
 """
 
@@ -17,6 +18,7 @@ Analyze the proposed mechanism based on your chemistry knowledge. Consider the f
 3. Does the mechanism account for all reactants and products in the target reaction?
 4. Is the proposed mechanism consistent with known reaction conditions (if specified)?
 5. Are there any missing steps or unnecessary steps?
+
 
 Provide your analysis inside <analysis> tags. Be thorough and specific in your evaluation.
 

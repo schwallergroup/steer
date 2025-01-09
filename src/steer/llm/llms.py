@@ -37,9 +37,9 @@ router = Router(
         },
     ],
     timeout=60,
-    num_retries=0,
-    retry_after=0,
-    # allowed_fails=1,
+    num_retries=1,
+    retry_after=2,
+    allowed_fails=1,
     # cooldown_time=60,
 )
 
