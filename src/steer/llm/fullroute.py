@@ -15,11 +15,9 @@ from pydantic import BaseModel, model_validator
 
 from steer.utils.rxnimg import get_rxn_img
 
-from .llms import router
-from .prompts import *
+from steer.llm.llms import router
+from steer.llm.prompts import *
 from litellm import Timeout
-from synthegy.chem import FixedRetroReaction
-from synthegy.reactiontree import ReactionTree
 from weave.trace.context.call_context import get_current_call
 from steer.logger import setup_logger
 
@@ -36,17 +34,20 @@ class LM(BaseModel):
     # cache: Dict | str = {}
     project_name: str = ""
 
-    async def run(self, tree: ReactionTree, query: str):
+    async def run(self, list_rxns: List[str], query: Optional[str] = None, return_score: bool = False):
         # First get list of smiles
-        smiles = self.get_smiles(tree)
+        smiles = list_rxns
 
         imgs = [get_rxn_img(s) for s in smiles]
         response = await self.lmcall(imgs, query)
-        # score = self._parse_score(response)
-        return response
+        if return_score:
+            score = self._parse_score(response)
+            return score
+        else:
+            return response
     
     @weave.op()
-    async def lmcall(self, imgs: List[Image], query: str):
+    async def lmcall(self, imgs: List[Image], query: Optional[str]):
         """Run the LLM."""
         load_dotenv()
 
@@ -61,7 +62,7 @@ class LM(BaseModel):
                 raise ValueError("Failed to retrieve the image.")
             
             msg = [
-                {"type": "text", "text": f"Reaction #{i+1}"},
+                {"type": "text", "text": f"Step #{i+1}"},
                 {
                     "type": "image_url",
                     "image_url": {
@@ -78,7 +79,7 @@ class LM(BaseModel):
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": self.prefix.format(query=query)},
+                            {"type": "text", "text": self.prefix.format(query=query)} if query else {"type": "text", "text": self.prefix},
                             *img_msgs,
                             {"type": "text", "text": self.suffix},
                         ],
@@ -113,8 +114,10 @@ class LM(BaseModel):
     @staticmethod
     def _parse_score(response):
         try:
-            return float(response.split("<score>")[1].split("</score>")[0])
-        except:
+            return float(response['response'].split("<score>")[1].split("</score>")[0])
+        except Exception as e:
+            logger.error(f"Failed to parse score: {e}")
+            print(response.keys())
             return 0 # Default score (min)
 
     # async def _run_row(self, row):
@@ -122,33 +125,51 @@ class LM(BaseModel):
     #     ans = await self.run(smi)
     #     return ans
 
-    def get_smiles(self, tree: ReactionTree):
-        """Get all smiles from a tree."""
-        smiles = []
-        for m in tree.graph.nodes():
-            if isinstance(m, FixedRetroReaction):
-                rsmi = m.metadata['mapped_reaction_smiles'].split('>>')
-                rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
-                smiles.append(rvsmi)
-        return smiles
-
 
 
 async def main():
-    import json
-
     lm = LM(
-        prompt="steer.llm.prompts.fullroute",
+        prompt="steer.llm.prompts.mechanism_w_human_query",
         model="gpt-4o",
-        project_name="steer-test",
+        project_name="steer-mechanism-test",
     )
 
-    with open("data/aizynth_output.json", "r") as f:
-        data = json.load(f)[0]
-    
-    result = await lm.run(ReactionTree.from_dict(data), "Metal free synthesis")
-    return result
+    start_smiles = "C1CCCCC1=O.F"
 
+    list_smiles = [ # All legal ionization + attacks from cyclohexanone + HF
+        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C-]([H])[H]',
+        '[H][F].[H][C+]([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]([H])[H]',
+        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C-]([H])[H]',
+        '[H][F].[H][C+]([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C-]([H])[H]',
+        '[H][F].[H][C-]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C+]=[O]',
+        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]=[O]',
+        '[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]',
+        '[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]',
+        '[H+].[H][F].[H][C-]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H-].[H][F].[H][C+]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H+].[H][F].[H][C-]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H-].[H][F].[H][C+]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H+].[H][F].[H][C-]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]',
+        '[H-].[H][F].[H][C+]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]',
+        '[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+    ]
+
+    correct_path = [
+        "C1CCCCC1=O.F",
+        '[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        '[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+    ]
+
+    result = await lm.run(
+        [f"{correct_path[i]}>>{correct_path[i+1]}" for i in range(len(correct_path)-1)],
+        query="Please give me a mechanism awoiding too strained cycles, or atoms of charges higher than 1 or -1.",
+        return_score=True,
+    )
+    print(result)
+    return result
 
 if __name__ == "__main__":
     asyncio.run(main())
