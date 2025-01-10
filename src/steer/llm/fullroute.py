@@ -34,7 +34,6 @@ class LM(BaseModel):
     prefix: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
-    # cache: Dict | str = {}
     project_name: str = ""
 
     # @weave.op()
@@ -90,7 +89,6 @@ class LM(BaseModel):
             )
 
         current_call = get_current_call()
-        # self.cache[smiles] = response.choices[0].message.content
         return dict(
             response=response.choices[0].message.content,
             # url=current_call.ui_url,
@@ -122,10 +120,6 @@ class LM(BaseModel):
             module = importlib.import_module(self.prompt)
             self.prefix = module.prefix
             self.suffix = module.suffix
-
-        # if isinstance(self.cache, str):
-        #     self.cache = pd.read_csv(self.cache, header=None).to_dict()
-
         return self
 
     @staticmethod
@@ -134,11 +128,6 @@ class LM(BaseModel):
             return float(response.split("<score>")[1].split("</score>")[0])
         except:
             return -1  # Default score (min)
-
-    # async def _run_row(self, row):
-    #     smi = row[1]["smiles"].split(">>")[0]
-    #     ans = await self.run(smi)
-    #     return ans
 
     def get_smiles(self, tree: ReactionTree):
         """Get all smiles from a tree."""

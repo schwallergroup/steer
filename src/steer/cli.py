@@ -118,10 +118,13 @@ def run_all_tasks():
         gt_score, lmscore = task.evaluate(routes)
         metric_val = metric(gt_score, lmscore)
         logger.debug(f"Metric: {metric_val}")
-        mean_metric += metric_val
-    logger.info(f"Mean Metric: {mean_metric / len(tasks)}")
 
+        mean_metric += metric_val
+        wandb.log({f"{task.id}_metric": metric_val})
+
+    logger.info(f"Mean Metric: {mean_metric / len(tasks)}")
     wandb.log({"mean_metric": mean_metric / len(tasks)})
+
     wandb.finish()
 
 
