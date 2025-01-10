@@ -7,7 +7,7 @@
     "eval_config": {
       "target_depth": {
         "type": "diff",
-        "value": 1
+        "value": 0
       }
     }
   },
