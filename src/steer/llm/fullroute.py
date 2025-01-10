@@ -1,5 +1,6 @@
 """Evaluate a full route against a query."""
 
+import networkx as nx  # type: ignore
 import asyncio
 import base64
 import importlib
@@ -18,6 +19,7 @@ from weave.trace.context.call_context import get_current_call  # type: ignore
 
 from steer.logger import setup_logger
 from steer.utils.rxnimg import get_rxn_img
+import litellm
 
 from .llms import router
 from .prompts import *
@@ -35,26 +37,27 @@ class LM(BaseModel):
     # cache: Dict | str = {}
     project_name: str = ""
 
-    @weave.op()
+    # @weave.op()
     async def run(self, tree: ReactionTree, query: str):
         """Get smiles and run LLM."""
 
-        smiles = self.get_smiles(tree)
+        smiles = self.get_smiles_with_depth(tree)
 
-        imgs = [get_rxn_img(s) for s in smiles]
+        rxns = [(d, get_rxn_img(s)) for d, s in smiles]
 
         # Create sequence of image prompts
         img_msgs = []
-        for i, s in enumerate(imgs):
+        for i, s in enumerate(rxns):
+            depth, img = s
 
             buffered = BytesIO()
-            s.save(buffered, format="PNG")
+            img.save(buffered, format="PNG")
             b64img = base64.b64encode(buffered.getvalue()).decode()
             if b64img is None:
                 raise ValueError("Failed to retrieve the image.")
 
             msg = [
-                {"type": "text", "text": f"Reaction #{i+1}"},
+                {"type": "text", "text": f"Reaction #{i+1}."},
                 {
                     "type": "image_url",
                     "image_url": {"url": f"data:image/png;base64,{b64img}"},
@@ -82,7 +85,7 @@ class LM(BaseModel):
         except Exception as e:
             logger.error(f"{e}")
             return dict(
-                response="<score>0</score>",
+                response="<score>-1</score>",
                 url="",
             )
 
@@ -90,8 +93,25 @@ class LM(BaseModel):
         # self.cache[smiles] = response.choices[0].message.content
         return dict(
             response=response.choices[0].message.content,
-            url=current_call.ui_url,
+            # url=current_call.ui_url,
+            # scores=self._parse_score(response.choices[0].message.content),
         )
+
+    async def run_single_route(self, task, d):
+        result = await self.run(ReactionTree.from_dict(d), task.prompt)
+        d['lmdata'] = dict(
+            query=task.prompt,
+            response=result["response"],
+            # weave_url=result["url"],
+            routescore=self._parse_score(result['response']),
+        )
+        return d
+
+    async def run_single_task(self, task, data, nroutes=10):
+        result = await asyncio.gather(*[
+            self.run_single_route(task, d) for d in data[:nroutes]
+        ])
+        return result
 
     @model_validator(mode="after")
     def load_prompts(self):
@@ -128,6 +148,20 @@ class LM(BaseModel):
                 rsmi = m.metadata["mapped_reaction_smiles"].split(">>")
                 rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
                 smiles.append(rvsmi)
+        return smiles
+
+    def get_smiles_with_depth(self, tree: ReactionTree):
+        """Get all smiles from a tree, with depth in tree."""
+        smiles = []
+        for m in tree.graph.nodes():
+            if isinstance(m, FixedRetroReaction):
+                rsmi = m.metadata["mapped_reaction_smiles"].split(">>")
+                rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
+
+                # Get distance of node m from root
+                depth = nx.shortest_path_length(tree.graph, source=tree.root, target=m)
+                depth = int((depth-1)/2)  # Correct for molecule nodes in between
+                smiles.append((depth, rvsmi))
         return smiles
 
 

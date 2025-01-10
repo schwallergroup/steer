@@ -5,7 +5,7 @@ import json
 import os
 
 import numpy as np
-from eval_types import *
+from .eval_types import *
 
 from steer.evaluation import load_default_tasks
 from steer.logger import setup_logger
@@ -33,7 +33,7 @@ def get_latest_file(path, fid):
 def run_task(task):
     filename = get_latest_file(f"{RESULTS_PATH}/{PROMPT_TYPE}", task.id)
     if filename is None:
-        print(f"File not found for {task.id}")
+        logger.debug(f"File not found for {task.id}")
         return None
     with open(filename, "r") as f:
         data = json.load(f)
@@ -48,13 +48,14 @@ def metric(gt, lm):
     return np.mean(np.abs(np.array(gt) - np.array(lm)))
 
 
-tasks = load_default_tasks(path)
-mean_metric = 0
-for task in tasks:
-    result = run_task(task)
-    if result is not None:
-        # logger.info(f"{task.id}: {result[0]}, {result[1]}")
-        metric_val = metric(result[0], result[1])
-        logger.debug(f"Metric: {metric_val}")
-        mean_metric += metric_val
-logger.info(f"Mean Metric: {mean_metric / len(tasks)}")
+if __name__ == "__main__":
+    tasks = load_default_tasks(path)
+    mean_metric = 0
+    for task in tasks:
+        result = run_task(task)
+        if result is not None:
+            # logger.info(f"{task.id}: {result[0]}, {result[1]}")
+            metric_val = metric(result[0], result[1])
+            logger.debug(f"Metric: {metric_val}")
+            mean_metric += metric_val
+    logger.info(f"Mean Metric: {mean_metric / len(tasks)}")

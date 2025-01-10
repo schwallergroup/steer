@@ -2,7 +2,8 @@
 
 from typing import Callable, Literal, Optional 
 
-from eval_types import MultiRxnCond, RingBreakDepth, SpecificBondBreak
+import os
+from .eval_types import MultiRxnCond, RingBreakDepth, SpecificBondBreak
 from pydantic import BaseModel, model_validator, Field
 
 EVAL_CLASSES = {
@@ -32,11 +33,14 @@ class Task(BaseModel):
         return None
 
 
-def load_default_tasks(dir):
+def load_default_tasks(path=None):
+    if path is None:
+        path = os.path.dirname(__file__)
+
     import json
 
     tasks = []
-    with open(f"{dir}/prompt_specs.json", "r") as f:
+    with open(f"{path}/prompt_specs.json", "r") as f:
         data = json.load(f)
         for task in data:
             t = Task.load_from_json(task)

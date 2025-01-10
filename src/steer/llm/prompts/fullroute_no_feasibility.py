@@ -8,7 +8,9 @@ First, you will be presented with a query describing a desired synthetic pathway
 {query}
 </query>
 
-Next, you will be given a sequence of proposed reactions, starting from the target molecule and going backwards through each of the intermediate reactions in a retrosynthetic way:
+Next, you will be given a sequence of proposed reactions, starting from the target molecule and going backwards through each of the intermediate reactions in a retrosynthetic way.
+
+Each reaction is numbered, and has a depth value indicating its position in the retrosynthetic tree:
 
 <proposed_reactions>
 """
