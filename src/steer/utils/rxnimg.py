@@ -1,3 +1,4 @@
+import os
 import base64
 from io import BytesIO
 
@@ -5,11 +6,36 @@ import cairosvg
 import requests
 from PIL import Image
 
+def get_manual_rxn_img(smiles) -> str | None:
 
-def get_rxn_img(smiles) -> str | None:
+    reactants, _, products = smiles.split(">")
+
+    reac_img = get_rxn_img(reactants)
+    prod_img = get_rxn_img(products)
+
+    # Resize the images to 668x375
+    reac_img = reac_img.resize((668, 375))
+    prod_img = prod_img.resize((668, 375))
+
+    # Create a white background image of size 1456x819 with the arrow in the middle 
+    final_img_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "images", "1456_819_arrow.png")
+
+    # Collate reactant at (0, 222) and product at (788, 222)
+    final_img = Image.open(final_img_path)
+    final_img.paste(reac_img, (0, 222))
+    final_img.paste(prod_img, (787, 222))
+
+    # Save the image to a BytesIO object in PNG format
+    buffered = BytesIO()
+    final_img.save(buffered, format="PNG")
+
+    return final_img
+
+def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> str | None:
 
     # The URL for the GET request
-    url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
+    #url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
+    url = "http://liacpc17.epfl.ch:8081/depict/cot/svg"
 
     # The parameters for the request
     params = {
@@ -19,12 +45,9 @@ def get_rxn_img(smiles) -> str | None:
         "abbr": "off",
         "hdisp": "S",
         "zoom": "1.3",
-        "annotate": "none",
+        "annotate": "colmap", # "none"
         "r": "0",
     }
-
-    # Desired final image size
-    final_size = (1456, 819)
 
     # Make the GET request
     response = requests.get(url, params=params)
@@ -89,3 +112,12 @@ def get_rxn_img(smiles) -> str | None:
             f"Failed to retrieve the SVG. Status code: {response.status_code}"
         )
         return None
+
+
+if __name__ == "__main__":
+    # Test the function
+    smiles = "[H]C([H])=C([H])C([H])([H])Br.[H]OC(C1=C([H])C([H])=C([H])C(N2C3=NC(N([H])C4=C([H])C([H])=C(Br)C([H])=C4[H])=NC([H])=C3C(=O)[N:1]2[H:1])=N1)(C([H])([H])[H])C([H])([H])[H]>>[H+:1].[H]C([H])=C([H])C([H])([H])Br.[H]OC(C1=C([H])C([H])=C([H])C(N2C3=NC(N([H])C4=C([H])C([H])=C(Br)C([H])=C4[H])=NC([H])=C3C(=O)[N-:1]2)=N1)(C([H])([H])[H])C([H])([H])[H]"
+    smiles = "[H]O[C:1]([H])([H])[C:1]([H])([H])[H]>>[H]O[C+:1]([H])[H].[H][C-:1]([H])[H]"
+    img = get_manual_rxn_img(smiles)
+    img.show()
+
