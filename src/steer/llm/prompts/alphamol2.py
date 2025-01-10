@@ -1,6 +1,10 @@
 
 prefix = """You are an expert AI chemist tasked with evaluating proposed reaction mechanisms as part of a step-by-step mechanism construction algorithm. Your goal is to analyze each elementary step or partial mechanism and determine its potential to contribute to the target reaction.
 
+An expert chemist has proposed a mechanism and described it as follows:
+
+"The mechanism starts with the deprotonation of the N adjacent to the carbonyl in the pyrazolidinone. The mechanism then proceeds through a nucleophylic attack of the nitrogen on the allyl bromide. In the final step, the Br- is eliminated."
+
 First, carefully review the target reaction:
 
 <target_reaction>
@@ -21,8 +25,8 @@ In your analysis, address the following aspects:
 1. Chemical soundness: Does each step follow established chemical principles?
 2. Intermediate plausibility: Are the proposed intermediates and transition states reasonable?
 3. Alignment with target reaction: How well does the mechanism or partial mechanism align with the reactants and products in the target reaction?
-4. Consistency with known conditions: If reaction conditions are specified, is the proposed mechanism consistent with them?
-5. Completeness and efficiency: Are there any crucial missing steps? Are there any unnecessary steps?
+4. Alignment with the description from the expert chemist: How well does the mechanism or partial mechanism align with the description from the expert chemist?
+5. Consistency with known conditions: If reaction conditions are specified, is the proposed mechanism consistent with them?
 
 Provide your detailed analysis inside <mechanism_evaluation> tags. Be thorough and specific in your evaluation, keeping in mind that you are assessing the potential of each step or partial mechanism. Include the following sections in your evaluation:
 

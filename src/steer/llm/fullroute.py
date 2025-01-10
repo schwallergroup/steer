@@ -42,14 +42,14 @@ class LM(BaseModel):
         smiles = list_rxns
 
         imgs = [get_rxn_img(s) for s in smiles]
-        response = await self.lmcall(rxnimg, imgs, query)
+        response = await self.lmcall(rxnimg, imgs, smiles[0])
         if return_score:
             score = self._parse_score(response)
             return score
         else:
             return response
     
-    @weave.op()
+    # @weave.op()
     async def lmcall(self, rxnimg: Image, imgs: List[Image], query: Optional[str]):
         """Run the LLM."""
         load_dotenv()
@@ -113,7 +113,9 @@ class LM(BaseModel):
         # self.cache[smiles] = response.choices[0].message.content
         return dict(
             response=response.choices[0].message.content,
-            url=current_call.ui_url,
+            # url=current_call.ui_url,
+            score=self._parse_score({"response":response.choices[0].message.content}),
+            query=query,
         )
 
     @model_validator(mode="after")
@@ -140,7 +142,6 @@ class LM(BaseModel):
             return float(response['response'].split("<score>")[1].split("</score>")[0])
         except Exception as e:
             logger.error(f"Failed to parse score: {e}")
-            print(response.keys())
             return 0 # Default score (min)
 
     # async def _run_row(self, row):
