@@ -2,7 +2,7 @@
 
 from rdkit import Chem
 
-from base import BaseScoring
+from .base import BaseScoring
 
 
 class SpecificBondBreak(BaseScoring):
