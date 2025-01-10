@@ -20,3 +20,20 @@ class RingBreakDepth(BaseScoring):
 
     def __call__(self, data):
         return self.where_condition_met(data, self.target_depth)
+
+
+if __name__ == "__main__":
+    import json
+
+    with open("../../../data/2025-01-08_204803/280b79ef56e06a8af1a7d6b72c52148d.json", "r") as f:
+        data = json.load(f)
+
+    bs = RingBreakDepth(
+        config={
+            "target_depth": {
+                "type": "diff",
+                "value": 1
+            }
+        }
+    )
+    print(bs(data))

@@ -32,15 +32,33 @@ class BaseScoring:
 
     def route_length(self, data):
         """Find the length of the route."""
-        # length = [len(d['children']) for d in data]
-        # lmscore = [d['lmdata']['routescore'] for d in data]
-        pass
+
+        def dfs(d, curr_path):
+            if "children" in d:
+                if d['type'] == "reaction":
+                    curr_path.append(d['smiles'])
+                for c in d["children"]:
+                    yield from dfs(c, curr_path)
+            else:
+                yield curr_path
+
+        total_depth = [len(p) for p in dfs(data, [])]
+        return max(total_depth)
 
     def where_condition_met(self, data, target_depth: Callable):
         """Provide a score based on the depth at which the condition is met."""
-        depth = [self.depth_score(d) for d in data]
-        lmscore = [d["lmdata"]["routescore"] for d in data]
+        depth = [self.depth_score(d)/self.route_length(d) for d in data]
 
-        # For now let's say difference with target_depth is the score
+        lmscore = [d["lmdata"]["routescore"] for d in data]
         score = [target_depth(d) for d in depth]
         return score, lmscore
+
+if __name__ == "__main__":
+    import json
+
+    with open("../../../data/aizynth_output.json", "r") as f:
+        data = json.load(f)
+
+    bs = BaseScoring()
+    for d in data:
+        print(bs.route_length(d))

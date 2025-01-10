@@ -2,7 +2,7 @@
 
 from rdkit import Chem
 
-from .base import BaseScoring
+from base import BaseScoring
 
 
 class SpecificBondBreak(BaseScoring):
@@ -15,9 +15,10 @@ class SpecificBondBreak(BaseScoring):
 
     def route_scoring(self, x):
         """Disconnection happens (!=-1), + should happen late-stage roughly."""
-        if x == -1:
-            return 99
-        return x - 1
+        if x < 0:
+            return 0 # Worst case - disconnection doesn't happen
+        else:
+            return (1 - x) * 10 # Disconnection happens late-stage. The smaller x, the better.
 
     def hit_condition(self, d):
         """Determine if the bond between A1 and A2 is broken in current reaction."""
@@ -38,3 +39,22 @@ class SpecificBondBreak(BaseScoring):
 
     def __call__(self, data):
         return self.where_condition_met(data, self.route_scoring)
+
+
+if __name__ == "__main__":
+    import json
+
+    with open("../../../data/2025-01-09_114329/6137420e765c02d74671c89ca569ce41.json", "r") as f:
+        data = json.load(f)
+
+    bs = SpecificBondBreak(
+        config={
+            "bond_to_break": {
+                "atom_1": 29,
+                "atom_2": 33
+            }
+        }
+    )
+    a, b = bs(data)
+    for i, l in enumerate(a):
+        print(l, b[i])
