@@ -11,12 +11,25 @@ class BaseScoring:
     """Find out at which depth of the tree a condition is met."""
 
     def __call__(self, data) -> Tuple[List[float], List[float]]:  # type: ignore
-        """Evaluate the synthetic route."""
-        pass
+        """Provide a score based on the depth at which the condition is met."""
+        cond_depth = [self.condition_depth(d["children"][0])+1 for d in data]
+        raw_sc = [x/self.route_length(d) for x, d in zip(cond_depth, data)]
+        score = [10 * self.route_scoring(x) for x in raw_sc]
+        lmscore = [d["lmdata"]["routescore"] for d in data]
+
+        for i, (d,l) in enumerate(zip(cond_depth, lmscore)):
+            logger.debug(f"Depth: {d}, LMScore: {l}, raw score: {raw_sc[i]}, target_depth: {score[i]}")
+        return score, lmscore
 
     def hit_condition(self, d):
-        "Hit condition: define what we are looking for."
+        "Define hit condition: define what we are looking for."
         pass
+
+    def route_scoring(self, x) -> float:
+        """Define scoring function.
+        x: depth at which condition is met in route / length of route."""
+        pass
+
 
     def condition_depth(self, d, i=0):
         """bfs search for reaction that matches hit condition."""
@@ -44,32 +57,6 @@ class BaseScoring:
 
         total_depth = [len(p) for p in dfs(data, [])]
         return max(total_depth)
-
-    def score(self, d):
-        """Rule-base score of synthetic route.
-        Depth at which condition is met / length of route, scaled to [0,10]"""
-        cond_depth = self.condition_depth(d["children"][0]) + 1
-        if cond_depth == -1:
-            return -1
-        else:
-            return 10 * cond_depth / self.route_length(d)
-
-    def where_condition_met(self, data, target_depth: Callable):
-        """Provide a score based on the depth at which the condition is met."""
-        cond_depth = [self.condition_depth(d["children"][0])+1 for d in data]
-
-        probe = target_depth(cond_depth[0])
-        if isinstance(probe, bool):
-            score = [10 if target_depth(x) else 1 for x in cond_depth]
-        else:
-            cond_depth = [target_depth(10 * d) if d != -1 else 0 for d in cond_depth]
-            score = [x / self.route_length(d) for x, d in zip(cond_depth, data)]
-
-        lmscore = [d["lmdata"]["routescore"] for d in data]
-
-        for i, (d,l) in enumerate(zip(cond_depth, lmscore)):
-            logger.debug(f"Depth: {d}, LMScore: {l}, target_depth: {score[i]}")
-        return score, lmscore
 
 if __name__ == "__main__":
     import json

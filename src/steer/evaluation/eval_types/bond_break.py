@@ -18,7 +18,7 @@ class SpecificBondBreak(BaseScoring):
         if x < 0:
             return 0 # Worst case - disconnection doesn't happen
         else:
-            return (1 - x) * 10 # Disconnection happens late-stage. The smaller x, the better.
+            return 1 - x # Disconnection happens late-stage. The smaller x, the better.
 
     def hit_condition(self, d):
         """Determine if the bond between A1 and A2 is broken in current reaction."""
@@ -36,9 +36,6 @@ class SpecificBondBreak(BaseScoring):
                 ) ^ (self.atom_2 in [a.GetAtomMapNum() for a in r.GetAtoms()]):
                     return True
         return False
-
-    def __call__(self, data):
-        return self.where_condition_met(data, self.route_scoring)
 
 
 if __name__ == "__main__":

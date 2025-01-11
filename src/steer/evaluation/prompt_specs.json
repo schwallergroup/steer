@@ -18,7 +18,7 @@
     "eval_config": {
       "target_depth": {
         "type": "diff",
-        "value": 10
+        "value": 1
       }
     },
     "id": "e579d80f176371344bab95ea15e6b9ab"

@@ -8,18 +8,22 @@ from .base import BaseScoring
 class RingBreakDepth(BaseScoring):
     def __init__(self, config: Dict):
         """Config defines the scoring function based on target_depth"""
-        if config["target_depth"]["type"] == "bool":
-            self.target_depth = lambda x: x == config["target_depth"]["value"]
-        elif config["target_depth"]["type"] == "diff":
-            self.target_depth = lambda x: abs(
-                x - config["target_depth"]["value"]
-            )
+        self.condition_type = config["target_depth"]["type"]
+        self.target_depth = config["target_depth"]["value"]
+
+    def route_scoring(self, x) -> float:
+        """x: depth at which condition is met in route / length of route."""
+        if self.condition_type == "bool":
+            if self.target_depth == -1:  # Positive if condition not met
+                return 1 if x < 0 else 0
+            # Else idk
+        else:
+            if x < 0:
+                return 0
+            return abs(x - self.target_depth)
 
     def hit_condition(self, d):
         return d.get("metadata", {}).get("policy_name") == "ringbreaker"
-
-    def __call__(self, data):
-        return self.where_condition_met(data, self.target_depth)
 
 
 if __name__ == "__main__":
