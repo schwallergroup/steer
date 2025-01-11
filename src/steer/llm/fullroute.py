@@ -8,6 +8,7 @@ import os
 from io import BytesIO
 from typing import Any, Dict, List, Optional
 
+import numpy as np 
 import pandas as pd  # type: ignore
 import weave  # type: ignore
 from dotenv import load_dotenv  # type: ignore
@@ -36,12 +37,49 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    # @weave.op()
     async def run(self, tree: ReactionTree, query: str):
         """Get smiles and run LLM."""
+        if self.model == "random":
+            response = f"<score>{np.random.choice(np.arange(0,11), 1)}</score>",
+            url = ""
+        else:
+            img_msgs = self.make_img_sequence(tree)
+            response = await self._run_llm(img_msgs, query)
+            current_call = get_current_call()
+            url = current_call.ui_url
 
+        return dict(
+            response=response,
+            url=url,
+        )
+
+    # @weave.op()
+    async def _run_llm(self, img_msgs, query):
+        try:
+            response = await router.acompletion(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": self.prefix.format(query=query),
+                            },
+                            *img_msgs,
+                            {"type": "text", "text": self.suffix},
+                        ],
+                    },
+                ],
+            )
+        except Exception as e:
+            logger.error(f"{e}")
+            return "<score>-1</score>"
+
+        return response.choices[0].message.content
+
+    def make_img_sequence(self, tree: ReactionTree):
         smiles = self.get_smiles_with_depth(tree)
-
         rxns = [(d, get_rxn_img(s)) for d, s in smiles]
 
         # Create sequence of image prompts
@@ -63,37 +101,7 @@ class LM(BaseModel):
                 },
             ]
             img_msgs.extend(msg)
-
-        try:
-            response = await router.acompletion(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": self.prefix.format(query=query),
-                            },
-                            *img_msgs,
-                            {"type": "text", "text": self.suffix},
-                        ],
-                    },
-                ],
-            )
-        except Exception as e:
-            logger.error(f"{e}")
-            return dict(
-                response="<score>-1</score>",
-                url="",
-            )
-
-        current_call = get_current_call()
-        return dict(
-            response=response.choices[0].message.content,
-            # url=current_call.ui_url,
-            # scores=self._parse_score(response.choices[0].message.content),
-        )
+        return img_msgs
 
     async def run_single_route(self, task, d):
         result = await self.run(ReactionTree.from_dict(d), task.prompt)
