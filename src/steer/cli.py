@@ -87,12 +87,12 @@ def run():
     asyncio.run(main())
 
 @main.command()
-def run_all_tasks():
+@click.option("--model", default="gpt-4o", help="Model to use")
+def run_all_tasks(model):
     import json
     from steer.llm.fullroute import LM
     import wandb
 
-    model = "gpt-4o-mini"
     prompt = "steer.llm.prompts.fullroute_no_feasibility"
     wandb.init(project="steer-test", config={
         "model": model,
