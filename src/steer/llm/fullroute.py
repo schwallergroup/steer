@@ -20,7 +20,6 @@ from weave.trace.context.call_context import get_current_call  # type: ignore
 
 from steer.logger import setup_logger
 from steer.utils.rxnimg import get_rxn_img
-import litellm
 
 from .llms import router
 from .prompts import *
@@ -42,7 +41,7 @@ class LM(BaseModel):
 
         url = ""
         if self.model == "random":
-            response = f"<score>{np.random.choice(np.arange(0,11), 1)}</score>",
+            response = f"<score>{np.random.choice(np.arange(1,11))}</score>"
         else:
             img_msgs = self.make_img_sequence(tree)
             response = await self._run_llm(img_msgs, query)
@@ -110,7 +109,7 @@ class LM(BaseModel):
         d['lmdata'] = dict(
             query=task.prompt,
             response=result["response"],
-            # weave_url=result["url"],
+            weave_url=result["url"],
             routescore=self._parse_score(result['response']),
         )
         return d
