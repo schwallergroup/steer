@@ -39,14 +39,16 @@ class LM(BaseModel):
 
     async def run(self, tree: ReactionTree, query: str):
         """Get smiles and run LLM."""
+
+        url = ""
         if self.model == "random":
             response = f"<score>{np.random.choice(np.arange(0,11), 1)}</score>",
-            url = ""
         else:
             img_msgs = self.make_img_sequence(tree)
             response = await self._run_llm(img_msgs, query)
             current_call = get_current_call()
-            url = current_call.ui_url
+            if current_call is not None:
+                url = current_call.ui_url
 
         return dict(
             response=response,

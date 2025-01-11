@@ -88,7 +88,8 @@ def run():
 
 @main.command()
 @click.option("--model", default="gpt-4o", help="Model to use")
-def run_all_tasks(model):
+@click.option("--ncluster", default=0, help="Model to use")
+def all_tasks(model, ncluster):
     import json
     from steer.llm.fullroute import LM
     import wandb
@@ -110,7 +111,7 @@ def run_all_tasks(model):
     tasks = load_default_tasks()
     for task in tasks:
         sleep(2)
-        routes = run_task(lm, task, n=200, nclusters=10)
+        routes = run_task(lm, task, n=200, nclusters=ncluster)
         if routes is None:
             continue
 
