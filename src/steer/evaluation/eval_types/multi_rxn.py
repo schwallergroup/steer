@@ -11,13 +11,13 @@ class MultiRxnCondBase:
     def __call__(self, data):
         """For all routes found (and scored) in the data, find the depth at which the hit condition is met, and plot."""
 
-        conds, lengths, score = [], [], []
+        score, lengths, lmscore = [], [], []
         for d in data:
             cond, length = self.condition_depth(d["children"][0])
-            conds.append(cond)
+            score.append(10 if cond else 0)
             lengths.append(length)
-            score.append(d["lmdata"]["routescore"])
-        return conds, score  # lengths
+            lmscore.append(d["lmdata"]["routescore"])
+        return score, lmscore  # lengths
 
     def detect_piperidine(self, rxn):
         oxoisoindolinone = "C1CN[CH2]CC1"

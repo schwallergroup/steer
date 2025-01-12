@@ -904,3 +904,4 @@ notebooks/
 .vscode/*
 data/*/*.json
 **/wandb/
+data/models
