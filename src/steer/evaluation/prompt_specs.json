@@ -24,6 +24,23 @@
     "id": "e579d80f176371344bab95ea15e6b9ab"
   },
   {
+    "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
+    "prompt": "Don't break any ring but get all rings from commercial materials",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "id": "1002fe2d610a74e4478530e12ab930e3"
+  },
+  {
     "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
     "prompt": "No ring formation reaction",
     "eval_type": "RingBreakDepth",
@@ -39,33 +56,6 @@
       "max_tree": 10
     },
     "id": "1823f3241b82133bbca85d6576cbed65"
-  },
-  {
-    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
-    "prompt": "Disconnect the piperidine-2,6-dione system before the oxoisoinidoline",
-    "eval_type": "RingBreakDepth",
-    "eval_config": {
-      "target_depth": {
-        "type": "bool",
-        "value": -1
-      }
-    },
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    },
-    "id": "d1adcbb806bf58cfd56293a867628bd4"
-  },
-  {
-    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
-    "prompt": "Disconnect the oxoisoindoline ring before the piperidine-2,6-dione system",
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    },
-    "id": "6791544faa03a4c3cbf7a4040d89a2e1"
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
@@ -321,22 +311,5 @@
       "max_tree": 20
     },
     "id": "46f06d1a1e359b3230cfc1b81473a474"
-  },
-  {
-    "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
-    "prompt": "Don't break any ring but get all rings from commercial materials",
-    "eval_type": "RingBreakDepth",
-    "eval_config": {
-      "target_depth": {
-        "type": "bool",
-        "value": -1
-      }
-    },
-    "config": {
-      "iter_lim": 500,
-      "time_lim": 1000,
-      "max_tree": 20
-    },
-    "id": "1002fe2d610a74e4478530e12ab930e3"
   }
 ]
