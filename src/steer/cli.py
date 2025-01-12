@@ -23,7 +23,7 @@ from typing import List
 from aizynthfinder.analysis.routes import RouteCollection
 from aizynthfinder.reactiontree import ReactionTree
 
-from steer.evaluation import get_latest_file, load_default_tasks
+from steer.evaluation.sequential import get_latest_file, load_default_tasks
 
 dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
 PREMADE_PATH = "data/fullroute_no_feasibility"
