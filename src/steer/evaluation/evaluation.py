@@ -6,10 +6,10 @@ import os
 
 import numpy as np
 
-from steer.evaluation import load_default_tasks
 from steer.logger import setup_logger
 
 from .eval_types import *
+from .tasks import load_default_tasks
 
 logger = setup_logger()
 
