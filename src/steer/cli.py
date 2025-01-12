@@ -105,7 +105,7 @@ def run():
 
 @main.command()
 @click.option("--model", default="gpt-4o", help="Model to use")
-@click.option("--vision", default=True, help="Pass reactions as images")
+@click.option("--vision", default=False, help="Pass reactions as images")
 @click.option("--ncluster", default=0, help="Cluster routes")
 def all_tasks(model, vision, ncluster):
 
