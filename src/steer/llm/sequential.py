@@ -21,7 +21,7 @@ from weave.trace.context.call_context import get_current_call  # type: ignore
 from steer.logger import setup_logger
 from steer.utils.rxnimg import get_rxn_img
 
-from .llms import router
+from .llm_router import router
 from .prompts import *
 
 logger = setup_logger(__name__)

@@ -98,7 +98,7 @@ def main():
 
 @main.command()
 def run():
-    from steer.llm.fullroute import main
+    from steer.llm.sequential import main
 
     asyncio.run(main())
 
@@ -110,7 +110,7 @@ def run():
 def all_tasks(model, vision, ncluster):
 
     import wandb
-    from steer.llm.fullroute import LM
+    from steer.llm.sequential import LM
 
     prompt = "steer.llm.prompts.fullroute_no_feasibility"
     wandb.init(
