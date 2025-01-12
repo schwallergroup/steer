@@ -5,10 +5,11 @@ import json
 import os
 
 import numpy as np
-from .eval_types import *
 
 from steer.evaluation import load_default_tasks
 from steer.logger import setup_logger
+
+from .eval_types import *
 
 logger = setup_logger()
 
@@ -19,6 +20,7 @@ PROMPT_TYPE = "fullroute_no_feasibility"
 
 
 def get_latest_file(path, fid):
+    """Get the most recent file for a given task id."""
     import os
 
     files = os.listdir(path)
@@ -31,6 +33,7 @@ def get_latest_file(path, fid):
 
 
 def run_task(task):
+    """Run a task and return the results."""
     filename = get_latest_file(f"{RESULTS_PATH}/{PROMPT_TYPE}", task.id)
     if filename is None:
         logger.debug(f"File not found for {task.id}")
@@ -43,6 +46,7 @@ def run_task(task):
 
 
 def metric(gt, lm):
+    """MAE"""
     if isinstance(gt[0], bool):
         gt = [10 if x else 1 for x in gt]
     return np.mean(np.abs(np.array(gt) - np.array(lm)))

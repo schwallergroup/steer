@@ -2,8 +2,8 @@
 
 import os
 
-from litellm import Router
 from dotenv import load_dotenv
+from litellm import Router
 
 load_dotenv()
 

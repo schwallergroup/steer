@@ -1,10 +1,11 @@
-# Here define the classes for the tasks
-
-from typing import Callable, Literal, Optional 
+"""Definition of the Task class and loading of default tasks."""
 
 import os
+from typing import Callable, Literal, Optional
+
+from pydantic import BaseModel, Field, model_validator
+
 from .eval_types import MultiRxnCond, RingBreakDepth, SpecificBondBreak
-from pydantic import BaseModel, model_validator, Field
 
 EVAL_CLASSES = {
     "RingBreakDepth": RingBreakDepth,
@@ -23,17 +24,20 @@ class Task(BaseModel):
 
     @model_validator(mode="after")
     def setup_eval_class(self):
+        """Set up the evaluation class."""
         self.evaluate = EVAL_CLASSES[self.eval_type](self.eval_config)
         return self
 
     @classmethod
     def load_from_json(cls, data):
+        """Load a task from a json object."""
         if data.get("eval_type") is not None:
             return cls(**data)
         return None
 
 
 def load_default_tasks(path=None):
+    """Load the default tasks from the prompt_specs.json file."""
     if path is None:
         path = os.path.dirname(__file__)
 

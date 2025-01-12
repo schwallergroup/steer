@@ -1,6 +1,5 @@
 """Evaluate a full route against a query."""
 
-import networkx as nx  # type: ignore
 import asyncio
 import base64
 import importlib
@@ -8,7 +7,8 @@ import os
 from io import BytesIO
 from typing import Any, Dict, List, Optional
 
-import numpy as np 
+import networkx as nx  # type: ignore
+import numpy as np
 import pandas as pd  # type: ignore
 import weave  # type: ignore
 from dotenv import load_dotenv  # type: ignore
@@ -88,36 +88,39 @@ class LM(BaseModel):
         for i, s in enumerate(rxns):
             depth, img = s
 
-            buffered = BytesIO()
-            img.save(buffered, format="PNG")
-            b64img = base64.b64encode(buffered.getvalue()).decode()
-            if b64img is None:
-                raise ValueError("Failed to retrieve the image.")
+            if img is not None:
+                buffered = BytesIO()
+                img.save(buffered, format="PNG")
+                b64img = base64.b64encode(buffered.getvalue()).decode()
+                if b64img is None:
+                    raise ValueError("Failed to retrieve the image.")
 
-            msg = [
-                {"type": "text", "text": f"Reaction #{i+1}."},
-                {
-                    "type": "image_url",
-                    "image_url": {"url": f"data:image/png;base64,{b64img}"},
-                },
-            ]
-            img_msgs.extend(msg)
+                msg = [
+                    {"type": "text", "text": f"Reaction #{i+1}."},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/png;base64,{b64img}"
+                        },
+                    },
+                ]
+                img_msgs.extend(msg)
         return img_msgs
 
     async def run_single_route(self, task, d):
         result = await self.run(ReactionTree.from_dict(d), task.prompt)
-        d['lmdata'] = dict(
+        d["lmdata"] = dict(
             query=task.prompt,
             response=result["response"],
             weave_url=result["url"],
-            routescore=self._parse_score(result['response']),
+            routescore=self._parse_score(result["response"]),
         )
         return d
 
     async def run_single_task(self, task, data, nroutes=10):
-        result = await asyncio.gather(*[
-            self.run_single_route(task, d) for d in data[:nroutes]
-        ])
+        result = await asyncio.gather(
+            *[self.run_single_route(task, d) for d in data[:nroutes]]
+        )
         return result
 
     @model_validator(mode="after")
@@ -157,8 +160,12 @@ class LM(BaseModel):
                 rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
 
                 # Get distance of node m from root
-                depth = nx.shortest_path_length(tree.graph, source=tree.root, target=m)
-                depth = int((depth-1)/2)  # Correct for molecule nodes in between
+                depth = nx.shortest_path_length(
+                    tree.graph, source=tree.root, target=m
+                )
+                depth = int(
+                    (depth - 1) / 2
+                )  # Correct for molecule nodes in between
                 smiles.append((depth, rvsmi))
         return smiles
 

@@ -16,9 +16,11 @@ class SpecificBondBreak(BaseScoring):
     def route_scoring(self, x):
         """Disconnection happens (!=-1), + should happen late-stage roughly."""
         if x < 0:
-            return 0 # Worst case - disconnection doesn't happen
+            return 0  # Worst case - disconnection doesn't happen
         else:
-            return 1 - x # Disconnection happens late-stage. The smaller x, the better.
+            return (
+                1 - x
+            )  # Disconnection happens late-stage. The smaller x, the better.
 
     def hit_condition(self, d):
         """Determine if the bond between A1 and A2 is broken in current reaction."""
@@ -41,16 +43,14 @@ class SpecificBondBreak(BaseScoring):
 if __name__ == "__main__":
     import json
 
-    with open("../../../data/2025-01-09_114329/6137420e765c02d74671c89ca569ce41.json", "r") as f:
+    with open(
+        "../../../data/2025-01-09_114329/6137420e765c02d74671c89ca569ce41.json",
+        "r",
+    ) as f:
         data = json.load(f)
 
     bs = SpecificBondBreak(
-        config={
-            "bond_to_break": {
-                "atom_1": 29,
-                "atom_2": 33
-            }
-        }
+        config={"bond_to_break": {"atom_1": 29, "atom_2": 33}}
     )
     a, b = bs(data)
     for i, l in enumerate(a):

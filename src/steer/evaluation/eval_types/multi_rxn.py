@@ -20,24 +20,30 @@ class MultiRxnCondBase:
         return score, lmscore  # lengths
 
     def detect_piperidine(self, rxn):
+        """Detect if piperidine is broken in a reaction."""
         oxoisoindolinone = "C1CN[CH2]CC1"
         return self.detect_specific_break(rxn, oxoisoindolinone)
 
     def detect_oxoisoindolinone(self, rxn):
+        """Detect if oxoisoindolinone is broken in a reaction."""
         oxoisoindolinone = "c1cC(=O)NC1"
         return self.detect_specific_break(rxn, oxoisoindolinone)
 
     def detect_pipe26diox(self, rxn):
+        """Detect if piperidine-2,6-dioxo is broken in a reaction."""
         pipe26diox = "NC1CCC(=O)NC1=O"
         return self.detect_specific_break(rxn, pipe26diox)
 
     def detect_specific_break(self, rxn, pattern):
+        """Detect if a specific bond is broken in a reaction."""
         p = Chem.MolFromSmarts(pattern)
         prod = Chem.MolFromSmiles(rxn.split(">>")[0])
         reac = Chem.MolFromSmiles(rxn.split(">>")[1])
         return prod.HasSubstructMatch(p) and not reac.HasSubstructMatch(p)
 
     def get_rxns(self, d):
+        """Extract all the reactions from tree."""
+
         def _extract_reactions(d):
             if "metadata" in d:
                 yield d["metadata"]["mapped_reaction_smiles"]

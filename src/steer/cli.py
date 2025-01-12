@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
-import numpy as np
-import os
-import click
 import asyncio
+import logging
+import os
 from datetime import datetime
-from steer.logger import setup_logger
 from time import sleep
+
+import click
+import numpy as np
+
+from steer.logger import setup_logger
 
 __all__ = [
     "main",
@@ -16,11 +17,13 @@ __all__ = [
 
 logger = setup_logger(__name__)
 
-from aizynthfinder.reactiontree import ReactionTree
-from aizynthfinder.analysis.routes import RouteCollection
-from typing import List
 import json
-from steer.evaluation import load_default_tasks, get_latest_file
+from typing import List
+
+from aizynthfinder.analysis.routes import RouteCollection
+from aizynthfinder.reactiontree import ReactionTree
+
+from steer.evaluation import get_latest_file, load_default_tasks
 
 dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
 PREMADE_PATH = "data/fullroute_no_feasibility"
@@ -28,6 +31,7 @@ RESULTS_DIR = f"data/{dt_name}"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # Add route clustering
+
 
 # Load some sample routes
 def cluster_routes(data: List[dict], nclusters=10):
@@ -42,7 +46,14 @@ def cluster_routes(data: List[dict], nclusters=10):
     return rts, index_map
 
 
-def run_task(lm, task, cache_path=PREMADE_PATH, results_path=RESULTS_DIR, n=5, nclusters=0):
+def run_task(
+    lm,
+    task,
+    cache_path=PREMADE_PATH,
+    results_path=RESULTS_DIR,
+    n=5,
+    nclusters=0,
+):
     route = get_latest_file(cache_path, task.id)
     logger.debug(route)
     if route is None:
@@ -55,7 +66,9 @@ def run_task(lm, task, cache_path=PREMADE_PATH, results_path=RESULTS_DIR, n=5, n
     if nclusters:
         rts, index_map = cluster_routes(data, nclusters=nclusters)
         routes = [rt["reaction_tree"].to_dict() for rt in rts]
-        routes = asyncio.run(lm.run_single_task(task, routes, nroutes=nclusters))
+        routes = asyncio.run(
+            lm.run_single_task(task, routes, nroutes=nclusters)
+        )
 
         # Map back to original indices
         for i, r in enumerate(data):
@@ -70,6 +83,7 @@ def run_task(lm, task, cache_path=PREMADE_PATH, results_path=RESULTS_DIR, n=5, n
         json.dump(routes, f)
     return routes
 
+
 def mae(gt, lm):
     if isinstance(gt[0], bool):
         gt = [10 if x else 1 for x in gt]
@@ -81,25 +95,32 @@ def mae(gt, lm):
 def main():
     """CLI for steer."""
 
+
 @main.command()
 def run():
     from steer.llm.fullroute import main
+
     asyncio.run(main())
+
 
 @main.command()
 @click.option("--model", default="gpt-4o", help="Model to use")
 @click.option("--ncluster", default=0, help="Model to use")
 def all_tasks(model, ncluster):
     import json
-    from steer.llm.fullroute import LM
+
     import wandb
+    from steer.llm.fullroute import LM
 
     prompt = "steer.llm.prompts.fullroute_no_feasibility"
-    wandb.init(project="steer-test", config={
-        "model": model,
-        "ncluster": ncluster,
-        "prompt": prompt,
-    })
+    wandb.init(
+        project="steer-test",
+        config={
+            "model": model,
+            "ncluster": ncluster,
+            "prompt": prompt,
+        },
+    )
 
     lm = LM(
         prompt=prompt,
@@ -113,7 +134,11 @@ def all_tasks(model, ncluster):
     }
     tasks = load_default_tasks()
     for i, task in enumerate(tasks):
-        if task.eval_type not in ["MultiRxnCond"]:
+        if task.eval_type not in [
+            # "RingBreakDepth",
+            # "MultiRxnCond",
+            "SpecificBondBreak",
+        ]:
             continue
         sleep(2)
         routes = run_task(lm, task, n=200, nclusters=ncluster)
@@ -123,11 +148,18 @@ def all_tasks(model, ncluster):
         # Evaluate
         gt_score, lmscore = task.evaluate(routes)
 
-        metrics["MAE"] += mae(gt_score, lmscore)
-        metrics["Corr"] += np.corrcoef(gt_score, lmscore)[0, 1]
-        wandb.log({f"mae_{task.id}": metrics["MAE"], f"corr_{task.id}": metrics["Corr"]})
+        mae_val = mae(gt_score, lmscore)
+        cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
+        metrics["MAE"] += mae_val
+        metrics["Corr"] += cor_val
+        wandb.log({f"mae_{task.id}": mae_val, f"corr_{task.id}": cor_val})
 
-    wandb.log({"mean_mae": metrics["MAE"] / len(tasks), "mean_corr": metrics["Corr"] / len(tasks)})
+    wandb.log(
+        {
+            "mean_mae": metrics["MAE"] / len(tasks),
+            "mean_corr": metrics["Corr"] / len(tasks),
+        }
+    )
 
     wandb.finish()
 
