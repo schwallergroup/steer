@@ -69,22 +69,6 @@
   },
   {
     "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
-    "prompt": "Find routes with no ring formations.",
-    "eval_type": "MultiRxnCond",
-    "eval_config": {
-      "allow_piperidine": false,
-      "allow_oxoisoindolinone": false,
-      "allow_piperidine26diox": false
-    },
-    "config": {
-      "iter_lim": 50,
-      "time_lim": 1000,
-      "max_tree": 10
-    },
-    "id": "c0832f1d769024f69777b7f109bebb5d"
-  },
-  {
-    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
     "prompt": "Get all the rings from commercial sources",
     "config": {
       "iter_lim": 50,
