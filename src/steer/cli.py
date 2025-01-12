@@ -70,7 +70,7 @@ def run_task(lm, task, cache_path=PREMADE_PATH, results_path=RESULTS_DIR, n=5, n
         json.dump(routes, f)
     return routes
 
-def metric(gt, lm):
+def mae(gt, lm):
     if isinstance(gt[0], bool):
         gt = [10 if x else 1 for x in gt]
     return np.mean(np.abs(np.array(gt) - np.array(lm)))
@@ -97,8 +97,8 @@ def all_tasks(model, ncluster):
     prompt = "steer.llm.prompts.fullroute_no_feasibility"
     wandb.init(project="steer-test", config={
         "model": model,
+        "ncluster": ncluster,
         "prompt": prompt,
-        "description": "Clustering routes. No depth (prev was with depth)"
     })
 
     lm = LM(
@@ -107,9 +107,14 @@ def all_tasks(model, ncluster):
         # project_name="steer-test",
     )
 
-    mean_metric = 0
+    metrics = {
+        "MAE": 0,
+        "Corr": 0,
+    }
     tasks = load_default_tasks()
-    for task in tasks:
+    for i, task in enumerate(tasks):
+        if task.eval_type not in ["MultiRxnCond"]:
+            continue
         sleep(2)
         routes = run_task(lm, task, n=200, nclusters=ncluster)
         if routes is None:
@@ -117,14 +122,12 @@ def all_tasks(model, ncluster):
 
         # Evaluate
         gt_score, lmscore = task.evaluate(routes)
-        metric_val = metric(gt_score, lmscore)
-        logger.debug(f"Metric: {metric_val}")
 
-        mean_metric += metric_val
-        wandb.log({f"{task.id}_metric": metric_val})
+        metrics["MAE"] += mae(gt_score, lmscore)
+        metrics["Corr"] += np.corrcoef(gt_score, lmscore)[0, 1]
+        wandb.log({f"mae_{task.id}": metrics["MAE"], f"corr_{task.id}": metrics["Corr"]})
 
-    logger.info(f"Mean Metric: {mean_metric / len(tasks)}")
-    wandb.log({"mean_metric": mean_metric / len(tasks)})
+    wandb.log({"mean_mae": metrics["MAE"] / len(tasks), "mean_corr": metrics["Corr"] / len(tasks)})
 
     wandb.finish()
 
