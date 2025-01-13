@@ -105,16 +105,16 @@ def alphamol():
 
     rxn = f"CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>C=CCn1c(=O)c2cnc(Nc3ccc(Br)cc3)nc2n1-c1cccc(C(C)(C)O)n1"
 
-    # with open("all_next_smiles_1.txt", "r") as f:
-    #     options = eval(f.read())
+    with open("all_next_smiles_1.txt", "r") as f:
+        options = eval(f.read())
 
-    options = [
-        "CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>[H+].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N-][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the good
-        "CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N+][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the anti
-        "CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[C]3=[N][C]([N+][C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",
-        "CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C+][N]=[C]([N]2[C]3=[N][C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])[C]([H])=[C]1[H].[H][O][C-]([C]([H])([H])[H])[C]([H])([H])[H]",
-        "CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C]2[C](=[O])[N]([H])[N]([C]3=[N][C]([C]([O+])([C]([H])([H])[H])[C]([H])([H])[H])=[C]([H])[C]([H])=[C]3[H])[C]2=[N][C]([N]([H])[C]2=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]2[H])=[N]1",
-    ]
+    # options = [
+    #     "[H+].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N-][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the good
+    #     "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N+][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the anti
+    #     "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[C]3=[N][C]([N+][C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",
+    #     "[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C+][N]=[C]([N]2[C]3=[N][C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])[C]([H])=[C]1[H].[H][O][C-]([C]([H])([H])[H])[C]([H])([H])[H]",
+    #     "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C]2[C](=[O])[N]([H])[N]([C]3=[N][C]([C]([O+])([C]([H])([H])[H])[C]([H])([H])[H])=[C]([H])[C]([H])=[C]3[H])[C]2=[N][C]([N]([H])[C]2=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]2[H])=[N]1",
+    # ]
 
 
     logger.info("Full rxn step")

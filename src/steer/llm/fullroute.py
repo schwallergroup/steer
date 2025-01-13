@@ -13,7 +13,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from pydantic import BaseModel, model_validator
 
-from steer.utils.rxnimg import get_rxn_img
+from steer.utils.rxnimg import get_rxn_img, get_manual_rxn_img
 
 from steer.llm.llms import router
 from steer.llm.prompts import *
@@ -37,11 +37,13 @@ class LM(BaseModel):
 
     async def run(self, rxn: str, list_rxns: List[str], query: Optional[str] = None, return_score: bool = False):
         # First get list of smiles
-        rxnimg = get_rxn_img(rxn)
+        imgf = get_manual_rxn_img
+        # imgf = get_rxn_img
+        rxnimg = imgf(rxn)
 
         smiles = list_rxns
 
-        imgs = [get_rxn_img(s) for s in smiles]
+        imgs = [imgf(s) for s in smiles]
         response = await self.lmcall(rxnimg, imgs, smiles[0])
         if return_score:
             score = self._parse_score(response)
@@ -91,31 +93,36 @@ class LM(BaseModel):
             img_msgs.extend(msg)
 
         try:
-            response = await router.acompletion(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": self.prefix},
-                            *rxn_msg,
-                            *img_msgs,
-                            {"type": "text", "text": self.suffix},
-                        ],
-                    },
-                ],
-            )
+            responses = []
+            for i in range(5):
+                response = await router.acompletion(
+                    model=self.model,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": self.prefix},
+                                *rxn_msg,
+                                *img_msgs,
+                                {"type": "text", "text": self.suffix},
+                            ],
+                        },
+                    ],
+                )
+                responses.append(response.choices[0].message.content)
         except Timeout as e:
             logger.error(f"API Timeout: {e}")
             return "<score>0</score>"
     
         current_call = get_current_call()
         # self.cache[smiles] = response.choices[0].message.content
+        scores = [self._parse_score({"response":r}) for r in responses]
+        print(query, scores)
         return dict(
             response=response.choices[0].message.content,
-            # url=current_call.ui_url,
-            score=self._parse_score({"response":response.choices[0].message.content}),
+            score=sum(scores)/len(scores),
             query=query,
+            # url=current_call.ui_url,
         )
 
     @model_validator(mode="after")
