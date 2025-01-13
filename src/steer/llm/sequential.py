@@ -60,6 +60,7 @@ class LM(BaseModel):
         try:
             response = await router.acompletion(
                 model=self.model,
+                temperature=0.1,
                 messages=[
                     {
                         "role": "user",
@@ -92,7 +93,7 @@ class LM(BaseModel):
                 inp = self._get_txt_msg(smi)
 
             msg = [
-                {"type": "text", "text": f"Reaction #{i+1}."},
+                {"type": "text", "text": f"Reaction #{i+1}. Depth: {depth}"},
                 inp,
             ]
             msgs.extend(msg)
