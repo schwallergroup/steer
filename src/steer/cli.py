@@ -11,7 +11,7 @@ from typing import List
 import click
 import numpy as np
 
-from steer.evaluation.sequential import get_latest_file, load_default_tasks
+from steer.evaluation.synthesis import get_latest_file, load_default_tasks
 from steer.logger import setup_logger
 
 from .api import *
@@ -25,8 +25,46 @@ logger = setup_logger(__name__)
 
 @click.group()
 @click.version_option()
-def mech():
+@click.option("--model", default="gpt-4o", help="Model to use")
+@click.option("--vision", default=False, help="Pass reactions as images")
+@click.pass_context
+def mech(ctx, model, vision):
     """CLI for steer."""
+    if ctx.obj is None:
+        ctx.obj = {}
+
+    ctx.obj["model"] = model
+    ctx.obj["vision"] = vision
+
+
+@mech.command()
+@click.pass_context
+def bench(ctx):
+    """Run benchmar."""
+    import wandb
+    from steer.evaluation.mechanism.evaluation import main
+
+    prompt = "steer.mechanism.prompts.alphamol_partial"
+    project = "steer-mechbench"
+    model = ctx.obj["model"]
+    vision = ctx.obj["vision"]
+
+    wandb.init(
+        project=project,
+        config={
+            "model": model,
+            "vision": vision,
+            "prompt": prompt,
+        },
+    )
+
+    asyncio.run(
+        main(
+            prompt=prompt,
+            model=model,
+            project_name=project,
+        )
+    )
 
 
 @mech.command()

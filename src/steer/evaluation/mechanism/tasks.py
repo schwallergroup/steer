@@ -8,6 +8,7 @@ from typing import Callable, List, Literal, Optional, Tuple
 import numpy as np
 from pydantic import BaseModel, Field, model_validator
 
+import wandb
 from steer.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -29,6 +30,7 @@ class Task(BaseModel):
             lm.extend(lm_scores)
 
             corr = np.corrcoef(gt_scores, lm_scores)[0, 1]
+            wandb.log({f"corr_{self.id}_{i}": corr})
             logger.debug(f"r: {corr:.4f}. Depth: {i}")
         return gt, lm
 

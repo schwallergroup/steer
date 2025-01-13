@@ -1,13 +1,15 @@
 """Run evaluation script."""
 
+import asyncio
 import json
 import os
 from typing import List
 
 import numpy as np
-from tasks import load_default_tasks
 
 from steer.logger import setup_logger
+
+from .tasks import load_default_tasks
 
 logger = setup_logger(__name__)
 
@@ -43,13 +45,19 @@ async def run_task(task, lm):
     return results
 
 
-async def main():
+async def main(
+    prompt="steer.mechanism.prompts.alphamol_partial",
+    model="claude-3-5-sonnet",
+    vision=False,
+    project_name="steer-mechanism-test",
+):
     from steer.mechanism.sequential import LM
 
     scorer = LM(
-        prompt="steer.mechanism.prompts.alphamol_partial",
-        model="claude-3-5-sonnet",
-        project_name="steer-mechanism-test",
+        prompt=prompt,
+        model=model,
+        vision=vision,
+        project_name=project_name,
     )
 
     tasks = load_default_tasks()
