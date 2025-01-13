@@ -15,7 +15,7 @@ logger = setup_logger()
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-RESULTS_PATH = os.path.join(path, "../../../../synthegy/steer/")
+RESULTS_PATH = os.path.join(path, "../../../../../synthegy/steer/")
 PROMPT_TYPE = "fullroute_no_feasibility"
 
 

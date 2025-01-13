@@ -113,8 +113,9 @@ def all_tasks(model, vision, ncluster):
     from steer.llm.sequential import LM
 
     prompt = "steer.llm.prompts.route_opt"
+    project = "steer-test"
     wandb.init(
-        project="steer-test",
+        project=project,
         config={
             "model": model,
             "vision": vision,
@@ -127,7 +128,7 @@ def all_tasks(model, vision, ncluster):
         prompt=prompt,
         model=model,
         vision=vision,
-        # project_name="steer-test",
+        project_name=project,
     )
 
     metrics = {
@@ -149,12 +150,6 @@ def all_tasks(model, vision, ncluster):
 
         # Evaluate
         gt_score, lmscore = task.evaluate(routes)
-
-        if task.id in ["e579d80f176371344bab95ea15e6b9ab", "4bfe366ec7f5d64678d500f9084cbb35", "dfc8116ec63329c437281f7a40dda876"]:
-            print(task.id)
-            print(gt_score)
-            print(lmscore)
-            print('----')
 
         mae_val = mae(gt_score, lmscore)
         cor_val = np.corrcoef(gt_score, lmscore)[0, 1]

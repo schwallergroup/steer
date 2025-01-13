@@ -37,26 +37,18 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(self, tree: ReactionTree, query: str):
+    async def run(self, tree: ReactionTree, query: str, task: Any):
         """Get smiles and run LLM."""
 
-        url = ""
         if self.model == "random":
-            response = f"<score>{np.random.choice(np.arange(1,11))}</score>"
+            response = dict(response=f"<score>{np.random.choice(np.arange(1,11))}</score>", url="")
         else:
             rxn_msgs = self.make_msg_sequence(tree)
-            response = await self._run_llm(rxn_msgs, query)
-            current_call = get_current_call()
-            if current_call is not None:
-                url = current_call.ui_url
+            response = await self._run_llm(rxn_msgs, query, taskid=task.id)
+        return response
 
-        return dict(
-            response=response,
-            url=url,
-        )
-
-    # @weave.op()
-    async def _run_llm(self, msgs, query):
+    @weave.op()
+    async def _run_llm(self, msgs, query, taskid=""):
         try:
             response = await router.acompletion(
                 model=self.model,
@@ -75,11 +67,16 @@ class LM(BaseModel):
                     },
                 ],
             )
+            response = response.choices[0].message.content
         except Exception as e:
             logger.error(f"{e}")
-            return "<score>-1</score>"
+            response = "<score>-1</score>"
 
-        return response.choices[0].message.content
+        current_call = get_current_call()
+        return dict(
+            response=response,
+            url=current_call.ui_url or "-",
+        )
 
     def make_msg_sequence(self, tree: ReactionTree):
         rxns = self.get_smiles_with_depth(tree)
@@ -120,7 +117,7 @@ class LM(BaseModel):
         return msg
 
     async def run_single_route(self, task, d):
-        result = await self.run(ReactionTree.from_dict(d), task.prompt)
+        result = await self.run(ReactionTree.from_dict(d), task.prompt, task)
         d["lmdata"] = dict(
             query=task.prompt,
             response=result["response"],
