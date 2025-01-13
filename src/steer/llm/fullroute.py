@@ -31,6 +31,7 @@ class LM(BaseModel):
     """LLM Heuristic for scoring reactions."""
 
     model: str = "gpt-4o"
+    vision: bool = False
     prefix: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
@@ -43,8 +44,8 @@ class LM(BaseModel):
         if self.model == "random":
             response = f"<score>{np.random.choice(np.arange(1,11))}</score>"
         else:
-            img_msgs = self.make_img_sequence(tree)
-            response = await self._run_llm(img_msgs, query)
+            rxn_msgs = self.make_msg_sequence(tree)
+            response = await self._run_llm(rxn_msgs, query)
             current_call = get_current_call()
             if current_call is not None:
                 url = current_call.ui_url
@@ -55,7 +56,7 @@ class LM(BaseModel):
         )
 
     # @weave.op()
-    async def _run_llm(self, img_msgs, query):
+    async def _run_llm(self, msgs, query):
         try:
             response = await router.acompletion(
                 model=self.model,
@@ -67,7 +68,7 @@ class LM(BaseModel):
                                 "type": "text",
                                 "text": self.prefix.format(query=query),
                             },
-                            *img_msgs,
+                            *msgs,
                             {"type": "text", "text": self.suffix},
                         ],
                     },
@@ -79,33 +80,43 @@ class LM(BaseModel):
 
         return response.choices[0].message.content
 
-    def make_img_sequence(self, tree: ReactionTree):
-        smiles = self.get_smiles_with_depth(tree)
-        rxns = [(d, get_rxn_img(s)) for d, s in smiles]
+    def make_msg_sequence(self, tree: ReactionTree):
+        rxns = self.get_smiles_with_depth(tree)
 
-        # Create sequence of image prompts
-        img_msgs = []
+        msgs = []
         for i, s in enumerate(rxns):
-            depth, img = s
+            depth, smi = s
+            if self.vision:
+                inp = self._get_img_msg(smi)
+            else:
+                inp = self._get_txt_msg(smi)
 
-            if img is not None:
-                buffered = BytesIO()
-                img.save(buffered, format="PNG")
-                b64img = base64.b64encode(buffered.getvalue()).decode()
-                if b64img is None:
-                    raise ValueError("Failed to retrieve the image.")
+            msg = [
+                {"type": "text", "text": f"Reaction #{i+1}."},
+                inp,
+            ]
+            msgs.extend(msg)
+        return msgs
 
-                msg = [
-                    {"type": "text", "text": f"Reaction #{i+1}."},
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{b64img}"
-                        },
-                    },
-                ]
-                img_msgs.extend(msg)
-        return img_msgs
+    def _get_txt_msg(self, smi):
+        """Get text message."""
+        return {"type": "text", "text": f"{smi}"}
+
+    def _get_img_msg(self, smi):
+        """Get image message."""
+
+        img = get_rxn_img(smi)
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        b64img = base64.b64encode(buffered.getvalue()).decode()
+        if b64img is None:
+            raise ValueError("Failed to retrieve the image.")
+
+        msg = {
+            "type": "image_url",
+            "image_url": {"url": f"data:image/png;base64,{b64img}"},
+        }
+        return msg
 
     async def run_single_route(self, task, d):
         result = await self.run(ReactionTree.from_dict(d), task.prompt)

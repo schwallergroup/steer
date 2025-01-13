@@ -105,9 +105,9 @@ def run():
 
 @main.command()
 @click.option("--model", default="gpt-4o", help="Model to use")
-@click.option("--ncluster", default=0, help="Model to use")
-def all_tasks(model, ncluster):
-    import json
+@click.option("--vision", default=True, help="Pass reactions as images")
+@click.option("--ncluster", default=0, help="Cluster routes")
+def all_tasks(model, vision, ncluster):
 
     import wandb
     from steer.llm.fullroute import LM
@@ -117,6 +117,7 @@ def all_tasks(model, ncluster):
         project="steer-test",
         config={
             "model": model,
+            "vision": vision,
             "ncluster": ncluster,
             "prompt": prompt,
         },
@@ -125,6 +126,7 @@ def all_tasks(model, ncluster):
     lm = LM(
         prompt=prompt,
         model=model,
+        vision=vision,
         # project_name="steer-test",
     )
 
@@ -135,8 +137,8 @@ def all_tasks(model, ncluster):
     tasks = load_default_tasks()
     for i, task in enumerate(tasks):
         if task.eval_type not in [
-            # "RingBreakDepth",
-            # "MultiRxnCond",
+            "RingBreakDepth",
+            "MultiRxnCond",
             "SpecificBondBreak",
         ]:
             continue
