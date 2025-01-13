@@ -3,6 +3,7 @@
 """Main code."""
 
 import asyncio
+import json
 import logging
 import os
 from datetime import datetime
@@ -11,19 +12,14 @@ from typing import List
 
 import click
 import numpy as np
-
-
-import json
-from typing import List
-
-
-from steer.evaluation.sequential import get_latest_file, load_default_tasks
-
 from aizynthfinder.analysis.routes import RouteCollection
 from aizynthfinder.reactiontree import ReactionTree
 
+# from steer.evaluation.sequential import get_latest_file, load_default_tasks
 from steer.logger import setup_logger
+
 logger = setup_logger(__name__)
+
 
 async def run_amol(
     rxn: str, mechanisms: List[List[str]], lm  # List of mechanisms
@@ -42,6 +38,7 @@ def eval_path(rxn, seq, lm):
         logger.debug(f"Path {i+1}: {r}, len: {len(list1[i])}")
     return result
 
+
 # Load some sample routes
 def cluster_routes(data: List[dict], nclusters=10):
     routes = [ReactionTree.from_dict(d) for d in data]
@@ -53,6 +50,7 @@ def cluster_routes(data: List[dict], nclusters=10):
     )
     rts = [rc.clusters[i][0] for i in range(nclusters)]
     return rts, index_map
+
 
 def run_task(
     lm,

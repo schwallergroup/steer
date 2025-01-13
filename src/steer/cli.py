@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
+import json
 import logging
 import os
 from datetime import datetime
@@ -10,13 +11,10 @@ from typing import List
 import click
 import numpy as np
 
-
-import json
-from typing import List
-
-from .api import *
 from steer.evaluation.sequential import get_latest_file, load_default_tasks
 from steer.logger import setup_logger
+
+from .api import *
 
 __all__ = [
     "main",
@@ -88,7 +86,6 @@ def filter():
     eval_path(rxn, debatable_path, lm)
 
 
-
 @mech.command()
 def sample():
     from steer.mechanism.sequential import LM
@@ -105,8 +102,8 @@ def sample():
     rxn = f"CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>C=CCn1c(=O)c2cnc(Nc3ccc(Br)cc3)nc2n1-c1cccc(C(C)(C)O)n1"
 
     options = [
-        "[H+].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N-][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the good
-        "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N+][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]", # the anti
+        "[H+].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N-][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",  # the good
+        "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N+][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",  # the anti
         "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[C]3=[N][C]([N+][C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",
         "[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C+][N]=[C]([N]2[C]3=[N][C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])[C]([H])=[C]1[H].[H][O][C-]([C]([H])([H])[H])[C]([H])([H])[H]",
         "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C]2[C](=[O])[N]([H])[N]([C]3=[N][C]([C]([O+])([C]([H])([H])[H])[C]([H])([H])[H])=[C]([H])[C]([H])=[C]3[H])[C]2=[N][C]([N]([H])[C]2=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]2[H])=[N]1",
@@ -157,13 +154,13 @@ def synth(ctx, model, vision):
     # Initialize ctx.obj if it doesn't exist
     if ctx.obj is None:
         ctx.obj = {}
-        
+
     # Store objects in context
-    ctx.obj['lm'] = lm
-    ctx.obj['tasks'] = tasks
-    ctx.obj['results_dir'] = RESULTS_DIR
-    ctx.obj['cache_path'] = CACHE_PATH
-    ctx.obj['wandb'] = wandb
+    ctx.obj["lm"] = lm
+    ctx.obj["tasks"] = tasks
+    ctx.obj["results_dir"] = RESULTS_DIR
+    ctx.obj["cache_path"] = CACHE_PATH
+    ctx.obj["wandb"] = wandb
 
 
 @synth.command()
@@ -179,7 +176,14 @@ def one_task(ctx, task):
         if t.id != task:
             continue
 
-        routes = run_task(lm, t, n=200, nclusters=0, cache_path=ctx.obj["cache_path"], results_path=ctx.obj["results_dir"])
+        routes = run_task(
+            lm,
+            t,
+            n=200,
+            nclusters=0,
+            cache_path=ctx.obj["cache_path"],
+            results_path=ctx.obj["results_dir"],
+        )
         if routes is None:
             continue
 
@@ -206,7 +210,14 @@ def all_task(ctx):
 
     tasks = load_default_tasks()
     for i, task in enumerate(tasks):
-        routes = run_task(lm, task, n=200, nclusters=0, cache_path=ctx.obj["cache_path"], results_path=ctx.obj["results_dir"])
+        routes = run_task(
+            lm,
+            task,
+            n=200,
+            nclusters=0,
+            cache_path=ctx.obj["cache_path"],
+            results_path=ctx.obj["results_dir"],
+        )
         if routes is None:
             continue
 
@@ -235,9 +246,9 @@ def main():
     """Steer CLI with multiple subcommands."""
     pass
 
+
 main.add_command(synth)
 main.add_command(mech)
-
 
 
 if __name__ == "__main__":
