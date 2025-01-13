@@ -1,4 +1,3 @@
-
 prefix = """You are an expert chemist tasked with evaluating proposed reaction mechanisms. Your goal is to analyze each elementary step of a proposed mechanism and determine how well it aligns with the target reaction. 
 
 Here is the target reaction you should keep in mind:

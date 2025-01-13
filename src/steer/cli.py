@@ -5,9 +5,9 @@ import logging
 import os
 from datetime import datetime
 from time import sleep
+from typing import List
 
 import click
-from typing import List
 import numpy as np
 
 from steer.logger import setup_logger
@@ -18,22 +18,25 @@ __all__ = [
 
 logger = setup_logger(__name__)
 
+
 async def run_amol(
-    rxn: str,
-    mechanisms: List[List[str]], # List of mechanisms
-    lm
+    rxn: str, mechanisms: List[List[str]], lm  # List of mechanisms
 ):
-    results = await asyncio.gather(*[lm.run(rxn, m, return_score=True) for m in mechanisms])
+    results = await asyncio.gather(
+        *[lm.run(rxn, m, return_score=True) for m in mechanisms]
+    )
     return results
 
 
 def eval_path(rxn, seq, lm):
-    smi_list = [f"{seq[i]}>>{seq[i+1]}" for i in range(len(seq)-1)]
-    list1 = [smi_list[:i+1] for i in range(len(smi_list))]
+    smi_list = [f"{seq[i]}>>{seq[i+1]}" for i in range(len(seq) - 1)]
+    list1 = [smi_list[: i + 1] for i in range(len(smi_list))]
     result = asyncio.run(run_amol(rxn, list1, lm))
-    for i,r in enumerate(result):
+    for i, r in enumerate(result):
         logger.debug(f"Path {i+1}: {r}, len: {len(list1[i])}")
     return result
+
+
 import json
 from typing import List
 
@@ -112,6 +115,7 @@ def mae(gt, lm):
 def main():
     """CLI for steer."""
 
+
 @main.command()
 def filter():
     """Run one example."""
@@ -125,18 +129,18 @@ def filter():
 
     correct_path = [
         "C1CCCCC1=O.F",
-        '[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
-    
+
     anti_chem_correct_path = [
         "C1CCCCC1=O.F",
-        '[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[F+].[H-].[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H-].[H][C]1([H])[C]([F])([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        "[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[F+].[H-].[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H-].[H][C]1([H])[C]([F])([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
 
     crap_path = [
@@ -167,9 +171,11 @@ def filter():
     logger.info("Debatable path")
     eval_path(rxn, debatable_path, lm)
 
+
 @main.command()
 def alphamol():
     from steer.llm.fullroute import LM
+
     logger.info("Running one example.")
 
     prompt = "steer.llm.prompts.alphamol_w_query"
@@ -192,11 +198,12 @@ def alphamol():
     #     "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C]2[C](=[O])[N]([H])[N]([C]3=[N][C]([C]([O+])([C]([H])([H])[H])[C]([H])([H])[H])=[C]([H])[C]([H])=[C]3[H])[C]2=[N][C]([N]([H])[C]2=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]2[H])=[N]1",
     # ]
 
-
     logger.info("Full rxn step")
-    result = asyncio.run(run_amol(rxn, [[f"{rxn.split('>>')[0]}>>{o}"] for o in options], lm))
+    result = asyncio.run(
+        run_amol(rxn, [[f"{rxn.split('>>')[0]}>>{o}"] for o in options], lm)
+    )
 
-    for i,r in enumerate(result):
+    for i, r in enumerate(result):
         print(f"{options[i]} {r}")
 
     # options = [
@@ -214,7 +221,6 @@ def alphamol():
     #     print(f"{options[i]} {r}")
 
 
-
 @main.command()
 def run():
     from steer.llm.sequential import main
@@ -229,6 +235,7 @@ def run():
 def all_tasks(model, vision, ncluster):
 
     import wandb
+
     from steer.llm.sequential import LM
 
     prompt = "steer.llm.prompts.route_opt"
@@ -269,11 +276,15 @@ def all_tasks(model, vision, ncluster):
         # Evaluate
         gt_score, lmscore = task.evaluate(routes)
 
-        if task.id in ["e579d80f176371344bab95ea15e6b9ab", "4bfe366ec7f5d64678d500f9084cbb35", "dfc8116ec63329c437281f7a40dda876"]:
+        if task.id in [
+            "e579d80f176371344bab95ea15e6b9ab",
+            "4bfe366ec7f5d64678d500f9084cbb35",
+            "dfc8116ec63329c437281f7a40dda876",
+        ]:
             print(task.id)
             print(gt_score)
             print(lmscore)
-            print('----')
+            print("----")
 
         mae_val = mae(gt_score, lmscore)
         cor_val = np.corrcoef(gt_score, lmscore)[0, 1]

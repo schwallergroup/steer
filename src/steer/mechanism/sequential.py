@@ -1,25 +1,24 @@
 """Evaluate a full route against a query."""
 
-import weave
 import asyncio
 import base64
 import importlib
 import os
-from typing import Optional, Dict, List, Any
 from io import BytesIO
-from PIL.Image import Image
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
+import weave
 from dotenv import load_dotenv
+from litellm import Timeout
+from PIL.Image import Image
 from pydantic import BaseModel, model_validator
-
-from steer.utils.rxnimg import get_rxn_img, get_manual_rxn_img
+from weave.trace.context.call_context import get_current_call
 
 from steer.llm.llm_router import router
 from steer.llm.prompts import *
-from litellm import Timeout
-from weave.trace.context.call_context import get_current_call
 from steer.logger import setup_logger
+from steer.utils.rxnimg import get_manual_rxn_img, get_rxn_img
 
 logger = setup_logger(__name__)
 
@@ -34,7 +33,13 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(self, rxn: str, list_rxns: List[str], query: Optional[str] = None, return_score: bool = False):
+    async def run(
+        self,
+        rxn: str,
+        list_rxns: List[str],
+        query: Optional[str] = None,
+        return_score: bool = False,
+    ):
         # First get list of smiles
         imgf = get_manual_rxn_img
         # imgf = get_rxn_img
@@ -50,9 +55,11 @@ class LM(BaseModel):
             return score
         else:
             return response
-    
+
     # @weave.op()
-    async def lmcall(self, rxnimg: Image, imgs: List[Image], query: Optional[str]):
+    async def lmcall(
+        self, rxnimg: Image, imgs: List[Image], query: Optional[str]
+    ):
         """Run the LLM."""
         load_dotenv()
 
@@ -62,13 +69,10 @@ class LM(BaseModel):
         rxn_msg = [
             {
                 "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/png;base64,{b64img}"
-                },
+                "image_url": {"url": f"data:image/png;base64,{b64img}"},
             },
             {"type": "text", "text": self.intermed},
         ]
-
 
         # Create sequence of image prompts
         img_msgs = []
@@ -79,14 +83,12 @@ class LM(BaseModel):
             b64img = base64.b64encode(buffered.getvalue()).decode()
             if b64img is None:
                 raise ValueError("Failed to retrieve the image.")
-            
+
             msg = [
                 {"type": "text", "text": f"Step #{i+1}"},
                 {
                     "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/png;base64,{b64img}"
-                    },
+                    "image_url": {"url": f"data:image/png;base64,{b64img}"},
                 },
             ]
             img_msgs.extend(msg)
@@ -112,13 +114,13 @@ class LM(BaseModel):
         except Timeout as e:
             logger.error(f"API Timeout: {e}")
             return "<score>0</score>"
-    
+
         current_call = get_current_call()
-        scores = [self._parse_score({"response":r}) for r in responses]
+        scores = [self._parse_score({"response": r}) for r in responses]
         print(query, scores)
         return dict(
             response=response.choices[0].message.content,
-            score=sum(scores)/len(scores),
+            score=sum(scores) / len(scores),
             query=query,
             # url=current_call.ui_url,
         )
@@ -141,10 +143,12 @@ class LM(BaseModel):
     @staticmethod
     def _parse_score(response):
         try:
-            return float(response['response'].split("<score>")[1].split("</score>")[0])
+            return float(
+                response["response"].split("<score>")[1].split("</score>")[0]
+            )
         except Exception as e:
             logger.error(f"Failed to parse score: {e}")
-            return 0 # Default score (min)
+            return 0  # Default score (min)
 
 
 async def main():
@@ -156,40 +160,44 @@ async def main():
 
     start_smiles = "C1CCCCC1=O.F"
 
-    list_smiles = [ # All legal ionization + attacks from cyclohexanone + HF
-        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C-]([H])[H]',
-        '[H][F].[H][C+]([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]([H])[H]',
-        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C-]([H])[H]',
-        '[H][F].[H][C+]([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C-]([H])[H]',
-        '[H][F].[H][C-]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C+]=[O]',
-        '[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]=[O]',
-        '[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]',
-        '[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]',
-        '[H+].[H][F].[H][C-]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H-].[H][F].[H][C+]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H+].[H][F].[H][C-]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H-].[H][F].[H][C+]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H+].[H][F].[H][C-]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]',
-        '[H-].[H][F].[H][C+]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]',
-        '[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+    list_smiles = [  # All legal ionization + attacks from cyclohexanone + HF
+        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C-]([H])[H]",
+        "[H][F].[H][C+]([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]([H])[H]",
+        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C-]([H])[H]",
+        "[H][F].[H][C+]([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C-]([H])[H]",
+        "[H][F].[H][C-]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C+]=[O]",
+        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]=[O]",
+        "[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]",
+        "[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]",
+        "[H+].[H][F].[H][C-]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H-].[H][F].[H][C+]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H+].[H][F].[H][C-]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H-].[H][F].[H][C+]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H+].[H][F].[H][C-]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]",
+        "[H-].[H][F].[H][C+]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]",
+        "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
 
     correct_path = [
         "C1CCCCC1=O.F",
-        '[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
-        '[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]',
+        "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
+        "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
 
     result = await lm.run(
-        [f"{correct_path[i]}>>{correct_path[i+1]}" for i in range(len(correct_path)-1)],
+        [
+            f"{correct_path[i]}>>{correct_path[i+1]}"
+            for i in range(len(correct_path) - 1)
+        ],
         query="Please give me a mechanism awoiding too strained cycles, or atoms of charges higher than 1 or -1.",
         return_score=True,
     )
     print(result)
     return result
+
 
 if __name__ == "__main__":
     asyncio.run(main())

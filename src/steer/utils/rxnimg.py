@@ -1,12 +1,13 @@
-import os
 import base64
+import os
 from io import BytesIO
 
 import cairosvg
 import requests
 from PIL import Image
 
-def get_manual_rxn_img(smiles) -> str | None:
+
+def get_manual_rxn_img(smiles) -> Image.Image:
 
     reactants, _, products = smiles.split(">")
 
@@ -17,8 +18,16 @@ def get_manual_rxn_img(smiles) -> str | None:
     reac_img = reac_img.resize((668, 375))
     prod_img = prod_img.resize((668, 375))
 
-    # Create a white background image of size 1456x819 with the arrow in the middle 
-    final_img_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "images", "1456_819_arrow.png")
+    # Create a white background image of size 1456x819 with the arrow in the middle
+    final_img_path = os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "..",
+        "..",
+        "data",
+        "images",
+        "1456_819_arrow.png",
+    )
 
     # Collate reactant at (0, 222) and product at (788, 222)
     final_img = Image.open(final_img_path)
@@ -31,10 +40,11 @@ def get_manual_rxn_img(smiles) -> str | None:
 
     return final_img
 
-def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> str | None:
+
+def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> Image.Image:
 
     # The URL for the GET request
-    #url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
+    # url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
     url = "http://liacpc17.epfl.ch:8081/depict/cot/svg"
 
     # The parameters for the request
@@ -45,7 +55,7 @@ def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> str | None:
         "abbr": "off",
         "hdisp": "S",
         "zoom": "1.3",
-        "annotate": "colmap", # "none"
+        "annotate": "colmap",  # "none"
         "r": "0",
     }
 
@@ -120,4 +130,3 @@ if __name__ == "__main__":
     smiles = "[H]O[C:1]([H])([H])[C:1]([H])([H])[H]>>[H]O[C+:1]([H])[H].[H][C-:1]([H])[H]"
     img = get_manual_rxn_img(smiles)
     img.show()
-

@@ -39,7 +39,3 @@ Finally, assign a relevance score from 0 to 10, where 10 indicates the highest r
 
 Remember, the reactions shown are theoretical and have not been tested in a laboratory. They represent desired transformations but may not necessarily reflect what would actually occur in a flask. Your expertise is crucial in assessing the feasibility and relevance of these proposed reactions.
 """
-
-
-
-

@@ -1,4 +1,3 @@
-
 prefix = """You are an expert AI chemist tasked with evaluating proposed reaction mechanisms as part of a step-by-step mechanism construction algorithm. Your goal is to analyze each elementary step or partial mechanism and determine its potential to contribute to the target reaction.
 
 An expert chemist has proposed a mechanism and described it as follows:
