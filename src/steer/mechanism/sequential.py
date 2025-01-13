@@ -1,4 +1,4 @@
-"""Evaluate a full route against a query."""
+"""Score the next step in a mechanism proposal."""
 
 import asyncio
 import base64
@@ -20,6 +20,8 @@ from steer.llm.prompts import *
 from steer.logger import setup_logger
 from steer.utils.rxnimg import get_manual_rxn_img, get_rxn_img
 
+import numpy as np
+
 logger = setup_logger(__name__)
 
 
@@ -27,103 +29,97 @@ class LM(BaseModel):
     """LLM Heuristic for scoring reactions."""
 
     model: str = "gpt-4o"
+    vision: bool = False
     prefix: str = ""
-    suffix: str = ""
     intermed: str = ""
+    suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(
-        self,
-        rxn: str,
-        list_rxns: List[str],
-        query: Optional[str] = None,
-        return_score: bool = False,
-    ):
-        # First get list of smiles
-        imgf = get_manual_rxn_img
-        # imgf = get_rxn_img
+    async def run(self, rxn:str, step: str, history: Optional[List[str]]=None, task: Any=None):
+        """Get smiles and run LLM."""
 
-        rxnimg = imgf(rxn)
-
-        smiles = list_rxns
-
-        imgs = [imgf(s) for s in smiles]
-        response = await self.lmcall(rxnimg, imgs, smiles[0])
-        if return_score:
-            score = self._parse_score(response)
-            return score
+        if self.model == "random":
+            response = dict(
+                response=f"<score>{np.random.choice(np.arange(1,11))}</score>",
+                url="",
+            )
         else:
-            return response
+            msgs = self.make_msg_sequence(rxn, history)
+            response = await self._run_llm(msgs, step, taskid=task.id if task else "")
+        return response
 
-    # @weave.op()
-    async def lmcall(
-        self, rxnimg: Image, imgs: List[Image], query: Optional[str]
-    ):
-        """Run the LLM."""
-        load_dotenv()
-
-        buffered = BytesIO()
-        rxnimg.save(buffered, format="PNG")
-        b64img = base64.b64encode(buffered.getvalue()).decode()
-        rxn_msg = [
-            {
-                "type": "image_url",
-                "image_url": {"url": f"data:image/png;base64,{b64img}"},
-            },
-            {"type": "text", "text": self.intermed},
-        ]
-
-        # Create sequence of image prompts
-        img_msgs = []
-        for i, s in enumerate(imgs):
-
-            buffered = BytesIO()
-            s.save(buffered, format="PNG")
-            b64img = base64.b64encode(buffered.getvalue()).decode()
-            if b64img is None:
-                raise ValueError("Failed to retrieve the image.")
-
-            msg = [
-                {"type": "text", "text": f"Step #{i+1}"},
-                {
-                    "type": "image_url",
-                    "image_url": {"url": f"data:image/png;base64,{b64img}"},
-                },
-            ]
-            img_msgs.extend(msg)
-
+    @weave.op()
+    async def _run_llm(self, msgs, step, taskid=""):
         try:
-            responses = []
-            for i in range(5):
-                response = await router.acompletion(
-                    model=self.model,
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": self.prefix},
-                                *rxn_msg,
-                                *img_msgs,
-                                {"type": "text", "text": self.suffix},
-                            ],
-                        },
-                    ],
-                )
-                responses.append(response.choices[0].message.content)
-        except Timeout as e:
-            logger.error(f"API Timeout: {e}")
-            return "<score>0</score>"
+            response = await router.acompletion(
+                model=self.model,
+                temperature=0.1,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": self.prefix,
+                            },
+                            *msgs,
+                            {"type": "text", "text": self.suffix.format(step=step)},
+                        ],
+                    },
+                ],
+            )
+            response = response.choices[0].message.content
+        except Exception as e:
+            logger.error(f"{e}")
+            response = "<score>-1</score>"
 
         current_call = get_current_call()
-        scores = [self._parse_score({"response": r}) for r in responses]
-        print(query, scores)
         return dict(
-            response=response.choices[0].message.content,
-            score=sum(scores) / len(scores),
-            query=query,
-            # url=current_call.ui_url,
+            response=response,
+            url=current_call.ui_url or "-",
         )
+
+    def make_msg_sequence(self, rxn: str, history: Optional[List[str]]):
+        msgs = [self._get_msg(rxn)]
+        if history is not None:
+            msgs.append(
+                {"type": "text", "text": self.intermed},
+            )
+            for i, s in enumerate(history):
+                msg = [
+                    {"type": "text", "text": f"Step #{i+1}:"},
+                    self._get_msg(s)
+                ]
+                msgs.extend(msg)
+        return msgs
+
+    def _get_msg(self, smi):
+        if self.vision:
+            inp = self._get_img_msg(smi)
+        else:
+            inp = self._get_txt_msg(smi)
+        return inp
+
+    def _get_txt_msg(self, smi):
+        """Get text message."""
+        return {"type": "text", "text": f"{smi}"}
+
+    def _get_img_msg(self, smi):
+        """Get image message."""
+
+        img = get_rxn_img(smi)
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        b64img = base64.b64encode(buffered.getvalue()).decode()
+        if b64img is None:
+            raise ValueError("Failed to retrieve the image.")
+
+        msg = {
+            "type": "image_url",
+            "image_url": {"url": f"data:image/png;base64,{b64img}"},
+        }
+        return msg
 
     @model_validator(mode="after")
     def load_prompts(self):
@@ -153,32 +149,12 @@ class LM(BaseModel):
 
 async def main():
     lm = LM(
-        prompt="steer.llm.prompts.alphamol",
+        prompt="steer.mechanism.prompts.alphamol_partial",
         model="claude-3-5-sonnet",
         project_name="steer-mechanism-test",
     )
 
     start_smiles = "C1CCCCC1=O.F"
-
-    list_smiles = [  # All legal ionization + attacks from cyclohexanone + HF
-        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C-]([H])[H]",
-        "[H][F].[H][C+]([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]([H])[H]",
-        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C-]([H])[H]",
-        "[H][F].[H][C+]([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C-]([H])[H]",
-        "[H][F].[H][C-]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C+]=[O]",
-        "[H][F].[H][C+]([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C-]=[O]",
-        "[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]",
-        "[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][F]",
-        "[H+].[H][F].[H][C-]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H-].[H][F].[H][C+]1[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H+].[H][F].[H][C-]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H-].[H][F].[H][C+]1[C]([H])([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H+].[H][F].[H][C-]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]",
-        "[H-].[H][F].[H][C+]1[C]([H])([H])[C]([H])([H])[C](=[O])[C]([H])([H])[C]1([H])[H]",
-        "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-    ]
-
     correct_path = [
         "C1CCCCC1=O.F",
         "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
@@ -187,15 +163,22 @@ async def main():
         "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
 
-    result = await lm.run(
-        [
-            f"{correct_path[i]}>>{correct_path[i+1]}"
-            for i in range(len(correct_path) - 1)
-        ],
-        query="Please give me a mechanism awoiding too strained cycles, or atoms of charges higher than 1 or -1.",
-        return_score=True,
-    )
-    print(result)
+    rxns = [
+        f"{correct_path[i]}>>{correct_path[i+1]}"
+        for i in range(len(correct_path) - 1)
+    ]
+
+    runs = []
+    for i, step in enumerate(correct_path[1:]):
+        result = lm.run(
+            rxn=f"{start_smiles}>>{correct_path[-1]}",
+            history=rxns[:i],
+            step=step,
+        )
+        runs.append(result)
+    
+    for result in await asyncio.gather(*runs):
+        logger.info(lm._parse_score(result))
     return result
 
 
