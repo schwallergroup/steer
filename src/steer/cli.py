@@ -134,8 +134,9 @@ def synth(ctx, model, vision):
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     prompt = "steer.llm.prompts.route_opt"
+    project = "steer-test"
     wandb.init(
-        project="steer-test",
+        project=project,
         config={
             "model": model,
             "vision": vision,
@@ -147,7 +148,7 @@ def synth(ctx, model, vision):
         prompt=prompt,
         model=model,
         vision=vision,
-        project_name="steer-test",
+        project_name=project,
     )
     tasks = load_default_tasks()
 
