@@ -2,10 +2,13 @@
 
 import os
 
+from dotenv import load_dotenv
 from litellm import Router
 
+load_dotenv()
+
 router = Router(
-    model_list = [
+    model_list=[
         {
             "model_name": "gpt-4o",  # model alias
             "litellm_params": {
@@ -32,6 +35,7 @@ router = Router(
             "litellm_params": {
                 "model": "claude-3-5-sonnet-20241022",  # actual model name
                 "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
             },
         },
         {
@@ -43,11 +47,12 @@ router = Router(
             },
         },
     ],
-    timeout=60,
-    num_retries=1,
-    retry_after=2,
+    # timeout=120,
+    num_retries=3,
+    retry_after=1,
     allowed_fails=1,
-    # cooldown_time=60,
+    cooldown_time=60,
+    # cache_responses=True
 )
 
 ######### For llama, images are passed diferently ###########

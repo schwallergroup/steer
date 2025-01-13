@@ -1,19 +1,19 @@
 """Evaluate a given reaction."""
 
-import weave
 import asyncio
 import base64
 import importlib
 import os
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 import pandas as pd
+import weave
 from dotenv import load_dotenv
 from pydantic import BaseModel, model_validator
 
 from steer.utils.rxnimg import get_rxn_img
 
-from .llms import router
+from .llm_router import router
 from .prompts import *
 
 
@@ -24,7 +24,7 @@ class Heuristic(BaseModel):
     prefix: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
-    cache: Dict | str = {}
+    cache: Dict = {}
     project_name: str = ""
 
     @weave.op()
@@ -32,7 +32,7 @@ class Heuristic(BaseModel):
         """Run the LLM."""
         load_dotenv()
         if smiles in self.cache:
-            return self.cache[smiles] 
+            return self.cache[smiles]
 
         b64img = get_rxn_img(smiles)
         if b64img is None:
@@ -56,7 +56,7 @@ class Heuristic(BaseModel):
                 },
             ],
         )
-    
+
         self.cache[smiles] = response.choices[0].message.content
         return response.choices[0].message.content
 
