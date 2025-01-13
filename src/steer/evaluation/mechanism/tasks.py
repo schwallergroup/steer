@@ -18,7 +18,7 @@ class Task(BaseModel):
         """data is a list of lists. list[0] is always correct one."""
         gt, lm = [], []
         for i, so in enumerate(self.step_options):
-            gt_scores = [10] + [0] * len(so)
+            gt_scores = [10.] + [0.] * len(so)
             lm_scores = data[i]
             gt.extend(gt_scores)
             lm.extend(lm_scores)
