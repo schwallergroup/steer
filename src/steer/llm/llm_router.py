@@ -24,6 +24,13 @@ router = Router(
             },
         },
         {
+            "model_name": "gpt-4-turbo",  # model alias
+            "litellm_params": {
+                "model": "openai/gpt-4-turbo",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+            },
+        },
+        {
             "model_name": "claude-3-5-sonnet",  # model alias
             "litellm_params": {
                 "model": "claude-3-5-sonnet-20241022",  # actual model name
