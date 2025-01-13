@@ -28,13 +28,29 @@
 
 <br>
 
+LLM-guided search of chemical instances
 
-Steerable retrosynthesis with LLM
 
 ## 🔥 Usage
 
-> TODO show in a very small amount of space the **MOST** useful thing your package can do.
-> Make it as short as possible! You have an entire set of docs for later.
+We handle 2 use-cases for the moment:
+
+
+### Retrosynthetic planning
+
+Run the synthesis reranking benchmark
+
+> steer synth all-task
+
+Run a single task
+
+> steer synth one-task
+
+### Mechanism finding
+
+Simple test of next step classification
+
+> steer mech sample
 
 
 ## 👩‍💻 Installation
