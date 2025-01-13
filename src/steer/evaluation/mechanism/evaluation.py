@@ -6,12 +6,17 @@ import os
 import numpy as np
 from tasks import load_default_tasks
 
+from typing import List
 from steer.logger import setup_logger
 
 logger = setup_logger(__name__)
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+def make_rxns(steps: List[str]):
+    if len(steps) < 2:
+        return []
+    return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps)-1)]
 
 async def run_task(task, lm):
     """Run a task and return the results.
@@ -19,10 +24,10 @@ async def run_task(task, lm):
 
     results = []
     for i, step in enumerate(task.steps[:-1]):
-        possible_moves = [step, *task.step_options[i]]
-        hist = task.steps[:i]
+        possible_moves = [task.steps[i+1], *task.step_options[i]]
+        hist = make_rxns(task.steps[:i+1])
         response = await asyncio.gather(*[
-            lm.run(rxn=task.rxn, history=hist, step=move)
+            lm.run(rxn=task.rxn, history=hist, step=make_rxns([task.steps[i], move])[0])
             for move in possible_moves
         ])
         scores = [lm._parse_score(result) for result in response]
