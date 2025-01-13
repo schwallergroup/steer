@@ -3,19 +3,34 @@ For a given synthetic route, define a score - this is query dependent."""
 
 from typing import Callable, List, Tuple
 
+from steer.logger import setup_logger
+
+logger = setup_logger(__name__)
+
 
 class BaseScoring:
     """Find out at which depth of the tree a condition is met."""
 
     def __call__(self, data) -> Tuple[List[float], List[float]]:  # type: ignore
-        """Evaluate the synthetic route."""
+        """Provide a score based on the depth at which the condition is met."""
+        cond_depth = [self.condition_depth(d["children"][0]) + 1 for d in data]
+        raw_sc = [x / self.route_length(d) for x, d in zip(cond_depth, data)]
+        score = [10 * self.route_scoring(x) for x in raw_sc]
+        lmscore = [d["lmdata"]["routescore"] for d in data]
+
+        # for i, (d, l) in enumerate(zip(cond_depth, lmscore)):
+        #     logger.debug(
+        #         f"Depth: {d}, LMScore: {l}, raw score: {raw_sc[i]}, target_depth: {score[i]}"
+        #     )
+        return score, lmscore
+
+    def hit_condition(self, d):  # type: ignore
+        "Define hit condition: define what we are looking for."
         pass
 
-    def depth_score(self, d):
-        return self.condition_depth(d["children"][0]) + 1
-
-    def hit_condition(self, d):
-        "Hit condition: define what we are looking for."
+    def route_scoring(self, x) -> float:  # type: ignore
+        """Define scoring function.
+        x: depth at which condition is met in route / length of route."""
         pass
 
     def condition_depth(self, d, i=0):
@@ -32,15 +47,27 @@ class BaseScoring:
 
     def route_length(self, data):
         """Find the length of the route."""
-        # length = [len(d['children']) for d in data]
-        # lmscore = [d['lmdata']['routescore'] for d in data]
-        pass
 
-    def where_condition_met(self, data, target_depth: Callable):
-        """Provide a score based on the depth at which the condition is met."""
-        depth = [self.depth_score(d) for d in data]
-        lmscore = [d["lmdata"]["routescore"] for d in data]
+        def dfs(d, curr_path):
+            """Depth first search to find all paths."""
+            if "children" in d:
+                if d["type"] == "reaction":
+                    curr_path.append(d["smiles"])
+                for c in d["children"]:
+                    yield from dfs(c, curr_path)
+            else:
+                yield curr_path
 
-        # For now let's say difference with target_depth is the score
-        score = [target_depth(d) for d in depth]
-        return score, lmscore
+        total_depth = [len(p) for p in dfs(data, [])]
+        return max(total_depth)
+
+
+if __name__ == "__main__":
+    import json
+
+    with open("../../../data/aizynth_output.json", "r") as f:
+        data = json.load(f)
+
+    bs = BaseScoring()
+    for d in data:
+        print(bs.route_length(d))

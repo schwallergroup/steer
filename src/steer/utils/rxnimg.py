@@ -6,7 +6,7 @@ import requests
 from PIL import Image
 
 
-def get_rxn_img(smiles) -> str | None:
+def get_rxn_img(smiles) -> Image.Image | None:
 
     # The URL for the GET request
     url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
