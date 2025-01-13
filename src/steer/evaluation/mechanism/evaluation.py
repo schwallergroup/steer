@@ -2,21 +2,23 @@
 
 import json
 import os
+from typing import List
 
 import numpy as np
 from tasks import load_default_tasks
 
-from typing import List
 from steer.logger import setup_logger
 
 logger = setup_logger(__name__)
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 def make_rxns(steps: List[str]):
     if len(steps) < 2:
         return []
-    return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps)-1)]
+    return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
+
 
 async def run_task(task, lm):
     """Run a task and return the results.
@@ -24,12 +26,18 @@ async def run_task(task, lm):
 
     results = []
     for i, step in enumerate(task.steps[:-1]):
-        possible_moves = [task.steps[i+1], *task.step_options[i]]
-        hist = make_rxns(task.steps[:i+1])
-        response = await asyncio.gather(*[
-            lm.run(rxn=task.rxn, history=hist, step=make_rxns([task.steps[i], move])[0])
-            for move in possible_moves
-        ])
+        possible_moves = [task.steps[i + 1], *task.step_options[i]]
+        hist = make_rxns(task.steps[: i + 1])
+        response = await asyncio.gather(
+            *[
+                lm.run(
+                    rxn=task.rxn,
+                    history=hist,
+                    step=make_rxns([task.steps[i], move])[0],
+                )
+                for move in possible_moves
+            ]
+        )
         scores = [lm._parse_score(result) for result in response]
         results.append(scores)
     return results
@@ -37,6 +45,7 @@ async def run_task(task, lm):
 
 async def main():
     from steer.mechanism.sequential import LM
+
     scorer = LM(
         prompt="steer.mechanism.prompts.alphamol_partial",
         model="claude-3-5-sonnet",
@@ -54,7 +63,7 @@ async def main():
         logger.debug(f"Correlation: {corr}")
 
 
-
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(main())

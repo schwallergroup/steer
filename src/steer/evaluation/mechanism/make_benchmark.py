@@ -156,7 +156,8 @@ def get_task(task, n=10):
         "rxn": task[0] + ">>" + task[-1],
         "steps": task,
         "step_options": [
-            get_moves(task[i], task[i+1], n=n) for i in range(0, len(task) - 1)
+            get_moves(task[i], task[i + 1], n=n)
+            for i in range(0, len(task) - 1)
         ],
     }
 

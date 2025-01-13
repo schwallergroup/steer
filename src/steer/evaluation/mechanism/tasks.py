@@ -4,12 +4,14 @@ This benchmark tests how good is an LLM at selecting the correct next step."""
 import json
 import os
 from typing import Callable, List, Literal, Optional, Tuple
-import numpy as np
-from steer.logger import setup_logger
 
+import numpy as np
 from pydantic import BaseModel, Field, model_validator
 
+from steer.logger import setup_logger
+
 logger = setup_logger(__name__)
+
 
 class Task(BaseModel):
     id: str
@@ -21,7 +23,7 @@ class Task(BaseModel):
         """data is a list of lists. list[0] is always correct one."""
         gt, lm = [], []
         for i, so in enumerate(self.step_options):
-            gt_scores = [10.] + [0.] * len(so)
+            gt_scores = [10.0] + [0.0] * len(so)
             lm_scores = data[i]
             gt.extend(gt_scores)
             lm.extend(lm_scores)

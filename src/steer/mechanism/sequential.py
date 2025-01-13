@@ -7,6 +7,7 @@ import os
 from io import BytesIO
 from typing import Any, Dict, List, Optional
 
+import numpy as np
 import pandas as pd
 import weave
 from dotenv import load_dotenv
@@ -19,8 +20,6 @@ from steer.llm.llm_router import router
 from steer.llm.prompts import *
 from steer.logger import setup_logger
 from steer.utils.rxnimg import get_manual_rxn_img, get_rxn_img
-
-import numpy as np
 
 logger = setup_logger(__name__)
 
@@ -36,7 +35,13 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(self, rxn:str, step: str, history: Optional[List[str]]=None, task: Any=None):
+    async def run(
+        self,
+        rxn: str,
+        step: str,
+        history: Optional[List[str]] = None,
+        task: Any = None,
+    ):
         """Get smiles and run LLM."""
 
         if self.model == "random":
@@ -46,7 +51,9 @@ class LM(BaseModel):
             )
         else:
             msgs = self.make_msg_sequence(rxn, history)
-            response = await self._run_llm(msgs, step, taskid=task.id if task else "")
+            response = await self._run_llm(
+                msgs, step, taskid=task.id if task else ""
+            )
         return response
 
     @weave.op()
@@ -64,7 +71,10 @@ class LM(BaseModel):
                                 "text": self.prefix,
                             },
                             *msgs,
-                            {"type": "text", "text": self.suffix.format(step=step)},
+                            {
+                                "type": "text",
+                                "text": self.suffix.format(step=step),
+                            },
                         ],
                     },
                 ],
@@ -89,7 +99,7 @@ class LM(BaseModel):
             for i, s in enumerate(history):
                 msg = [
                     {"type": "text", "text": f"Step #{i+1}:"},
-                    self._get_msg(s)
+                    self._get_msg(s),
                 ]
                 msgs.extend(msg)
         return msgs
@@ -176,7 +186,7 @@ async def main():
             step=step,
         )
         runs.append(result)
-    
+
     for result in await asyncio.gather(*runs):
         logger.info(lm._parse_score(result))
     return result
