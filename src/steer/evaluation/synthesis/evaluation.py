@@ -1,6 +1,5 @@
 """Run evaluation script."""
 
-# Benchmark stats
 import json
 import os
 

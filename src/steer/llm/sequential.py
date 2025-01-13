@@ -41,7 +41,10 @@ class LM(BaseModel):
         """Get smiles and run LLM."""
 
         if self.model == "random":
-            response = dict(response=f"<score>{np.random.choice(np.arange(1,11))}</score>", url="")
+            response = dict(
+                response=f"<score>{np.random.choice(np.arange(1,11))}</score>",
+                url="",
+            )
         else:
             rxn_msgs = self.make_msg_sequence(tree)
             response = await self._run_llm(rxn_msgs, query, taskid=task.id)
