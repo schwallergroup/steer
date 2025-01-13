@@ -13,7 +13,7 @@ from pydantic import BaseModel, model_validator
 
 from steer.utils.rxnimg import get_rxn_img
 
-from .llms import router
+from .llm_router import router
 from .prompts import *
 
 

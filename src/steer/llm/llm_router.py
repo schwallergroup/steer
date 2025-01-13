@@ -41,10 +41,10 @@ router = Router(
         },
     ],
     # timeout=120,
-    # num_retries=1,
+    num_retries=3,
     retry_after=1,
     allowed_fails=1,
-    # cooldown_time=60,
+    cooldown_time=60,
     # cache_responses=True
 )
 

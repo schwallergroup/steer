@@ -17,11 +17,6 @@ class BaseScoring:
         raw_sc = [x / self.route_length(d) for x, d in zip(cond_depth, data)]
         score = [10 * self.route_scoring(x) for x in raw_sc]
         lmscore = [d["lmdata"]["routescore"] for d in data]
-
-        # for i, (d, l) in enumerate(zip(cond_depth, lmscore)):
-        #     logger.debug(
-        #         f"Depth: {d}, LMScore: {l}, raw score: {raw_sc[i]}, target_depth: {score[i]}"
-        #     )
         return score, lmscore
 
     def hit_condition(self, d):  # type: ignore

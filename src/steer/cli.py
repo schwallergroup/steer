@@ -23,7 +23,7 @@ from typing import List
 from aizynthfinder.analysis.routes import RouteCollection
 from aizynthfinder.reactiontree import ReactionTree
 
-from steer.evaluation import get_latest_file, load_default_tasks
+from steer.evaluation.sequential import get_latest_file, load_default_tasks
 
 dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
 PREMADE_PATH = "data/fullroute_no_feasibility"
@@ -98,23 +98,24 @@ def main():
 
 @main.command()
 def run():
-    from steer.llm.fullroute import main
+    from steer.llm.sequential import main
 
     asyncio.run(main())
 
 
 @main.command()
 @click.option("--model", default="gpt-4o", help="Model to use")
-@click.option("--vision", default=True, help="Pass reactions as images")
+@click.option("--vision", default=False, help="Pass reactions as images")
 @click.option("--ncluster", default=0, help="Cluster routes")
 def all_tasks(model, vision, ncluster):
 
     import wandb
-    from steer.llm.fullroute import LM
+    from steer.llm.sequential import LM
 
-    prompt = "steer.llm.prompts.fullroute_no_feasibility"
+    prompt = "steer.llm.prompts.route_opt"
+    project = "steer-test"
     wandb.init(
-        project="steer-test",
+        project=project,
         config={
             "model": model,
             "vision": vision,
@@ -127,7 +128,7 @@ def all_tasks(model, vision, ncluster):
         prompt=prompt,
         model=model,
         vision=vision,
-        # project_name="steer-test",
+        project_name=project,
     )
 
     metrics = {

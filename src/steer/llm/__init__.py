@@ -1,4 +1,4 @@
 """Main LLM calling module."""
 
-from .assess import Heuristic
+from .onestep import Heuristic
 from .prompts import *
