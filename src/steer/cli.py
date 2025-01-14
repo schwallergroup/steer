@@ -74,8 +74,8 @@ def bench(ctx):
 def synth(ctx, model, vision):
     """CLI for steer."""
     import wandb
-    from steer.llm.sequential import LM
     from steer.evaluation.synthesis import load_default_tasks
+    from steer.llm.sequential import LM
 
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     CACHE_PATH = "data/synth_bench"
