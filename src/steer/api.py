@@ -21,7 +21,6 @@ from steer.logger import setup_logger
 logger = setup_logger(__name__)
 
 
-
 # Load some sample routes
 def cluster_routes(data: List[dict], nclusters=10):
     routes = [ReactionTree.from_dict(d) for d in data]
