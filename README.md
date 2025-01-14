@@ -48,9 +48,9 @@ Run a single task
 
 ### Mechanism finding
 
-Simple test of next step classification
+Run benchmark on step-by-step selection
 
-> steer mech sample
+> steer mech bench
 
 
 ## 👩‍💻 Installation

@@ -21,23 +21,6 @@ from steer.logger import setup_logger
 logger = setup_logger(__name__)
 
 
-async def run_amol(
-    rxn: str, mechanisms: List[List[str]], lm  # List of mechanisms
-):
-    results = await asyncio.gather(
-        *[lm.run(rxn, m, return_score=True) for m in mechanisms]
-    )
-    return results
-
-
-def eval_path(rxn, seq, lm):
-    smi_list = [f"{seq[i]}>>{seq[i+1]}" for i in range(len(seq) - 1)]
-    list1 = [smi_list[: i + 1] for i in range(len(smi_list))]
-    result = asyncio.run(run_amol(rxn, list1, lm))
-    for i, r in enumerate(result):
-        logger.debug(f"Path {i+1}: {r}, len: {len(list1[i])}")
-    return result
-
 
 # Load some sample routes
 def cluster_routes(data: List[dict], nclusters=10):
