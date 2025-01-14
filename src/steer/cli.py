@@ -90,6 +90,7 @@ def synth(ctx, model, vision):
             "model": model,
             "vision": vision,
             "prompt": prompt,
+            "results_dir": RESULTS_DIR,
         },
     )
 
@@ -156,7 +157,6 @@ def all_task(ctx):
         "Corr": 0,
     }
 
-    tasks = load_default_tasks()
     for i, task in enumerate(tasks):
         routes = run_task(
             lm,
