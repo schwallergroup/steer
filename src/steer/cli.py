@@ -78,7 +78,7 @@ def synth(ctx, model, vision):
     from steer.evaluation.synthesis import load_default_tasks
 
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    CACHE_PATH = "data/fullroute_no_feasibility"
+    CACHE_PATH = "data/synth_bench"
     RESULTS_DIR = f"data/{dt_name}"
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
