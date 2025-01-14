@@ -15,7 +15,7 @@ import numpy as np
 from aizynthfinder.analysis.routes import RouteCollection
 from aizynthfinder.reactiontree import ReactionTree
 
-# from steer.evaluation.sequential import get_latest_file, load_default_tasks
+from steer.evaluation.synthesis import get_latest_file
 from steer.logger import setup_logger
 
 logger = setup_logger(__name__)
