@@ -2,8 +2,9 @@
 
 from rdkit import Chem
 
-from .base import BaseScoring
 from steer.logger import setup_logger
+
+from .base import BaseScoring
 
 logger = setup_logger(__name__)
 
@@ -57,5 +58,5 @@ if __name__ == "__main__":
     )
     a, b = bs(data)
     for i, l in enumerate(a):
-        if i==7:
+        if i == 7:
             print(l, b[i])

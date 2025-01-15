@@ -11,15 +11,17 @@ from typing import List
 import click
 import numpy as np
 
+from steer.evaluation import synthesis
 from steer.logger import setup_logger
-
-from .api import *
 
 __all__ = [
     "main",
 ]
 
 logger = setup_logger(__name__)
+
+
+# Mechanisms
 
 
 @click.group()
@@ -64,6 +66,9 @@ def bench(ctx):
             project_name=project,
         )
     )
+
+
+# Synthesis
 
 
 @click.group()
@@ -113,19 +118,24 @@ def synth(ctx, model, vision):
 
 
 @synth.command()
-@click.option("--task", default="", help="Task id to run")
 @click.pass_context
-def one_task(ctx, task):
-    """Run one example of synthesis re-ranking."""
+@click.option("--task", default=None, help="Task id to run")
+def bench(ctx, task):
+    """Run all tasks in benchmark."""
     lm = ctx.obj["lm"]
     tasks = ctx.obj["tasks"]
     wandb = ctx.obj["wandb"]
 
+    metrics = {
+        "MAE": 0,
+        "Corr": 0,
+    }
+
     for i, t in enumerate(tasks):
-        if t.id != task:
+        if task is not None and t.id != task:
             continue
 
-        routes = run_task(
+        routes = synthesis.run_task(
             lm,
             t,
             n=200,
@@ -139,44 +149,11 @@ def one_task(ctx, task):
         # Evaluate
         gt_score, lmscore = t.evaluate(routes)
 
-        mae_val = mae(gt_score, lmscore)
-        cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
-        wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
-
-
-@synth.command()
-@click.pass_context
-def all_task(ctx):
-    """Run all tasks in benchmark."""
-    lm = ctx.obj["lm"]
-    tasks = ctx.obj["tasks"]
-    wandb = ctx.obj["wandb"]
-
-    metrics = {
-        "MAE": 0,
-        "Corr": 0,
-    }
-
-    for i, task in enumerate(tasks):
-        routes = run_task(
-            lm,
-            task,
-            n=200,
-            nclusters=0,
-            cache_path=ctx.obj["cache_path"],
-            results_path=ctx.obj["results_dir"],
-        )
-        if routes is None:
-            continue
-
-        # Evaluate
-        gt_score, lmscore = task.evaluate(routes)
-
-        mae_val = mae(gt_score, lmscore)
+        mae_val = synthesis.mae(gt_score, lmscore)
         cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
         metrics["MAE"] += mae_val
         metrics["Corr"] += cor_val
-        wandb.log({f"mae_{task.id}": mae_val, f"corr_{task.id}": cor_val})
+        wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
         sleep(2)
 
     wandb.log(
@@ -185,7 +162,6 @@ def all_task(ctx):
             "mean_corr": metrics["Corr"] / len(tasks),
         }
     )
-
     wandb.finish()
 
 
