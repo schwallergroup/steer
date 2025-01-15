@@ -1,14 +1,15 @@
 """Search algorithm for finding mechanism."""
 
-from rdkit import Chem, RDLogger
+from typing import Any, List
+
 import numpy as np
 import requests
 from pydantic import BaseModel
-from typing import Any, List
+from rdkit import Chem, RDLogger
+
 from steer.logger import setup_logger
 
-
-RDLogger.DisableLog('rdApp.*') 
+RDLogger.DisableLog("rdApp.*")
 
 logger = setup_logger()
 
@@ -17,6 +18,7 @@ def softmax(x):
     """Compute softmax values for each sets of scores in x."""
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
+
 
 class MechanismSearch(BaseModel):
     policy: Any
@@ -46,7 +48,6 @@ class MechanismSearch(BaseModel):
         if not solutions:
             logger.info("No solution found.")
 
-
     def step(self, rxn: str, history: List[str]):
         """Take the next step for one trajectory."""
 
@@ -59,7 +60,12 @@ class MechanismSearch(BaseModel):
         ps = softmax(values)
 
         # Sample some moves, return index
-        idx = np.random.choice(np.arange(len(moves)), min(self.beam_size, len(ps)), replace=False, p=ps)
+        idx = np.random.choice(
+            np.arange(len(moves)),
+            min(self.beam_size, len(ps)),
+            replace=False,
+            p=ps,
+        )
         vals = [values[i] for i in idx]
         mvs = [moves[i] for i in idx]
         new_paths = [[*history, m] for m in mvs]
@@ -88,19 +94,18 @@ class MechanismSearch(BaseModel):
         except:
             return response
 
+
 class RandomPolicy(BaseModel):
     def __call__(self, rxn: str, history: List[str], moves: List[str]):
         return np.random.choice(np.arange(10), len(moves))
 
+
 def format_path(path):
     return ">>".join(path)
 
+
 if __name__ == "__main__":
     rp = RandomPolicy()
-    ms = MechanismSearch(
-        policy=rp,
-        max_steps=4,
-        beam_size=10
-    )
+    ms = MechanismSearch(policy=rp, max_steps=4, beam_size=10)
     for path in ms.search("CC=O.Cl>>CC(Cl)O"):
         logger.info(format_path(path))
