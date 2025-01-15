@@ -93,13 +93,14 @@ def mae(gt, lm):
 
 
 if __name__ == "__main__":
-    tasks = load_default_tasks(path)
-    mean_metric = 0
-    for task in tasks:
-        result = run_task(task)
-        if result is not None:
-            # logger.info(f"{task.id}: {result[0]}, {result[1]}")
-            metric_val = mae(result[0], result[1])
-            logger.debug(f"Metric: {metric_val}")
-            mean_metric += metric_val
-    logger.info(f"Mean Metric: {mean_metric / len(tasks)}")
+    pass
+    # tasks = load_default_tasks(path)
+    # mean_metric = 0
+    # for task in tasks:
+    #     result = run_task(task)
+    #     if result is not None:
+    #         # logger.info(f"{task.id}: {result[0]}, {result[1]}")
+    #         metric_val = mae(result[0], result[1])
+    #         logger.debug(f"Metric: {metric_val}")
+    #         mean_metric += metric_val
+    # logger.info(f"Mean Metric: {mean_metric / len(tasks)}")

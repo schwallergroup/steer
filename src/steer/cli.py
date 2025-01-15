@@ -38,9 +38,9 @@ def mech(ctx, model, vision):
     ctx.obj["vision"] = vision
 
 
-@mech.command()
+@mech.command() # type: ignore
 @click.pass_context
-def bench(ctx):
+def bench(ctx):  # type: ignore
     """Run benchmar."""
     import wandb
     from steer.evaluation.mechanism.evaluation import main
@@ -117,7 +117,7 @@ def synth(ctx, model, vision):
     ctx.obj["wandb"] = wandb
 
 
-@synth.command()
+@synth.command()  # type: ignore
 @click.pass_context
 @click.option("--task", default=None, help="Task id to run")
 def bench(ctx, task):

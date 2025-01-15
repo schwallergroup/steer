@@ -1,6 +1,5 @@
 """Run evaluation script."""
 
-import wandb
 import asyncio
 import json
 import os
@@ -8,6 +7,7 @@ from typing import List
 
 import numpy as np
 
+import wandb
 from steer.logger import setup_logger
 
 from .tasks import load_default_tasks
@@ -70,11 +70,13 @@ async def main(
         gt, lm = task.evaluate(results)
         corr = np.corrcoef(gt, lm)[0, 1]
         logger.debug(f"Correlation: {corr}")
-        wandb.log({
-            f"task_{task.id}": results,
-            f"gt_steps_{task.id}": task.steps,
-            f"wrong_steps_{task.id}": task.step_options,
-        })
+        wandb.log(
+            {
+                f"task_{task.id}": results,
+                f"gt_steps_{task.id}": task.steps,
+                f"wrong_steps_{task.id}": task.step_options,
+            }
+        )
 
 
 if __name__ == "__main__":
