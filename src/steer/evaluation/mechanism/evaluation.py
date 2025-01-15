@@ -1,5 +1,6 @@
 """Run evaluation script."""
 
+import wandb
 import asyncio
 import json
 import os
@@ -69,6 +70,11 @@ async def main(
         gt, lm = task.evaluate(results)
         corr = np.corrcoef(gt, lm)[0, 1]
         logger.debug(f"Correlation: {corr}")
+        wandb.log({
+            f"task_{task.id}": results,
+            f"gt_steps_{task.id}": task.steps,
+            f"wrong_steps_{task.id}": task.step_options,
+        })
 
 
 if __name__ == "__main__":

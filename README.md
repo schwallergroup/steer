@@ -40,17 +40,17 @@ We handle 2 use-cases for the moment:
 
 Run the synthesis reranking benchmark
 
-> steer synth all-task
+> steer synth --model=claude-3-5-sonnet bench
 
 Run a single task
 
-> steer synth one-task
+> steer synth --model=claude-3-5-sonnet bench --task=ea8df340d54596eda93e23f04dff3a9b
 
 ### Mechanism finding
 
 Run benchmark on step-by-step selection
 
-> steer mech bench
+> steer mech --model=claude-3-5-sonnet bench
 
 
 ## 👩‍💻 Installation
