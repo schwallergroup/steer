@@ -5,7 +5,13 @@ import json
 import os
 from typing import Callable, List, Literal, Optional, Tuple
 
+import numpy as np
 from pydantic import BaseModel, Field, model_validator
+
+import wandb
+from steer.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 
 class Task(BaseModel):
@@ -18,10 +24,14 @@ class Task(BaseModel):
         """data is a list of lists. list[0] is always correct one."""
         gt, lm = [], []
         for i, so in enumerate(self.step_options):
-            gt_scores = [10.] + [0.] * len(so)
+            gt_scores = [10.0] + [0.0] * len(so)
             lm_scores = data[i]
             gt.extend(gt_scores)
             lm.extend(lm_scores)
+
+            corr = np.corrcoef(gt_scores, lm_scores)[0, 1]
+            wandb.log({f"corr_{self.id}_{i}": corr})  # type: ignore
+            logger.debug(f"r: {corr:.4f}. Depth: {i}")
         return gt, lm
 
     @classmethod

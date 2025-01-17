@@ -30,15 +30,16 @@ class BaseScoring:
 
     def condition_depth(self, d, i=0):
         """bfs search for reaction that matches hit condition."""
+        negative = -2
         if self.hit_condition(d):
             return i
         if "children" in d:
             for c in d["children"]:
                 if "children" in c:
                     a = self.condition_depth(c["children"][0], i + 1)
-                    if a != -1:
+                    if a != negative:
                         return a
-        return -2
+        return negative
 
     def route_length(self, data):
         """Find the length of the route."""
