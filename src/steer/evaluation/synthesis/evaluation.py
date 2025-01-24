@@ -6,9 +6,6 @@ import os
 from typing import List
 
 import numpy as np
-from aizynthfinder.analysis.routes import RouteCollection
-from aizynthfinder.reactiontree import ReactionTree
-
 from steer.logger import setup_logger
 
 from .eval_types import *
@@ -36,16 +33,19 @@ def get_latest_file(path, fid):
 
 
 # Load some sample routes
-def cluster_routes(data: List[dict], nclusters=10):
-    routes = [ReactionTree.from_dict(d) for d in data]
-    rc = RouteCollection(routes)
-    index_map = rc.cluster(
-        n_clusters=nclusters,
-        distances_model="lstm",
-        model_path="data/models/chembl_10k_route_distance_model.ckpt",
-    )
-    rts = [rc.clusters[i][0] for i in range(nclusters)]
-    return rts, index_map
+# def cluster_routes(data: List[dict], nclusters=10):
+#     from synthegy.analysis.routes import RouteCollection
+#     from synthegy.reactiontree import ReactionTree
+
+#     routes = [ReactionTree.from_dict(d) for d in data]
+#     rc = RouteCollection(routes)
+#     index_map = rc.cluster(
+#         n_clusters=nclusters,
+#         distances_model="lstm",
+#         model_path="data/models/chembl_10k_route_distance_model.ckpt",
+#     )
+#     rts = [rc.clusters[i][0] for i in range(nclusters)]
+#     return rts, index_map
 
 
 def run_task(
@@ -65,20 +65,20 @@ def run_task(
     with open(route, "r") as f:
         data = json.load(f)
 
-    if nclusters:
-        rts, index_map = cluster_routes(data, nclusters=nclusters)
-        routes = [rt["reaction_tree"].to_dict() for rt in rts]
-        routes = asyncio.run(
-            lm.run_single_task(task, routes, nroutes=nclusters)
-        )
+    # if nclusters:
+    #     rts, index_map = cluster_routes(data, nclusters=nclusters)
+    #     routes = [rt["reaction_tree"].to_dict() for rt in rts]
+    #     routes = asyncio.run(
+    #         lm.run_single_task(task, routes, nroutes=nclusters)
+    #     )
 
-        # Map back to original indices
-        for i, r in enumerate(data):
-            data[i]["lmdata"] = routes[index_map[i]]["lmdata"]
-        routes = data
+    #     # Map back to original indices
+    #     for i, r in enumerate(data):
+    #         data[i]["lmdata"] = routes[index_map[i]]["lmdata"]
+    #     routes = data
 
-    else:
-        routes = asyncio.run(lm.run_single_task(task, data, nroutes=n))
+    # else:
+    routes = asyncio.run(lm.run_single_task(task, data, nroutes=n))
 
     fname = os.path.join(results_path, f"{task.id}.json")
     with open(fname, "w") as f:
