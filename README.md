@@ -8,7 +8,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <p align="center">
-  <img src="./assets/overview.png" alt="Overview of LLMs as chemical reasoning engines" width="800"/>
+  <img src="./assets/overview.png" alt="Overview of LLMs as chemical reasoning engines" width="1800"/>
 </p>
 
 
