@@ -1,4 +1,4 @@
-<br>
+# Chemical Reasoning in LLMs for Synthesis Planning and Mechanism Elucidation
 
 [![tests](https://github.com/schwallergroup/steer/actions/workflows/tests.yml/badge.svg)](https://github.com/schwallergroup/steer)
 [![DOI:10.1101/2020.07.15.204701](https://zenodo.org/badge/DOI/10.48550/arXiv.2304.05376.svg)](https://doi.org/10.48550/arXiv.2304.05376)
@@ -6,141 +6,134 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/steer)](https://img.shields.io/pypi/pyversions/steer)
 [![Documentation Status](https://readthedocs.org/projects/steer/badge/?version=latest)](https://steer.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Cookiecutter template from @SchwallerGroup](https://img.shields.io/badge/Cookiecutter-schwallergroup-blue)](https://github.com/schwallergroup/liac-repo)
-[![Learn more @SchwallerGroup](https://img.shields.io/badge/Learn%20%0Amore-schwallergroup-blue)](https://schwallergroup.github.io)
+
+<p align="center">
+  <img src="./assets/overview.png" alt="Overview of LLMs as chemical reasoning engines" width="800"/>
+</p>
 
 
+## Overview
 
-<h1 align="center">
-  steer
-</h1>
+This repository contains the implementation of a novel framework that leverages LLMs as chemical reasoning engines to guide traditional search algorithms in chemistry. Our approach demonstrates how LLMs can be effectively used for:
 
-LLM-guided search of chemical instances
+1. **Strategy-aware Retrosynthetic Planning**: Enable chemists to specify desired synthetic strategies in natural language and find routes that satisfy these constraints.
+2. **Mechanism Elucidation**: Guide the search for plausible reaction mechanisms by combining chemical principles with systematic exploration.
 
-<br>
+## Key Features
 
+- 🧪 Natural language specification of synthetic strategies
+- 🔍 LLM-guided search through chemical space
+- 📊 Benchmark datasets for both synthesis planning and mechanism elucidation
+- 🤖 Support for multiple LLM providers (Claude, GPT-4, DeepSeek)
 
-## 🔥 Usage
-
-Steer provides modules for ranking intermediate states of search algorithms in chemistry.
-We support two applications: steerable synthesis planning and mechanistic elucidation.
-
-### Retrosynthetic planning
-
-Run the synthesis reranking benchmark
-
-> steer synth --model=claude-3-5-sonnet bench
-
-Run a single task
-
-> steer synth --model=claude-3-5-sonnet bench --task=ea8df340d54596eda93e23f04dff3a9b
-
-### Mechanism finding
-
-Run benchmark on step-by-step selection
-
-> steer mech --model=claude-3-5-sonnet bench
-
-
-## 👩‍💻 Installation
-
-<!-- Uncomment this section after your first ``tox -e finish``
-The most recent release can be installed from
-[PyPI](https://pypi.org/project/steer/) with:
-
-```shell
-$ pip install steer
-```
--->
-
-The most recent code and data can be installed directly from GitHub with:
+## Installation
 
 ```bash
-$ pip install git+https://github.com/schwallergroup/steer.git
+# Install from PyPI (TBD)
+pip install steer
+
+# Install from source
+pip install git+https://github.com/schwallergroup/steer.git
 ```
 
-## ✅ Citation
+## Quick Start
+
+### Steerable Synthesis Planning
+
+```bash
+# Run the complete synthesis benchmark
+steer synth --model=claude-3-5-sonnet bench
+
+# Run a single task
+steer synth --model=claude-3-5-sonnet bench --task=ea8df340d54596eda93e23f04dff3a9b
+```
+
+### Mechanism Finding
+
+```bash
+# Run mechanism elucidation benchmark
+steer mech --model=claude-3-5-sonnet bench
+```
+
+## Benchmarks
+
+The repository includes two main benchmarks:
+
+### Synthesis Planning Benchmark
+- Multiple target molecules of varying complexity
+- Strategic constraints specified in natural language
+- Evaluation metrics for route-to-prompt alignment
+
+### Mechanism Elucidation Benchmark
+- 12 diverse organic reactions
+- Ground truth mechanisms with elementary steps
+- Performance metrics for mechanism prediction
+
+## Documentation
+
+Detailed documentation is available at [steer.readthedocs.io](https://steer.readthedocs.io/)
+
+## Citation
+
+If you use this work in your research, please cite:
 
 ```bibtex
-
-
-@Misc{liac_steer,
-  author = {Andres M Bran, Theo A Neukomm, Daniel Armstrong, Zlatko Joncev, Philippe Schwaller},
-  title = { steer - Steerable retrosynthesis with LLM },
-  howpublished = {Github},
-  year = {2025},
-  url = {https://github.com/schwallergroup/steer }
+@article{bran2025chemical,
+  title={Chemical reasoning in LLMs unlocks steerable synthesis planning and reaction mechanism elucidation},
+  author={Bran, Andres M and Neukomm, Théo A and Armstrong, Daniel and Jončev, Zlatko and Schwaller, Philippe},
+  journal={},
+  year={2025}
 }
 ```
 
-
-## 🛠️ For Developers
+## Development
 
 <details>
-  <summary>See developer instructions</summary>
+<summary>Click to expand development instructions</summary>
 
-
-### 👐 Contributing
-
-Contributions, whether filing an issue, making a pull request, or forking, are appreciated. See
-[CONTRIBUTING.md](https://github.com/schwallergroup/steer/blob/master/.github/CONTRIBUTING.md) for more information on getting involved.
-
-
-### Development Installation
-
-To install in development mode, use the following:
+### Setup Development Environment
 
 ```bash
-$ git clone git+https://github.com/schwallergroup/steer.git
-$ cd steer
-$ pip install -e .
+git clone https://github.com/schwallergroup/steer.git
+cd steer
+pip install -e .
 ```
 
-### 🥼 Testing
+### Running Tests
 
-After cloning the repository and installing `tox` with `pip install tox`, the unit tests in the `tests/` folder can be
-run reproducibly with:
-
-```shell
-$ tox
+```bash
+pip install tox
+tox
 ```
 
-Additionally, these tests are automatically re-run with each commit in a [GitHub Action](https://github.com/schwallergroup/steer/actions?query=workflow%3ATests).
+### Building Documentation
 
-### 📖 Building the Documentation
-
-The documentation can be built locally using the following:
-
-```shell
-$ git clone git+https://github.com/schwallergroup/steer.git
-$ cd steer
-$ tox -e docs
-$ open docs/build/html/index.html
+```bash
+tox -e docs
 ```
 
-The documentation automatically installs the package as well as the `docs`
-extra specified in the [`setup.cfg`](setup.cfg). `sphinx` plugins
-like `texext` can be added there. Additionally, they need to be added to the
-`extensions` list in [`docs/source/conf.py`](docs/source/conf.py).
+### Making a Release
 
-### 📦 Making a Release
-
-After installing the package in development mode and installing
-`tox` with `pip install tox`, the commands for making a new release are contained within the `finish` environment
-in `tox.ini`. Run the following from the shell:
-
-```shell
-$ tox -e finish
+```bash
+tox -e finish
 ```
 
-This script does the following:
-
-1. Uses [Bump2Version](https://github.com/c4urself/bump2version) to switch the version number in the `setup.cfg`,
-   `src/steer/version.py`, and [`docs/source/conf.py`](docs/source/conf.py) to not have the `-dev` suffix
-2. Packages the code in both a tar archive and a wheel using [`build`](https://github.com/pypa/build)
-3. Uploads to PyPI using [`twine`](https://github.com/pypa/twine). Be sure to have a `.pypirc` file configured to avoid the need for manual input at this
-   step
-4. Push to GitHub. You'll need to make a release going with the commit where the version was bumped.
-5. Bump the version to the next patch. If you made big changes and want to bump the version by minor, you can
-   use `tox -e bumpversion -- minor` after.
 </details>
+
+## License
+
+[MIT License](LICENSE)
+
+## Contributors
+
+- Andres M Bran
+- Théo A. Neukomm
+- Daniel Armstrong
+- Zlatko Jončev
+- Philippe Schwaller
+
+## Contact
+
+For questions and feedback:
+📧 Email: andres.marulandabran@epfl.ch, philippe.schwaller@epfl.ch
+🌐 [Schwaller Group Website](https://schwallergroup.github.io)
