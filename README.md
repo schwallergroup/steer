@@ -1,12 +1,3 @@
-
-
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/repo_logo_dark.png" width='100%'>
-  <source media="(prefers-color-scheme: light)" srcset="./assets/repo_logo_light.png" width='100%'>
-  <img alt="Project logo" src="/assets/" width="100%">
-</picture>
-
 <br>
 
 [![tests](https://github.com/schwallergroup/steer/actions/workflows/tests.yml/badge.svg)](https://github.com/schwallergroup/steer)
@@ -20,37 +11,35 @@
 
 
 
-
 <h1 align="center">
   steer
 </h1>
 
+LLM-guided search of chemical instances
 
 <br>
-
-LLM-guided search of chemical instances
 
 
 ## 🔥 Usage
 
-We handle 2 use-cases for the moment:
-
+Steer provides modules for ranking intermediate states of search algorithms in chemistry.
+We support two applications: steerable synthesis planning and mechanistic elucidation.
 
 ### Retrosynthetic planning
 
 Run the synthesis reranking benchmark
 
-> steer synth all-task
+> steer synth --model=claude-3-5-sonnet bench
 
 Run a single task
 
-> steer synth one-task
+> steer synth --model=claude-3-5-sonnet bench --task=ea8df340d54596eda93e23f04dff3a9b
 
 ### Mechanism finding
 
-Simple test of next step classification
+Run benchmark on step-by-step selection
 
-> steer mech sample
+> steer mech --model=claude-3-5-sonnet bench
 
 
 ## 👩‍💻 Installation
@@ -72,24 +61,14 @@ $ pip install git+https://github.com/schwallergroup/steer.git
 
 ## ✅ Citation
 
-Philippe Schwaller et al. "Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction". ACS Central Science 2019 5 (9), 1572-1583
 ```bibtex
-@article{doi:10.1021/acscentsci.9b00576,
-    author = {Schwaller, Philippe and Laino, Teodoro and Gaudin, Théophile and Bolgar, Peter and Hunter, Christopher A. and Bekas, Costas and Lee, Alpha A.},
-    title = {Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction},
-    journal = {ACS Central Science},
-    volume = {5},
-    number = {9},
-    pages = {1572-1583},
-    year = {2019},
-    doi = {10.1021/acscentsci.9b00576},
-}
 
-@Misc{this_repo,
-  author = { Andres M Bran },
+
+@Misc{liac_steer,
+  author = {Andres M Bran, Theo A Neukomm, Daniel Armstrong, Zlatko Joncev, Philippe Schwaller},
   title = { steer - Steerable retrosynthesis with LLM },
   howpublished = {Github},
-  year = {2023},
+  year = {2025},
   url = {https://github.com/schwallergroup/steer }
 }
 ```
@@ -97,10 +76,8 @@ Philippe Schwaller et al. "Molecular Transformer: A Model for Uncertainty-Calibr
 
 ## 🛠️ For Developers
 
-
 <details>
   <summary>See developer instructions</summary>
-
 
 
 ### 👐 Contributing

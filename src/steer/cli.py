@@ -11,10 +11,8 @@ from typing import List
 import click
 import numpy as np
 
-from steer.evaluation.sequential import get_latest_file, load_default_tasks
+from steer.evaluation import synthesis
 from steer.logger import setup_logger
-
-from .api import *
 
 __all__ = [
     "main",
@@ -23,99 +21,54 @@ __all__ = [
 logger = setup_logger(__name__)
 
 
+# Mechanisms
+
+
 @click.group()
 @click.version_option()
-def mech():
+@click.option("--model", default="gpt-4o", help="Model to use")
+@click.option("--vision", default=False, help="Pass reactions as images")
+@click.pass_context
+def mech(ctx, model, vision):
     """CLI for steer."""
+    if ctx.obj is None:
+        ctx.obj = {}
+
+    ctx.obj["model"] = model
+    ctx.obj["vision"] = vision
 
 
-@mech.command()
-def filter():
-    """Run one example."""
-    from steer.mechanism.sequential import LM
+@mech.command()  # type: ignore
+@click.pass_context
+def bench(ctx):  # type: ignore
+    """Run benchmar."""
+    import wandb
+    from steer.evaluation.mechanism.evaluation import main
 
-    prompt = "steer.mechanism.prompts.alphamol"
-    lm = LM(
-        prompt=prompt,
-        model="claude-3-5-sonnet",
-        project_name=f"steer-mech-{prompt}",
+    prompt = "steer.mechanism.prompts.alphamol_partial"
+    project = "steer-mechbench"
+    model = ctx.obj["model"]
+    vision = ctx.obj["vision"]
+
+    wandb.init(
+        project=project,
+        config={
+            "model": model,
+            "vision": vision,
+            "prompt": prompt,
+        },
     )
 
-    correct_path = [
-        "C1CCCCC1=O.F",
-        "[F-].[H+].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[F-].[H+].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H+].[H][C]1([H])[C]([F])([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-    ]
-
-    anti_chem_correct_path = [
-        "C1CCCCC1=O.F",
-        "[F+].[H-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[F+].[H-].[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H-].[H][C]1([H])[C]([F])([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-    ]
-
-    crap_path = [
-        "C1CCCCC1=O.F",
-        "F.[H][C]1([H])[C-]([O+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][C]1([H])[C-]([O][FH+])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][C]1([H])[C-]([O][F+2])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H-]",
-        "[H][C]1([H])[C]2([O][F+]2)[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H-]",
-        "[H][C]1([H])[C]2([O+].[F]2)[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H-]",
-        "[H][C]1([H])[C]2([O][H].[F]2)[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-    ]
-
-    debatable_path = [
-        "C1CCCCC1=O.F",
-        "[H+].[F-].[H][C]1([H])[C](=[O])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[F-].[H][C]1([H])[C](=[O+][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[F-].[H][C]1([H])[C+]([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][C]1([H])[C](F)([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-    ]
-
-    rxn = f"C1CCCCC1=O.F>>[H][C]1([H])[C]([F])([O][H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]"
-    logger.info("Correct path")
-    eval_path(rxn, correct_path, lm)
-    logger.info("Anti-chem path")
-    eval_path(rxn, anti_chem_correct_path, lm)
-    logger.info("Crap path")
-    eval_path(rxn, crap_path, lm)
-    logger.info("Debatable path")
-    eval_path(rxn, debatable_path, lm)
-
-
-@mech.command()
-def sample():
-    from steer.mechanism.sequential import LM
-
-    logger.info("Running one example.")
-
-    prompt = "steer.mechanism.prompts.alphamol_w_query"
-    lm = LM(
-        prompt=prompt,
-        model="claude-3-5-sonnet",
-        project_name=f"steer-mech-{prompt}",
+    asyncio.run(
+        main(
+            prompt=prompt,
+            model=model,
+            project_name=project,
+        )
     )
 
-    rxn = f"CC(C)(O)c1cccc(-n2[nH]c(=O)c3cnc(Nc4ccc(Br)cc4)nc32)n1.C=CCBr>>C=CCn1c(=O)c2cnc(Nc3ccc(Br)cc3)nc2n1-c1cccc(C(C)(C)O)n1"
 
-    options = [
-        "[H+].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N-][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",  # the good
-        "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[N+][C](=[O])[C]3=[C]([H])[N]=[C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])[N]=[C]32)=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",  # the anti
-        "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][O][C]([C]1=[C]([H])[C]([H])=[C]([H])[C]([N]2[C]3=[N][C]([N+][C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])=[N]1)([C]([H])([H])[H])[C]([H])([H])[H]",
-        "[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C+][N]=[C]([N]2[C]3=[N][C]([N]([H])[C]4=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]4[H])=[N][C]([H])=[C]3[C](=[O])[N]2[H])[C]([H])=[C]1[H].[H][O][C-]([C]([H])([H])[H])[C]([H])([H])[H]",
-        "[H-].[H][C]([H])=[C]([H])[C]([H])([H])[Br].[H][C]1=[C]2[C](=[O])[N]([H])[N]([C]3=[N][C]([C]([O+])([C]([H])([H])[H])[C]([H])([H])[H])=[C]([H])[C]([H])=[C]3[H])[C]2=[N][C]([N]([H])[C]2=[C]([H])[C]([H])=[C]([Br])[C]([H])=[C]2[H])=[N]1",
-    ]
-
-    logger.info("Full rxn step")
-    result = asyncio.run(
-        run_amol(rxn, [[f"{rxn.split('>>')[0]}>>{o}"] for o in options], lm)
-    )
-
-    for i, r in enumerate(result):
-        print(f"{options[i]} {r}")
+# Synthesis
 
 
 @click.group()
@@ -126,11 +79,13 @@ def sample():
 def synth(ctx, model, vision):
     """CLI for steer."""
     import wandb
+    from steer.evaluation.synthesis import load_default_tasks
     from steer.llm.sequential import LM
 
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    CACHE_PATH = "data/fullroute_no_feasibility"
-    RESULTS_DIR = f"data/{dt_name}"
+    CACHE_PATH = "data/synth_bench"  # Cache path
+    # CACHE_PATH = "data/real_routes" # Cache path
+    RESULTS_DIR = f"data/outputs/{dt_name}"
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     prompt = "steer.llm.prompts.route_opt"
@@ -141,6 +96,7 @@ def synth(ctx, model, vision):
             "model": model,
             "vision": vision,
             "prompt": prompt,
+            "results_dir": RESULTS_DIR,
         },
     )
 
@@ -150,13 +106,15 @@ def synth(ctx, model, vision):
         vision=vision,
         project_name=project,
     )
-    tasks = load_default_tasks()
+    # tasks = load_default_tasks("data/real_routes/")  # data/real_routes/ for strychnine/atorvastatin
+    tasks = (
+        load_default_tasks()
+    )  # data/real_routes/ for strychnine/atorvastatin
+    print(tasks)
 
-    # Initialize ctx.obj if it doesn't exist
     if ctx.obj is None:
         ctx.obj = {}
 
-    # Store objects in context
     ctx.obj["lm"] = lm
     ctx.obj["tasks"] = tasks
     ctx.obj["results_dir"] = RESULTS_DIR
@@ -164,20 +122,26 @@ def synth(ctx, model, vision):
     ctx.obj["wandb"] = wandb
 
 
-@synth.command()
-@click.option("--task", default="", help="Task id to run")
+@synth.command()  # type: ignore
 @click.pass_context
-def one_task(ctx, task):
-    """Run one example of synthesis re-ranking."""
+@click.option("--task", default=None, help="Task id to run")
+def bench(ctx, task):
+    """Run all tasks in benchmark."""
     lm = ctx.obj["lm"]
     tasks = ctx.obj["tasks"]
     wandb = ctx.obj["wandb"]
 
+    metrics = {
+        "MAE": 0,
+        "Corr": 0,
+    }
+
     for i, t in enumerate(tasks):
-        if t.id != task:
+        logger.info(task)
+        if task is not None and t.id != task:
             continue
 
-        routes = run_task(
+        routes = synthesis.run_task(
             lm,
             t,
             n=200,
@@ -191,46 +155,12 @@ def one_task(ctx, task):
         # Evaluate
         gt_score, lmscore = t.evaluate(routes)
 
-        mae_val = mae(gt_score, lmscore)
-        cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
-        wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
-
-
-@synth.command()
-@click.pass_context
-def all_task(ctx):
-    """Run all tasks in benchmark."""
-    lm = ctx.obj["lm"]
-    tasks = ctx.obj["tasks"]
-    wandb = ctx.obj["wandb"]
-
-    metrics = {
-        "MAE": 0,
-        "Corr": 0,
-    }
-
-    tasks = load_default_tasks()
-    for i, task in enumerate(tasks):
-        routes = run_task(
-            lm,
-            task,
-            n=200,
-            nclusters=0,
-            cache_path=ctx.obj["cache_path"],
-            results_path=ctx.obj["results_dir"],
-        )
-        if routes is None:
-            continue
-
-        # Evaluate
-        gt_score, lmscore = task.evaluate(routes)
-
-        mae_val = mae(gt_score, lmscore)
+        mae_val = synthesis.mae(gt_score, lmscore)
         cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
         metrics["MAE"] += mae_val
         metrics["Corr"] += cor_val
-        wandb.log({f"mae_{task.id}": mae_val, f"corr_{task.id}": cor_val})
-        sleep(2)
+        wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
+        sleep(5)
 
     wandb.log(
         {
@@ -238,7 +168,6 @@ def all_task(ctx):
             "mean_corr": metrics["Corr"] / len(tasks),
         }
     )
-
     wandb.finish()
 
 
