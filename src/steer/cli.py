@@ -83,8 +83,9 @@ def synth(ctx, model, vision):
     from steer.llm.sequential import LM
 
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    CACHE_PATH = "data/synth_bench"
-    RESULTS_DIR = f"data/{dt_name}"
+    CACHE_PATH = "data/synth_bench" # Cache path
+    # CACHE_PATH = "data/real_routes" # Cache path
+    RESULTS_DIR = f"data/outputs/{dt_name}"
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     prompt = "steer.llm.prompts.route_opt"
@@ -105,7 +106,9 @@ def synth(ctx, model, vision):
         vision=vision,
         project_name=project,
     )
-    tasks = load_default_tasks()
+    # tasks = load_default_tasks("data/real_routes/")  # data/real_routes/ for strychnine/atorvastatin
+    tasks = load_default_tasks()  # data/real_routes/ for strychnine/atorvastatin
+    print(tasks)
 
     if ctx.obj is None:
         ctx.obj = {}
@@ -132,6 +135,7 @@ def bench(ctx, task):
     }
 
     for i, t in enumerate(tasks):
+        logger.info(task)
         if task is not None and t.id != task:
             continue
 
@@ -154,7 +158,7 @@ def bench(ctx, task):
         metrics["MAE"] += mae_val
         metrics["Corr"] += cor_val
         wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
-        sleep(2)
+        sleep(5)
 
     wandb.log(
         {
