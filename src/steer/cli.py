@@ -38,7 +38,7 @@ def mech(ctx, model, vision):
     ctx.obj["vision"] = vision
 
 
-@mech.command() # type: ignore
+@mech.command()  # type: ignore
 @click.pass_context
 def bench(ctx):  # type: ignore
     """Run benchmar."""
@@ -83,7 +83,7 @@ def synth(ctx, model, vision):
     from steer.llm.sequential import LM
 
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    CACHE_PATH = "data/synth_bench" # Cache path
+    CACHE_PATH = "data/synth_bench"  # Cache path
     # CACHE_PATH = "data/real_routes" # Cache path
     RESULTS_DIR = f"data/outputs/{dt_name}"
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -107,7 +107,9 @@ def synth(ctx, model, vision):
         project_name=project,
     )
     # tasks = load_default_tasks("data/real_routes/")  # data/real_routes/ for strychnine/atorvastatin
-    tasks = load_default_tasks()  # data/real_routes/ for strychnine/atorvastatin
+    tasks = (
+        load_default_tasks()
+    )  # data/real_routes/ for strychnine/atorvastatin
     print(tasks)
 
     if ctx.obj is None:

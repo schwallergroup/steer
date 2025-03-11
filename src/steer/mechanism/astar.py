@@ -14,6 +14,7 @@ RDLogger.DisableLog("rdApp.*")
 
 logger = setup_logger()
 
+
 class Node(BaseModel):
     parent: Any
     smiles: str
@@ -45,14 +46,17 @@ class MechanismSearch(BaseModel):
     iteration: int = -1
     closed_list: List[Node] = []
     open_list: List[Node] = []
+
     def search(self, src: str, dest: str):
         """Search."""
         src_node = Node(parent=None, smiles=src, f=0, g=0, h=0)
         heapq.heappush(self.open_list, src_node)
 
         while len(self.open_list) > 0:
-            self.iteration+=1
-            logger.debug(f"It. {self.iteration:<10} Nodes visited: {len(self.closed_list):<20} Total calls: {self.policy.total_calls}")
+            self.iteration += 1
+            logger.debug(
+                f"It. {self.iteration:<10} Nodes visited: {len(self.closed_list):<20} Total calls: {self.policy.total_calls}"
+            )
             solved = self.step(src, dest)
             if solved:
                 self.reset()
@@ -68,13 +72,17 @@ class MechanismSearch(BaseModel):
             if self.is_solution(f"{src}>>{dest}", move):
                 path = p.reconstruct_path() + f">>{move}"
                 return path
-            
+
             else:
                 g_new = p.g + 1.0
-                h_new = 10-value
+                h_new = 10 - value
                 f_new = g_new + h_new
-                this_node = Node(parent=p, smiles=move, f=f_new, g=g_new, h=h_new)
-                if (this_node not in self.open_list):# or (open_list[open_list.index(this_node)].f > f_new):
+                this_node = Node(
+                    parent=p, smiles=move, f=f_new, g=g_new, h=h_new
+                )
+                if (
+                    this_node not in self.open_list
+                ):  # or (open_list[open_list.index(this_node)].f > f_new):
                     heapq.heappush(self.open_list, this_node)
 
     def possible_moves(self, state: Node):
@@ -99,20 +107,22 @@ class MechanismSearch(BaseModel):
         self.open_list = []
 
 
-
 class RandomPolicy(BaseModel):
     total_calls: int = 0
+
     def __call__(self, rxn: str, history: List[str], moves: List[str]):
-        self.total_calls+=len(moves)
+        self.total_calls += len(moves)
         return np.random.choice(np.arange(10), len(moves))
+
 
 class RuleBased(BaseModel):
     total_calls: int = 0
+
     def __call__(self, rxn: str, history: List[str], moves: List[str]):
-        self.total_calls+=len(moves)
+        self.total_calls += len(moves)
         return [self.value_one_move(m) for m in moves]
 
-    def value_one_move(self, move:str):
+    def value_one_move(self, move: str):
         # If any charge >1 -> return 0
         if "2-" in move:
             return 0
@@ -127,9 +137,9 @@ class RuleBased(BaseModel):
         return 10
 
 
-
 def format_path(path):
     return ">>".join(path)
+
 
 def main():
     rp = RuleBased()
@@ -142,6 +152,7 @@ def main():
 
     # for path in ms.search("CC=O.Cl>>CC(Cl)O"):
     #     logger.info(format_path(path))
+
 
 if __name__ == "__main__":
     main()

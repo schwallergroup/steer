@@ -11,11 +11,11 @@ import networkx as nx  # type: ignore
 import numpy as np
 import pandas as pd  # type: ignore
 import weave  # type: ignore
-from synthegy.chem import FixedRetroReaction  # type: ignore
-from synthegy.reactiontree import ReactionTree  # type: ignore
 from dotenv import load_dotenv  # type: ignore
 from PIL.Image import Image
 from pydantic import BaseModel, model_validator  # type: ignore
+from synthegy.chem import FixedRetroReaction  # type: ignore
+from synthegy.reactiontree import ReactionTree  # type: ignore
 from weave.trace.context.call_context import get_current_call  # type: ignore
 
 from steer.logger import setup_logger
@@ -37,7 +37,9 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(self, tree: ReactionTree|str, query: str, task: Any=None):
+    async def run(
+        self, tree: ReactionTree | str, query: str, task: Any = None
+    ):
         """Get smiles and run LLM."""
 
         if isinstance(tree, ReactionTree):
@@ -61,8 +63,6 @@ class LM(BaseModel):
                 response = await self._run_llm(rxn_msgs, query, taskid="")
             return response
         return 0
-
-
 
     @weave.op()
     async def _run_llm(self, msgs, query, taskid=""):
@@ -99,7 +99,7 @@ class LM(BaseModel):
             url=url,
         )
 
-    def make_msg_sequence(self, tree: ReactionTree|List[str]):
+    def make_msg_sequence(self, tree: ReactionTree | List[str]):
         if isinstance(tree, ReactionTree):
             rxns = self.get_smiles_with_depth(tree)
         else:

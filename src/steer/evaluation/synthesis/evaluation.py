@@ -6,6 +6,7 @@ import os
 from typing import List
 
 import numpy as np
+
 from steer.logger import setup_logger
 
 from .eval_types import *
