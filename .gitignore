@@ -905,3 +905,5 @@ notebooks/
 data/*/*.json
 **/wandb/
 data/models
+data/outputs/*
+data/strychnine/
