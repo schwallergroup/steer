@@ -2,7 +2,11 @@
 
 from rdkit import Chem
 
+from steer.logger import setup_logger
+
 from .base import BaseScoring
+
+logger = setup_logger(__name__)
 
 
 class SpecificBondBreak(BaseScoring):
@@ -44,7 +48,7 @@ if __name__ == "__main__":
     import json
 
     with open(
-        "../../../data/2025-01-09_114329/6137420e765c02d74671c89ca569ce41.json",
+        "../../../data/2025-01-14_193014/4bfe366ec7f5d64678d500f9084cbb35.json",
         "r",
     ) as f:
         data = json.load(f)
@@ -54,4 +58,5 @@ if __name__ == "__main__":
     )
     a, b = bs(data)
     for i, l in enumerate(a):
-        print(l, b[i])
+        if i == 7:
+            print(l, b[i])

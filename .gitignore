@@ -902,8 +902,11 @@ scratch/
 
 notebooks/
 .vscode/*
-data/*/*.json
+data/*/*/.json
+data/strychnine
 **/wandb/
 data/models
 data/outputs/*
 data/strychnine/
+data/outputs/*/*json
+*ipynb
