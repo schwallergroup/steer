@@ -1,14 +1,14 @@
 # Chemical Reasoning in LLMs for Synthesis Planning and Mechanism Elucidation
 
 [![tests](https://github.com/schwallergroup/steer/actions/workflows/tests.yml/badge.svg)](https://github.com/schwallergroup/steer)
-[![DOI:10.1101/2020.07.15.204701](https://zenodo.org/badge/DOI/10.48550/arXiv.2304.05376.svg)](https://doi.org/10.48550/arXiv.2304.05376)
+[![DOI:10.48550/arXiv.2503.08537](https://zenodo.org/badge/DOI/10.48550/arXiv.2503.08537.svg)](https://doi.org/10.48550/arXiv.2503.08537)
 [![PyPI](https://img.shields.io/pypi/v/steer)](https://img.shields.io/pypi/v/steer)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/steer)](https://img.shields.io/pypi/pyversions/steer)
 [![Documentation Status](https://readthedocs.org/projects/steer/badge/?version=latest)](https://steer.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <p align="center">
-  <img src="./assets/overview.png" alt="Overview of LLMs as chemical reasoning engines" width="800"/>
+  <img src="./assets/overview.png" alt="Overview of LLMs as chemical reasoning engines" width="1800"/>
 </p>
 
 
@@ -69,20 +69,19 @@ The repository includes two main benchmarks:
 - Ground truth mechanisms with elementary steps
 - Performance metrics for mechanism prediction
 
-## Documentation
-
-Detailed documentation is available at [steer.readthedocs.io](https://steer.readthedocs.io/)
-
 ## Citation
 
 If you use this work in your research, please cite:
 
 ```bibtex
-@article{bran2025chemical,
-  title={Chemical reasoning in LLMs unlocks steerable synthesis planning and reaction mechanism elucidation},
-  author={Bran, Andres M and Neukomm, Théo A and Armstrong, Daniel and Jončev, Zlatko and Schwaller, Philippe},
-  journal={},
-  year={2025}
+@misc{bran2025chemicalreasoningllmsunlocks,
+      title={Chemical reasoning in LLMs unlocks steerable synthesis planning and reaction mechanism elucidation}, 
+      author={Andres M Bran and Theo A Neukomm and Daniel P Armstrong and Zlatko Jončev and Philippe Schwaller},
+      year={2025},
+      eprint={2503.08537},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2503.08537}, 
 }
 ```
 
@@ -106,18 +105,6 @@ pip install tox
 tox
 ```
 
-### Building Documentation
-
-```bash
-tox -e docs
-```
-
-### Making a Release
-
-```bash
-tox -e finish
-```
-
 </details>
 
 ## License
@@ -135,5 +122,5 @@ tox -e finish
 ## Contact
 
 For questions and feedback:
-📧 Email: andres.marulandabran@epfl.ch, philippe.schwaller@epfl.ch
-🌐 [Schwaller Group Website](https://schwallergroup.github.io)
+- 📧 Email: andres.marulandabran@epfl.ch, philippe.schwaller@epfl.ch
+- 🌐 [Schwaller Group Website](https://schwallergroup.github.io)
