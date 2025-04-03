@@ -907,3 +907,4 @@ data/strychnine
 **/wandb/
 data/models
 data/outputs/*/*json
+*ipynb
