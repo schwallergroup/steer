@@ -110,7 +110,6 @@ def synth(ctx, model, vision):
     tasks = (
         load_default_tasks()
     )  # data/real_routes/ for strychnine/atorvastatin
-    print(tasks)
 
     if ctx.obj is None:
         ctx.obj = {}

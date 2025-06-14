@@ -47,6 +47,94 @@ router = Router(
                 # "rpm": 40,
             },
         },
+        {
+            "model_name": "llama3.3-70b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/meta-llama/llama-3.3-70b-instruct",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "llama3.3-8b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/meta-llama/llama-3.3-8b-instruct:free",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "llama4-scout",  # model alias
+            "litellm_params": {
+                "model": "openrouter/meta-llama/llama-4-scout",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "llama4-maverick",  # model alias
+            "litellm_params": {
+                "model": "openrouter/meta-llama/llama-4-maverick",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "llama3-405b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/meta-llama/llama-3.1-405b-instruct",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "qwen3-32b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/qwen/qwen3-32b",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "deepseek-r1",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1-0528",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "deepseek-v3",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-chat-v3-0324",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "deepseek-r1-32b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1-distill-qwen-32b",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "deepseek-r1-70b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1-distill-llama-70b",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "deepseek-r1-8b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1-0528-qwen3-8b",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
     ],
     # timeout=120,
     num_retries=10,
