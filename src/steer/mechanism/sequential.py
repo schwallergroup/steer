@@ -33,17 +33,12 @@ class LM(BaseModel):
     intermed: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
-    prompt_needs_expert_description: bool = False
-    expert_description: Optional[str] = None
     project_name: str = ""
-
-    assert (not prompt_needs_expert_description) or ((task is not None and task.expert_description is not None) or (task is None and expert_description != None))
 
     async def run(
         self,
         rxn: str,
         step: str,
-        expert_description: str,
         history: Optional[List[str]] = None,
         task: Any = None,
     ):
@@ -57,12 +52,12 @@ class LM(BaseModel):
         else:
             msgs = self.make_msg_sequence(rxn, history)
             response = await self._run_llm(
-                msgs, step, taskid=task.id if task else "", expert_description=expert_description
+                msgs, step, taskid=task.id if task else ""
             )
         return response
 
     @weave.op()
-    async def _run_llm(self, msgs, step, taskid="", expert_description=""):
+    async def _run_llm(self, msgs, step, taskid=""):
         try:
             response = await router.acompletion(
                 model=self.model,
@@ -73,7 +68,7 @@ class LM(BaseModel):
                         "content": [
                             {
                                 "type": "text",
-                                "text": self.prefix if not self.prompt_needs_expert_description else self.prefix.format(expert_description=expert_description),
+                                "text": self.prefix,
                             },
                             *msgs,
                             {
@@ -92,7 +87,7 @@ class LM(BaseModel):
         current_call = get_current_call()
         return dict(
             response=response,
-            url=current_call.ui_url if current_call is not None else "-",
+            url=current_call.ui_url or "-",
         )
 
     def make_msg_sequence(self, rxn: str, history: Optional[List[str]]):

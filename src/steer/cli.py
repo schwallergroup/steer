@@ -28,44 +28,29 @@ logger = setup_logger(__name__)
 @click.version_option()
 @click.option("--model", default="gpt-4o", help="Model to use")
 @click.option("--vision", default=False, help="Pass reactions as images")
-@click.option("--expert", default=False, help="If we want to use the expert description")
-@click.option("--task", default=None, help="Tasks to run")
 @click.pass_context
-def mech(ctx, model, vision, expert, task):
-
+def mech(ctx, model, vision):
     """CLI for steer."""
     if ctx.obj is None:
         ctx.obj = {}
 
     ctx.obj["model"] = model
     ctx.obj["vision"] = vision
-    ctx.obj["expert"] = expert
-    ctx.obj["tasks"] = task
 
 
-@mech.command() # type: ignore
+@mech.command()  # type: ignore
 @click.pass_context
 def bench(ctx):  # type: ignore
-    """Run benchmark."""
+    """Run benchmar."""
     import wandb
     from steer.evaluation.mechanism.evaluation import main
 
+    prompt = "steer.mechanism.prompts.alphamol_partial"
     project = "steer-mechbench"
     model = ctx.obj["model"]
     vision = ctx.obj["vision"]
-    expert = ctx.obj["expert"]
-    tasks = ctx.obj["tasks"]
-
-    #prompt = "steer.mechanism.prompts.alphamol_partial2"
-    #prompt = "steer.mechanism.prompts.alphamol_last_step"
-
-    if expert:
-        prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4_expert"
-    else:
-        prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4"
 
     wandb.init(
-        entity="liac",
         project=project,
         config={
             "model": model,
@@ -79,8 +64,6 @@ def bench(ctx):  # type: ignore
             prompt=prompt,
             model=model,
             project_name=project,
-            tasks_user=tasks.split(',') if isinstance(tasks, str) else tasks,
-            expert_needed=expert,
         )
     )
 
@@ -103,13 +86,11 @@ def synth(ctx, model, vision):
     CACHE_PATH = "data/synth_bench"  # Cache path
     # CACHE_PATH = "data/real_routes" # Cache path
     RESULTS_DIR = f"data/outputs/{dt_name}"
-
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     prompt = "steer.llm.prompts.route_opt"
     project = "steer-test"
     wandb.init(
-        entity="liac",
         project=project,
         config={
             "model": model,
@@ -155,7 +136,6 @@ def bench(ctx, task):
     }
 
     for i, t in enumerate(tasks):
-
         logger.info(task)
         if task is not None and t.id != task:
             continue
@@ -180,7 +160,6 @@ def bench(ctx, task):
         metrics["Corr"] += cor_val
         wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
         sleep(5)
-
 
     wandb.log(
         {
