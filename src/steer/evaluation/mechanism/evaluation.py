@@ -25,7 +25,6 @@ def make_rxns(steps: List[str]):
     #return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
     return [f"{MoleculeSet(steps[i]).rdkit_canonical_smiles}>>{MoleculeSet(steps[i+1]).rdkit_canonical_smiles}" for i in range(len(steps) - 1)]
 
-
 async def run_task(task, lm):
     """Run a task and return the results.
     Output is list of lists. list[0] is always correct one."""
@@ -76,7 +75,6 @@ async def main(
         if isinstance(tasks_user, str):
             tasks_user = [tasks_user]
         tasks = [task for task in all_tasks if task.id in tasks_user]
-
     logger.info(f"Loaded {len(tasks)} tasks.")
 
     for task in tasks:

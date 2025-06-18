@@ -1,0 +1,158 @@
+[
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Break indole ring (ring B) using Fischer indole synthesis early in the route.",
+    "id": "Strychnine0",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Break a spiro-indoline-pyrrolidine (ring C) intermediate through a formal Pictet-Spengler reaction.",
+    "id": "Strychnine1",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Strategically use veratryl group as a source of muconic ester via oxidative cleavage, prior to synthesizing pyridone ring.",
+    "id": "Strychnine2",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Disconnect central cyclohexane ring (ring E) using a Dieckmann condensation.",
+    "id": "Strychnine3",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Disconnect central cyclohexane ring (ring E) and spiro-indoline-pyrrolidine (ring C) using asymmetric Diels\u2013Alder/elimination/conjugate addition organocascade sequence commencing with a simple tryptamine-derived substrate.",
+    "id": "Strychnine4",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Break piperidine ring (ring D) through a cascade involving Brook rearrangement followed by 1,4-conjugated addition.",
+    "id": "Strychnine5",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "O=C1C[C@@H]2OCC=C3CN4CC[C@]56c7ccccc7N1[C@H]5[C@H]2[C@H]3C[C@H]46",
+    "prompt": "Break central cyclohexane ring (ring E) and spiro-indoline-pyrrolidine (ring C) using a Zincke aldehyde strategy to perform this bicyclization in one step.",
+    "id": "Strychnine6",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Break pyrrole ring through Paal-Knorr condensation.",
+    "id": "Atorvastatin0",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Break pyrrole ring in the synthesis and get all the other rings from commercially available materials.",
+    "id": "Atorvastatin1",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Perform the disconnection of the side chain in racemic manner. Break pyrrole ring using [3+2] decarboxylative cyclization.",
+    "id": "Atorvastatin2",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Break pyrrole ring in the synthesis and get all the other rings from commercially available materials.",
+    "id": "Atorvastatin3",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Perform disconnection of the side chain in stereoselective manner using Claisen condensation with chiral auxiliary on ester.",
+    "id": "Atorvastatin4",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O",
+    "prompt": "Break pyrrole ring using [3+2] decarboxylative cyclization.",
+    "id": "Atorvastatin5",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  }
+]
