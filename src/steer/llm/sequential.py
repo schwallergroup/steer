@@ -11,11 +11,11 @@ import networkx as nx  # type: ignore
 import numpy as np
 import pandas as pd  # type: ignore
 import weave  # type: ignore
-from aizynthfinder.chem import FixedRetroReaction  # type: ignore
-from aizynthfinder.reactiontree import ReactionTree  # type: ignore
 from dotenv import load_dotenv  # type: ignore
 from PIL.Image import Image
 from pydantic import BaseModel, model_validator  # type: ignore
+from aizynthfinder.chem import FixedRetroReaction  # type: ignore
+from aizynthfinder.reactiontree import ReactionTree  # type: ignore
 from weave.trace.context.call_context import get_current_call  # type: ignore
 
 from steer.logger import setup_logger
@@ -37,18 +37,32 @@ class LM(BaseModel):
     prompt: Optional[str] = None  # Path to the prompt module
     project_name: str = ""
 
-    async def run(self, tree: ReactionTree, query: str, task: Any):
+    async def run(
+        self, tree: ReactionTree | str, query: str, task: Any = None
+    ):
         """Get smiles and run LLM."""
 
-        if self.model == "random":
-            response = dict(
-                response=f"<score>{np.random.choice(np.arange(1,11))}</score>",
-                url="",
-            )
-        else:
-            rxn_msgs = self.make_msg_sequence(tree)
-            response = await self._run_llm(rxn_msgs, query, taskid=task.id)
-        return response
+        if isinstance(tree, ReactionTree):
+            if self.model == "random":
+                response = dict(
+                    response=f"<score>{np.random.choice(np.arange(1,11))}</score>",
+                    url="",
+                )
+            else:
+                rxn_msgs = self.make_msg_sequence(tree)
+                response = await self._run_llm(rxn_msgs, query, taskid=task.id)
+            return response
+        elif isinstance(tree, List):
+            if len(tree) == 0:
+                response = dict(
+                    response=f"<score>0</score>",
+                    url="",
+                )
+            else:
+                rxn_msgs = self.make_msg_sequence(tree)
+                response = await self._run_llm(rxn_msgs, query, taskid="")
+            return response
+        return 0
 
     @weave.op()
     async def _run_llm(self, msgs, query, taskid=""):
@@ -76,13 +90,20 @@ class LM(BaseModel):
             response = "<score>-1</score>"
 
         current_call = get_current_call()
+        if current_call is None:
+            url = "-"
+        else:
+            url = current_call.ui_url
         return dict(
             response=response,
-            url=current_call.ui_url or "-",
+            url=url,
         )
 
-    def make_msg_sequence(self, tree: ReactionTree):
-        rxns = self.get_smiles_with_depth(tree)
+    def make_msg_sequence(self, tree: ReactionTree | List[str]):
+        if isinstance(tree, ReactionTree):
+            rxns = self.get_smiles_with_depth(tree)
+        else:
+            rxns = list(enumerate(tree))
 
         msgs = []
         for i, s in enumerate(rxns):
