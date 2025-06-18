@@ -45,7 +45,6 @@ def bench(ctx):  # type: ignore
     import wandb
     from steer.evaluation.mechanism.evaluation import main
 
-    prompt = "steer.mechanism.prompts.alphamol_partial"
     project = "steer-mechbench"
     model = ctx.obj["model"]
     vision = ctx.obj["vision"]
