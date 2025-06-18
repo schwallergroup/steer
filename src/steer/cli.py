@@ -28,20 +28,24 @@ logger = setup_logger(__name__)
 @click.version_option()
 @click.option("--model", default="gpt-4o", help="Model to use")
 @click.option("--vision", default=False, help="Pass reactions as images")
+@click.option("--expert", default=False, help="If we want to use the expert description")
+@click.option("--task", default=None, help="Tasks to run")
 @click.pass_context
-def mech(ctx, model, vision):
+def mech(ctx, model, vision, expert, task):
     """CLI for steer."""
     if ctx.obj is None:
         ctx.obj = {}
 
     ctx.obj["model"] = model
     ctx.obj["vision"] = vision
+    ctx.obj["expert"] = expert
+    ctx.obj["tasks"] = task
 
 
 @mech.command()  # type: ignore
 @click.pass_context
 def bench(ctx):  # type: ignore
-    """Run benchmar."""
+    """Run benchmark."""
     import wandb
     from steer.evaluation.mechanism.evaluation import main
 
@@ -70,6 +74,8 @@ def bench(ctx):  # type: ignore
             prompt=prompt,
             model=model,
             project_name=project,
+            tasks_user=tasks.split(',') if isinstance(tasks, str) else tasks,
+            expert_needed=expert,
         )
     )
 

@@ -16,11 +16,13 @@ logger = setup_logger(__name__)
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+from steer.mechanism.molecule_set import MoleculeSet
 
 def make_rxns(steps: List[str]):
     if len(steps) < 2:
         return []
-    return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
+    #return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
+    return [f"{MoleculeSet(steps[i]).rdkit_canonical_smiles}>>{MoleculeSet(steps[i+1]).rdkit_canonical_smiles}" for i in range(len(steps) - 1)]
 
 
 async def run_task(task, lm):
@@ -37,6 +39,7 @@ async def run_task(task, lm):
                     rxn=task.rxn,
                     history=hist,
                     step=make_rxns([task.steps[i], move])[0],
+                    expert_description=task.expert_description,
                 )
                 for move in possible_moves
             ]
@@ -51,6 +54,8 @@ async def main(
     model="claude-3-5-sonnet",
     vision=False,
     project_name="steer-mechanism-test",
+    tasks_user=None,
+    expert_needed=False,
 ):
     from steer.mechanism.sequential import LM
 
@@ -59,9 +64,18 @@ async def main(
         model=model,
         vision=vision,
         project_name=project_name,
+        prompt_needs_expert_description=expert_needed,
     )
+    
+    all_tasks = load_default_tasks()
+    
+    if tasks_user is None:
+        tasks = all_tasks
+    else:
+        if isinstance(tasks_user, str):
+            tasks_user = [tasks_user]
+        tasks = [task for task in all_tasks if task.id in tasks_user]
 
-    tasks = load_default_tasks()
     logger.info(f"Loaded {len(tasks)} tasks.")
 
     for task in tasks:
