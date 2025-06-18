@@ -6,8 +6,6 @@ import os
 from typing import List
 
 import numpy as np
-from aizynthfinder.analysis.routes import RouteCollection
-from aizynthfinder.reactiontree import ReactionTree
 
 from steer.logger import setup_logger
 
@@ -30,6 +28,7 @@ def get_latest_file(path, fid):
     else:
         return None
 
+
 def run_task(
     lm,
     task,
@@ -46,6 +45,7 @@ def run_task(
     # Run pipeline on preloaded data
     with open(route, "r") as f:
         data = json.load(f)
+
     routes = asyncio.run(lm.run_single_task(task, data, nroutes=n))
 
     fname = os.path.join(results_path, f"{task.id}.json")
@@ -53,7 +53,9 @@ def run_task(
         json.dump(routes, f)
     return routes
 
+
 def mae(gt, lm):
     if isinstance(gt[0], bool):
         gt = [10 if x else 1 for x in gt]
     return np.mean(np.abs(np.array(gt) - np.array(lm)))
+
