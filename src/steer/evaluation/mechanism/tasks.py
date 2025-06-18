@@ -19,6 +19,7 @@ class Task(BaseModel):
     rxn: str
     steps: List[str]
     step_options: List[List[str]]  # Possible moves at each step
+    expert_description: str
 
     def evaluate(self, data: List[List[float]]) -> Tuple[List[float], List[float]]:  # type: ignore
         """data is a list of lists. list[0] is always correct one."""

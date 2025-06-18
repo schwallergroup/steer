@@ -32,17 +32,20 @@ This repository contains the implementation of a novel framework that leverages 
 # Install from PyPI (TBD)
 pip install steer
 
+
 # Install from source
 pip install git+https://github.com/schwallergroup/steer.git
 ```
 
 ## Quick Start
 
+
 ### Steerable Synthesis Planning
 
 ```bash
 # Run the complete synthesis benchmark
 steer synth --model=claude-3-5-sonnet bench
+
 
 # Run a single task
 steer synth --model=claude-3-5-sonnet bench --task=ea8df340d54596eda93e23f04dff3a9b
