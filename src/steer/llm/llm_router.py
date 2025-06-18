@@ -135,6 +135,33 @@ router = Router(
                 "rpm": 2,
             },
         },
+        {
+            "model_name": "deepseek-3",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-chat",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "deepseek-r1",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "qwq-32b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/qwen/qwq-32b-preview",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
     ],
     # timeout=120,
     num_retries=10,

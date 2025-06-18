@@ -44,8 +44,7 @@ def get_manual_rxn_img(smiles) -> Image.Image:
 def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> Image.Image:
 
     # The URL for the GET request
-    # url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
-    url = "http://liacpc17.epfl.ch:8081/depict/cot/svg"
+    url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
 
     # The parameters for the request
     params = {
