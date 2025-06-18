@@ -50,7 +50,7 @@ async def run_task(task, lm):
 
 
 async def main(
-    prompt="steer.mechanism.prompts.alphamol_partial",
+    prompt="steer.mechanism.prompts.preprint_prompt_last_step_plus_game",
     model="claude-3-5-sonnet",
     vision=False,
     project_name="steer-mechanism-test",

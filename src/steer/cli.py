@@ -56,13 +56,10 @@ def bench(ctx):  # type: ignore
     expert = ctx.obj["expert"]
     tasks = ctx.obj["tasks"]
 
-    #prompt = "steer.mechanism.prompts.alphamol_partial2"
-    #prompt = "steer.mechanism.prompts.alphamol_last_step"
-
     if expert:
-        prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4_expert"
+        prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game_expert"
     else:
-        prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4"
+        prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game"
 
     wandb.init(
         entity="liac",

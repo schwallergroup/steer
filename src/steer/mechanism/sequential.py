@@ -164,7 +164,7 @@ class LM(BaseModel):
 
 async def main():
     lm = LM(
-        prompt="steer.mechanism.prompts.alphamol_partial",
+        prompt="steer.mechanism.prompts.preprint_prompt_last_step_plus_game",
         model="claude-3-5-sonnet",
         project_name="steer-mechanism-test",
     )

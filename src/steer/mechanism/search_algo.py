@@ -136,7 +136,7 @@ async def beam_search(
             )
 
             for n_ms, score in reranked_nms_scores:
-                print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 for Molecule set: {n_ms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (AlphaMol canonicalization: {n_ms.alphamol_canonical_smiles} )")
+                print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 for Molecule set: {n_ms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {n_ms.explicit_canonical_smiles} )")
                 llm_calls += 1
                 n_nodes_scored += 1
 
@@ -179,7 +179,7 @@ async def beam_search(
                     )
 
                     for nms, op_score, score in sorted_next_nodes_scores:
-                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (AlphaMol canonicalization: {nms.alphamol_canonical_smiles} )")
+                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )")
                         llm_calls += 1
 
                     if sorted_next_nodes_scores[-1][2] < min_score_to_keep:
@@ -232,7 +232,7 @@ async def beam_search(
                     kept_next_nodes_scores = [s for s in sorted_avg_scores if s[1] <= score_cutoff]
 
                     for nms, op_score, original_score in sorted_avg_scores:
-                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {original_score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (AlphaMol canonicalization: {nms.alphamol_canonical_smiles} )")
+                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {original_score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )")
                         llm_calls += 1
 
             else:
@@ -483,10 +483,8 @@ if __name__ == "__main__":
     check_every = 500
     #model = "random"
     model = "claude-3-5-sonnet"
-    #prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4"
-    prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4_expert"
-    #prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4_expert_nabh4_cyclohexanone_llm"
-    #prompt = "steer.mechanism.prompts.alphamol_last_step_plus_game_rules4_expert_acetalization_butanone"
+    #prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game"
+    prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game_expert"
     needs_expert_description =True 
 
     MoleculeSet.default_canonicalization = "RDKit"
