@@ -1,4 +1,4 @@
-import reAdd commentMore actions
+import re
 import copy
 from collections import Counter, defaultdict
 from itertools import product
@@ -548,3 +548,25 @@ class MoleculeSet:
             else:
                 can_smi_list.remove(gs)
         return True
+
+def legal_moves_from_smiles(
+    current_smiles:str,
+    highlight_reactive_center:bool=False,
+):
+    ms = MoleculeSet(current_smiles)
+
+    all_legal_next_smiles = []
+    all_error_moves = []
+    for move in ms.all_legal_moves:
+        try:
+            next_ms = ms.make_move(move, track_atoms=True)
+            all_legal_next_smiles.append(next_ms.canonical_smiles if not highlight_reactive_center else next_ms.reactive_center_smiles)
+            
+        except MoleculeSetTooCrazyError:
+            all_error_moves.append(move)
+
+    return {
+        "smiles_list":all_legal_next_smiles,
+        "rdkit_errors":all_error_moves,
+    }
+

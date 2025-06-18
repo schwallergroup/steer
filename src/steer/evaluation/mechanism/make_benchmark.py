@@ -171,11 +171,11 @@ import json
 import numpy as np
 import requests
 
+from steer.mechanism.molecule_set import legal_moves_from_smiles
+
 
 def get_moves(state, _next, n=10):
-    url = "http://liacpc17.epfl.ch:5001/legal_moves"
-    req = {"smiles": state, "highlight_reactive_center": False}
-    response = requests.post(url, json=req).json()["smiles_list"]
+    response = legal_moves_from_smiles(state, highlight_reactive_center=False)['smiles_list']
 
     if _next in response:
         response.remove(_next)
