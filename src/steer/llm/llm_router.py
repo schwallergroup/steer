@@ -162,6 +162,15 @@ router = Router(
                 # "rpm": 40,
             },
         },
+        {
+            "model_name": "gemini-2-5-pro",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-2.5-pro-preview",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
     ],
     # timeout=120,
     num_retries=10,

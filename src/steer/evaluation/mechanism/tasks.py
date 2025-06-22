@@ -29,10 +29,11 @@ class Task(BaseModel):
             lm_scores = data[i]
             gt.extend(gt_scores)
             lm.extend(lm_scores)
+            logger.info(f"\ngt: {gt_scores}\nlm: {lm_scores}")
 
             corr = np.corrcoef(gt_scores, lm_scores)[0, 1]
             wandb.log({f"corr_{self.id}_{i}": corr})  # type: ignore
-            logger.debug(f"r: {corr:.4f}. Depth: {i}")
+            logger.debug(f"r: {corr:.4f}. Depth: {i}. Good-avg(bad): {lm_scores[0]-np.mean(lm_scores[1:])}")
         return gt, lm
 
     @classmethod
