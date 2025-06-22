@@ -900,7 +900,9 @@ FodyWeavers.xsd
 
 scratch/
 
-notebooks/
+# notebooks/
+notebooks/aizynth_config
+notebooks/synthesis_data
 .vscode/*
 data/*/*/.json
 data/strychnine
