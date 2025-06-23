@@ -48,6 +48,22 @@ router = Router(
             },
         },
         {
+            "model_name": "claude-3-sonnet",  # model alias
+            "litellm_params": {
+                "model": "claude-3-sonnet-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-3-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-3-opus-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
             "model_name": "claude-3-5-sonnet",  # model alias
             "litellm_params": {
                 "model": "claude-3-5-sonnet-20241022",  # actual model name
