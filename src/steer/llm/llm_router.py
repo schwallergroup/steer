@@ -80,6 +80,14 @@ router = Router(
             },
         },
         {
+            "model_name": "claude-4-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-opus-4-20250514",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
             "model_name": "llama3.3-70b",  # model alias
             "litellm_params": {
                 "model": "openrouter/meta-llama/llama-3.3-70b-instruct",  # actual model name
