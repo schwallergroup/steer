@@ -915,3 +915,6 @@ data/reaxys_routes
 data/synthia_routes
 data/synthia_analysis
 data/aryl_prompt
+data/*svg
+data/*png
+data/vus_route
