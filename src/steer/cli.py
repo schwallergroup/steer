@@ -74,9 +74,11 @@ def bench(ctx):  # type: ignore
 @click.group()
 @click.version_option()
 @click.option("--model", default="gpt-4o", help="Model to use")
+@click.option("--cache_path", default="data/synth_bench", help="Dir where precomputed routes are stored")
+@click.option("--bench_spec", default="", help="Dir where benchmark specifications are stored")
 @click.option("--vision", default=False, help="Pass reactions as images")
 @click.pass_context
-def synth(ctx, model, vision):
+def synth(ctx, model, cache_path, bench_spec, vision):
     """CLI for steer."""
     import wandb
     from steer.evaluation.synthesis import load_default_tasks
@@ -85,6 +87,10 @@ def synth(ctx, model, vision):
     dt_name = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     CACHE_PATH = "data/synth_bench"  # Cache path
     # CACHE_PATH = "data/real_routes" # Cache path
+    CACHE_PATH = "data/ground_truth"
+    # CACHE_PATH = "data/synth_bench"
+    CACHE_PATH = cache_path
+
     RESULTS_DIR = f"data/outputs/{dt_name}"
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
@@ -106,11 +112,10 @@ def synth(ctx, model, vision):
         vision=vision,
         project_name=project,
     )
-    # tasks = load_default_tasks("data/real_routes/")  # data/real_routes/ for strychnine/atorvastatin
-    tasks = (
-        load_default_tasks()
-    )  # data/real_routes/ for strychnine/atorvastatin
-
+    if bench_spec:
+        tasks = load_default_tasks(bench_spec)
+    else:
+        tasks = load_default_tasks()
     if ctx.obj is None:
         ctx.obj = {}
 
@@ -138,6 +143,7 @@ def bench(ctx, task):
     for i, t in enumerate(tasks):
         logger.info(task)
         if task is not None and t.id != task:
+            logger.info("Skipping task:", t.id)
             continue
 
         routes = synthesis.run_task(
@@ -149,17 +155,22 @@ def bench(ctx, task):
             results_path=ctx.obj["results_dir"],
         )
         if routes is None:
+            logger.info("Skipping task due to None routes:", t.id)
             continue
 
         # Evaluate
-        gt_score, lmscore = t.evaluate(routes)
+        try:
+            gt_score, lmscore = t.evaluate(routes)
 
-        mae_val = synthesis.mae(gt_score, lmscore)
-        cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
+            mae_val = synthesis.mae(gt_score, lmscore)
+            cor_val = np.corrcoef(gt_score, lmscore)[0, 1]
+        except:
+            mae_val = 0
+            cor_val = 0
         metrics["MAE"] += mae_val
         metrics["Corr"] += cor_val
         wandb.log({f"mae_{t.id}": mae_val, f"corr_{t.id}": cor_val})
-        sleep(5)
+        # sleep(5)
 
     wandb.log(
         {

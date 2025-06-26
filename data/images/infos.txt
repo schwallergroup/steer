@@ -1,1 +1,0 @@
-The arrow has dimensions of 120x16, in the perfect middle of the 1456x819 frame. Which means that in order to conservate the same aspect ratio and not collide on the arrow, the images of any side must be of dimension 668x375 and be positioned respectively at (0,222) and (788,222).

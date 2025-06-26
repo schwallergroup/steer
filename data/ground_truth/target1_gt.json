@@ -1,0 +1,87 @@
+[
+  {
+    "smiles": "CCN1CCCC[C@@H]1COc1ccc2c(c1)CN(C3CCC(=O)NC3=O)C2=O",
+    "type": "mol",
+    "in_stock": false,
+    "children": [
+      {
+        "smiles": "",
+        "type": "reaction",
+        "children": [
+          {
+            "smiles": "CCN1CCCC[C@@H]1COc2cc(CCl)c(C(OCC)=O)cc2",
+            "type": "mol",
+            "in_stock": false,
+            "children": [
+              {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                  {
+                    "smiles": "CCN1CCCC[C@@H]1COc1ccc2C(=O)OCc2c1",
+                    "type": "mol",
+                    "in_stock": false,
+                    "children": [
+                      {
+                        "smiles": "",
+                        "type": "reaction",
+                        "children": [
+                          {
+                            "smiles": "O=C1OCc2cc(OC[C@@H]3CCCCN3)ccc21",
+                            "type": "mol",
+                            "in_stock": false,
+                            "children": [
+                              {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                  {
+                                    "smiles": "CC(C)(C)OC(=O)N1CCCC[C@@H]1COc1ccc2C(=O)OCc2c1",
+                                    "type": "mol",
+                                    "in_stock": false,
+                                    "children": [
+                                      {
+                                        "smiles": "",
+                                        "type": "reaction",
+                                        "children": [
+                                          {
+                                            "smiles": "O=C1OCc2cc(Br)ccc21",
+                                            "type": "mol",
+                                            "in_stock": false
+                                          },
+                                          {
+                                            "smiles": "CC(C)(C)OC(=O)N1CCCC[C@@H]1CO",
+                                            "type": "mol",
+                                            "in_stock": false
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "smiles": "CC=O",
+                            "type": "mol",
+                            "in_stock": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "smiles": "NC1CCC(=O)NC1=O",
+            "type": "mol",
+            "in_stock": false
+          }
+        ]
+      }
+    ]
+  }
+]
