@@ -18,6 +18,22 @@ router = Router(
             },
         },
         {
+            "model_name": "o3",  # model alias
+            "litellm_params": {
+                "model": "openai/o3",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "o4-mini",  # model alias
+            "litellm_params": {
+                "model": "openai/o4-mini",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
             "model_name": "gpt-4o-mini",  # model alias
             "litellm_params": {
                 "model": "openai/gpt-4o-mini",  # actual model name
@@ -29,6 +45,22 @@ router = Router(
             "litellm_params": {
                 "model": "openai/gpt-4-turbo",  # actual model name
                 "api_key": os.getenv("OPENAI_API_KEY"),
+            },
+        },
+        {
+            "model_name": "claude-3-sonnet",  # model alias
+            "litellm_params": {
+                "model": "claude-3-sonnet-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-3-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-3-opus-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
             },
         },
         {
@@ -45,6 +77,22 @@ router = Router(
                 "model": "claude-3-7-sonnet-20250219",  # actual model name
                 "api_key": os.getenv("ANTHROPIC_API_KEY"),
                 # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-4-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-opus-4-20250514",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-2.1",  # model alias
+            "litellm_params": {
+                "model": "claude-2.1",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                "rpm": 1,
             },
         },
         {
@@ -131,6 +179,54 @@ router = Router(
             "model_name": "deepseek-r1-8b",  # model alias
             "litellm_params": {
                 "model": "openrouter/deepseek/deepseek-r1-0528-qwen3-8b",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "gemini-2.5-pro",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-2.5-pro",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "gemini-1.5-flash",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-flash-1.5",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "gemini-1.5-pro",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-pro-1.5",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "gemini-2.0-flash",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-2.0-flash-001",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "gemini-2.5-flash",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-2.5-flash-preview-05-20",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "claude-4-sonnet",  # model alias
+            "litellm_params": {
+                "model": "openrouter/anthropic/claude-4-sonnet-20250522",  # actual model name
                 "api_key": os.getenv("OPENROUTER_API_KEY"),
                 "rpm": 2,
             },

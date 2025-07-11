@@ -69,7 +69,7 @@ class LM(BaseModel):
         try:
             response = await router.acompletion(
                 model=self.model,
-                temperature=0.1,
+                # temperature=0.1,
                 messages=[
                     {
                         "role": "user",
@@ -114,7 +114,7 @@ class LM(BaseModel):
                 inp = self._get_txt_msg(smi)
 
             msg = [
-                {"type": "text", "text": f"Reaction #{i+1}. Depth: {depth}"},
+                {"type": "text", "text": f"\nReaction #{i+1}. Depth: {depth}\n"},
                 inp,
             ]
             msgs.extend(msg)
@@ -189,8 +189,9 @@ class LM(BaseModel):
         smiles = []
         for m in tree.graph.nodes():
             if isinstance(m, FixedRetroReaction):
-                rsmi = m.metadata["mapped_reaction_smiles"].split(">>")
-                rvsmi = f"{rsmi[1]}>>{rsmi[0]}"
+                prod = m.mol.smiles
+                rcts = [r.smiles for r in m.reactants[0]]
+                rvsmi = f"{'.'.join(rcts)}>>{prod}"
 
                 # Get distance of node m from root
                 depth = nx.shortest_path_length(

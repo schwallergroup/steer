@@ -1,0 +1,148 @@
+[
+  {
+    "smiles": "C=CCn1c(=O)c2cnc(Nc3ccc(N4CCN(C)CC4)cc3)nc2n1-c1cccc(C(C)(C)O)n1",
+    "type": "mol",
+    "in_stock": false,
+    "children": [
+      {
+        "smiles": "",
+        "type": "reaction",
+        "children": [
+          {
+            "smiles": "C=CCn1c(=O)c2cnc(SC)nc2n1-c1cccc(C(C)(C)O)n1",
+            "type": "mol",
+            "in_stock": false,
+            "children": [
+              {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                  {
+                    "smiles": "C=CCn1[nH]c2nc(SC)ncc2c1=O",
+                    "type": "mol",
+                    "in_stock": false,
+                    "children": [
+                      {
+                        "smiles": "",
+                        "type": "reaction",
+                        "children": [
+                          {
+                            "smiles": "C=CCN(N)C(=O)OC(C)(C)C",
+                            "type": "mol",
+                            "in_stock": false,
+                            "children": [
+                              {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                  {
+                                    "smiles": "C=CCN(C(=O)OC(C)(C)C)N1C(=O)c2ccccc2C1=O",
+                                    "type": "mol",
+                                    "in_stock": false,
+                                    "children": [
+                                      {
+                                        "smiles": "",
+                                        "type": "reaction",
+                                        "children": [
+                                          {
+                                            "smiles": "CC(C)(C)OC(=O)NN1C(=O)c2ccccc2C1=O",
+                                            "type": "mol",
+                                            "in_stock": false,
+                                            "children": [
+                                              {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                  {
+                                                    "smiles": "O=C1OC(=O)c2ccccc21",
+                                                    "type": "mol",
+                                                    "in_stock": false
+                                                  },
+                                                  {
+                                                    "smiles": "CC(C)(C)OC(=O)NN",
+                                                    "type": "mol",
+                                                    "in_stock": false
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "smiles": "C=CCBr",
+                                            "type": "mol",
+                                            "in_stock": false
+                                          },
+                                          {
+                                            "smiles": "CC[N+](CC)(CC)Cc1ccccc1",
+                                            "type": "mol",
+                                            "in_stock": false
+                                          },
+                                          {
+                                            "smiles": "[Cl-]",
+                                            "type": "mol",
+                                            "in_stock": false
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "smiles": "CNN",
+                                    "type": "mol",
+                                    "in_stock": false
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "smiles": "CCOC(=O)c1cnc(SC)nc1Cl",
+                            "type": "mol",
+                            "in_stock": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "smiles": "CC(C)(O)c1cccc(Br)n1",
+                    "type": "mol",
+                    "in_stock": false,
+                    "children": [
+                      {
+                        "smiles": "",
+                        "type": "reaction",
+                        "children": [
+                          {
+                            "smiles": "COC(=O)c1cccc(Br)n1",
+                            "type": "mol",
+                            "in_stock": false
+                          },
+                          {
+                            "smiles": "C[Mg]I",
+                            "type": "mol",
+                            "in_stock": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "smiles": "CNCCNC",
+                    "type": "mol",
+                    "in_stock": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "smiles": "CN1CCN(c2ccc(N)cc2)CC1",
+            "type": "mol",
+            "in_stock": false
+          }
+        ]
+      }
+    ]
+  }
+]

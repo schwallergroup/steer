@@ -1,0 +1,65 @@
+[
+  {
+    "smiles": "CC1=CC=C(Cl)C(C(N[C@H](C(O)=O)CNC(CN2C(C=C(F)C(C)=N3)=C3NC2=O)=O)=O)=C1F",
+    "prompt": "Highly feasible synthesis with high overall yields, consider potential side reactions and byproducts. Also ensure no unnecesary reactions are performed.",
+    "id": "280b79ef56e06a8af1a7d6b72c52148d",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "diff",
+        "value": 1
+      }
+    }
+  },
+  {
+    "smiles": "CCN1[C@@H](COC2=CC(C(N(C3C(NC(CC3)=O)=O)C4)=O)=C4C=C2)CCCC1",
+    "prompt": "Highly feasible synthesis with high overall yields, consider potential side reactions and byproducts. Also ensure no unnecesary reactions are performed.",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
+    "config": {
+      "iter_lim": 50,
+      "time_lim": 1000,
+      "max_tree": 10
+    },
+    "id": "0c0ea36bcefee71d4956cfc21454fe12"
+  },
+  {
+    "smiles": "CN1CCN(C2=CC=C(N(C3=NC(N(C4=CC=CC(C(C)(C)O)=N4)N(CC=C)C5=O)=C5C=N3)[H])C=C2)CC1",
+    "prompt": "Highly feasible synthesis with high overall yields, consider potential side reactions and byproducts. Also ensure no unnecesary reactions are performed.",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
+    "config": {
+      "iter_lim": 50,
+      "time_lim": 1000,
+      "max_tree": 10
+    },
+    "id": "bf6e6641ffc7bf54d328bdb1568e1787"
+  },
+  {
+    "smiles": "CP(C1=CC=C(NCC#CC2=CC(C(NC3CCN(CC(N4CCC(CN5CCN(C(C[C@@H]6N=C(C7=CC=C(Cl)C=C7)C(C(C)=C(C)S8)=C8N9C6=NN=C9C)=O)CC5)CC4)=O)CC3)=CC=C%10)=C%10N2CC(F)(F)F)C=C1)(C)=O",
+    "prompt": "Highly feasible synthesis with high overall yields, consider potential side reactions and byproducts. Also ensure no unnecesary reactions are performed.",
+    "eval_type": "RingBreakDepth",
+    "eval_config": {
+      "target_depth": {
+        "type": "bool",
+        "value": -1
+      }
+    },
+    "config": {
+      "iter_lim": 50,
+      "time_lim": 1000,
+      "max_tree": 10
+    },
+    "id": "6137420e765c02d74671c89ca569ce41"
+  }
+]
