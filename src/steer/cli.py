@@ -116,8 +116,6 @@ def synth(ctx, model, cache_path, bench_spec, vision):
         tasks = load_default_tasks(bench_spec)
     else:
         tasks = load_default_tasks()
-
-    print(tasks)
     if ctx.obj is None:
         ctx.obj = {}
 
