@@ -114,7 +114,7 @@ class LM(BaseModel):
                 inp = self._get_txt_msg(smi)
 
             msg = [
-                {"type": "text", "text": f"Reaction #{i+1}. Depth: {depth}"},
+                {"type": "text", "text": f"\nReaction #{i+1}. Depth: {depth}\n"},
                 inp,
             ]
             msgs.extend(msg)
