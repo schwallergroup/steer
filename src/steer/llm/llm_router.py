@@ -14,7 +14,7 @@ router = Router(
             "model_name": "gpt-4.1",  # model alias
             "litellm_params": {
                 "model": "azure/gpt-4.1",  # actual model name
-                "api_key": "5eADxXpQ3CTkIbiCzOLkgYQxZgOMuFm83u24VnYVoYmrw04CUCH1JQQJ99BGACYeBjFXJ3w3AAABACOG0w8K",
+                "api_key": os.getenv("AZURE_API_KEY"),
                 "api_base": "https://idkman.openai.azure.com/"
             },
         },
