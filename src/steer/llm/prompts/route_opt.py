@@ -8,7 +8,8 @@ First, the following query describes a desired synthetic pathway towards a targe
 {query}
 </query>
 
-Next, you will be given a sequence of proposed reactions, starting from the target molecule and going backwards through each of the intermediate reactions in a retrosynthetic way.
+Next, you will be given a sequence of proposed reactions (reactants>>product), starting from the last reaction and going backwards through each of the intermediate reactions in a retrosynthetic way.
+
 Note that:
 
 1. "Early" in the synthesis means further from the target molecule, as the reactions further back in the sequence are closer to the starting materials.

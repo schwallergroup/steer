@@ -26,6 +26,22 @@ router = Router(
             },
         },
         {
+            "model_name": "o3",  # model alias
+            "litellm_params": {
+                "model": "openai/o3",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "o4-mini",  # model alias
+            "litellm_params": {
+                "model": "openai/o4-mini",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
             "model_name": "gpt-4o-mini",  # model alias
             "litellm_params": {
                 "model": "openai/gpt-4o-mini",  # actual model name
@@ -37,6 +53,22 @@ router = Router(
             "litellm_params": {
                 "model": "openai/gpt-4-turbo",  # actual model name
                 "api_key": os.getenv("OPENAI_API_KEY"),
+            },
+        },
+        {
+            "model_name": "claude-3-sonnet",  # model alias
+            "litellm_params": {
+                "model": "claude-3-sonnet-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-3-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-3-opus-20240229",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
             },
         },
         {
@@ -53,6 +85,22 @@ router = Router(
                 "model": "anthropic/claude-3-7-sonnet-20250219",  # actual model name
                 "api_key": os.getenv("ANTHROPIC_API_KEY"),
                 # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-4-opus",  # model alias
+            "litellm_params": {
+                "model": "claude-opus-4-20250514",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "claude-2.1",  # model alias
+            "litellm_params": {
+                "model": "claude-2.1",  # actual model name
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                "rpm": 1,
             },
         },
         {
