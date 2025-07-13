@@ -74,8 +74,16 @@ def bench(ctx):  # type: ignore
 @click.group()
 @click.version_option()
 @click.option("--model", default="gpt-4o", help="Model to use")
-@click.option("--cache_path", default="data/synth_bench", help="Dir where precomputed routes are stored")
-@click.option("--bench_spec", default="", help="Dir where benchmark specifications are stored")
+@click.option(
+    "--cache_path",
+    default="data/synth_bench",
+    help="Dir where precomputed routes are stored",
+)
+@click.option(
+    "--bench_spec",
+    default="",
+    help="Dir where benchmark specifications are stored",
+)
 @click.option("--vision", default=False, help="Pass reactions as images")
 @click.pass_context
 def synth(ctx, model, cache_path, bench_spec, vision):

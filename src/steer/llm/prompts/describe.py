@@ -1,4 +1,3 @@
-
 prefix = """You are an expert in organic chemistry. You will be presented with a synthesis plan for a target molecule. Your task is to analyze this plan thoroughly, examining each reaction in detail and evaluating the strategic aspects of the overall route.
 
 Here is the synthesis plan:

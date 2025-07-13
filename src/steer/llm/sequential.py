@@ -11,11 +11,11 @@ import networkx as nx  # type: ignore
 import numpy as np
 import pandas as pd  # type: ignore
 import weave  # type: ignore
+from aizynthfinder.chem import FixedRetroReaction  # type: ignore
+from aizynthfinder.reactiontree import ReactionTree  # type: ignore
 from dotenv import load_dotenv  # type: ignore
 from PIL.Image import Image
 from pydantic import BaseModel, model_validator  # type: ignore
-from aizynthfinder.chem import FixedRetroReaction  # type: ignore
-from aizynthfinder.reactiontree import ReactionTree  # type: ignore
 from weave.trace.context.call_context import get_current_call  # type: ignore
 
 from steer.logger import setup_logger
@@ -114,7 +114,10 @@ class LM(BaseModel):
                 inp = self._get_txt_msg(smi)
 
             msg = [
-                {"type": "text", "text": f"\nReaction #{i+1}. Depth: {depth}\n"},
+                {
+                    "type": "text",
+                    "text": f"\nReaction #{i+1}. Depth: {depth}\n",
+                },
                 inp,
             ]
             msgs.extend(msg)
