@@ -11,10 +11,10 @@ import weave
 from dotenv import load_dotenv
 from pydantic import BaseModel, model_validator
 
-from steer.utils.rxnimg import get_rxn_img
-
 from .llm_router import router
 from .prompts import *
+
+# from steer.utils.rxnimg import get_rxn_img
 
 
 class Heuristic(BaseModel):
@@ -34,9 +34,9 @@ class Heuristic(BaseModel):
         if smiles in self.cache:
             return self.cache[smiles]
 
-        b64img = get_rxn_img(smiles)
-        if b64img is None:
-            raise ValueError("Failed to retrieve the image.")
+        # b64img = get_rxn_img(smiles)
+        # if b64img is None:
+        #     raise ValueError("Failed to retrieve the image.")
 
         response = await router.acompletion(
             model=self.model,
