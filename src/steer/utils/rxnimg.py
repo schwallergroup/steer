@@ -2,7 +2,7 @@ import base64
 import os
 from io import BytesIO
 
-import cairosvg
+# import cairosvg
 import requests
 from PIL import Image
 
@@ -63,65 +63,66 @@ def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> Image.Image:
     response = requests.get(url, params=params)
 
     # Check if the request was successful
-    if response.status_code == 200:
-        # Get the SVG content
-        svg_content = response.content
+    # if response.status_code == 200:
+    #     # Get the SVG content
+    #     svg_content = response.content
 
-        # Convert SVG to PNG
-        png_data = cairosvg.svg2png(bytestring=svg_content, dpi=300)
+    #     # Convert SVG to PNG
+    #     png_data = cairosvg.svg2png(bytestring=svg_content, dpi=300)
 
-        # Open the PNG image using PIL
-        img = Image.open(BytesIO(png_data))
+    #     # Open the PNG image using PIL
+    #     img = Image.open(BytesIO(png_data))
 
-        # Calculate the scaling factor to fit the image within the final size
-        img_ratio = img.width / img.height
-        final_ratio = final_size[0] / final_size[1]
+    #     # Calculate the scaling factor to fit the image within the final size
+    #     img_ratio = img.width / img.height
+    #     final_ratio = final_size[0] / final_size[1]
 
-        if img_ratio > final_ratio:
-            # Image is wider than the final aspect ratio
-            new_width = final_size[0]
-            new_height = int(final_size[0] / img_ratio)
-        else:
-            # Image is taller than the final aspect ratio
-            new_height = final_size[1]
-            new_width = int(final_size[1] * img_ratio)
+    #     if img_ratio > final_ratio:
+    #         # Image is wider than the final aspect ratio
+    #         new_width = final_size[0]
+    #         new_height = int(final_size[0] / img_ratio)
+    #     else:
+    #         # Image is taller than the final aspect ratio
+    #         new_height = final_size[1]
+    #         new_width = int(final_size[1] * img_ratio)
 
-        # Resize the image while maintaining aspect ratio
-        img = img.resize((new_width, new_height))  # , Image.LANCZOS)
+    #     # Resize the image while maintaining aspect ratio
+    #     img = img.resize((new_width, new_height))  # , Image.LANCZOS)
 
-        # Create a new image with a white background and the desired final size
-        final_img = Image.new("RGB", final_size, (255, 255, 255))
+    #     # Create a new image with a white background and the desired final size
+    #     final_img = Image.new("RGB", final_size, (255, 255, 255))
 
-        # Calculate position to center the original image
-        x_offset = (final_size[0] - img.size[0]) // 2
-        y_offset = (final_size[1] - img.size[1]) // 2
+    #     # Calculate position to center the original image
+    #     x_offset = (final_size[0] - img.size[0]) // 2
+    #     y_offset = (final_size[1] - img.size[1]) // 2
 
-        # Paste the original image onto the final image
-        final_img.paste(
-            img, (x_offset, y_offset), mask=img.split()[3]
-        )  # Use the alpha channel as mask
+    #     # Paste the original image onto the final image
+    #     final_img.paste(
+    #         img, (x_offset, y_offset), mask=img.split()[3]
+    #     )  # Use the alpha channel as mask
 
-        # Save the image to a BytesIO object in PNG format
-        buffered = BytesIO()
-        final_img.save(buffered, format="PNG")
-        return final_img
+    #     # Save the image to a BytesIO object in PNG format
+    #     buffered = BytesIO()
+    #     final_img.save(buffered, format="PNG")
+    #     return final_img
 
-        # Get the byte data and encode it to base64
-        img_str = base64.b64encode(buffered.getvalue()).decode()
+    #     # Get the byte data and encode it to base64
+    #     img_str = base64.b64encode(buffered.getvalue()).decode()
 
-        # # Save the image to a BytesIO object in PNG format
-        # buffered = BytesIO()
-        # img.save(buffered, format="PNG")
+    #     # # Save the image to a BytesIO object in PNG format
+    #     # buffered = BytesIO()
+    #     # img.save(buffered, format="PNG")
 
-        # # Get the byte data and encode it to base64
-        # img_str = base64.b64encode(buffered.getvalue()).decode()
+    #     # # Get the byte data and encode it to base64
+    #     # img_str = base64.b64encode(buffered.getvalue()).decode()
 
-        return img_str
-    else:
-        print(
-            f"Failed to retrieve the SVG. Status code: {response.status_code}"
-        )
-        return None
+    #     return img_str
+    return None
+    # else:
+    #     print(
+    #         f"Failed to retrieve the SVG. Status code: {response.status_code}"
+    #     )
+    #     return None
 
 
 if __name__ == "__main__":

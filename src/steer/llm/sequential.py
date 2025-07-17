@@ -6,6 +6,10 @@ import importlib
 import os
 from io import BytesIO
 from typing import Any, Dict, List, Optional
+from time import sleep
+
+from openai import AsyncOpenAI
+
 
 import networkx as nx  # type: ignore
 import numpy as np
@@ -26,6 +30,7 @@ from .prompts import *
 
 logger = setup_logger(__name__)
 
+client = AsyncOpenAI()
 
 class LM(BaseModel):
     """LLM Heuristic for scoring reactions."""
@@ -66,28 +71,40 @@ class LM(BaseModel):
 
     @weave.op()
     async def _run_llm(self, msgs, query, taskid=""):
-        try:
-            response = await router.acompletion(
-                model=self.model,
-                # temperature=0.1,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": self.prefix.format(query=query),
-                            },
-                            *msgs,
-                            {"type": "text", "text": self.suffix},
-                        ],
-                    },
-                ],
-            )
-            response = response.choices[0].message.content
-        except Exception as e:
-            logger.error(f"{e}")
-            response = "<score>-1</score>"
+        if self.model == "o3-high":
+            try:
+                resp = await self.o3_call(msgs, query)
+            except Exception as e:
+                sleep(120)
+                resp = await self.o3_call(msgs, query)
+            try:
+                response = resp.output[1].content[0].text
+            except Exception as e:
+                logger.error(f"{e}")
+                response = "<score>-1</score>"
+        else:
+            try:
+                response = await router.acompletion(
+                    model=self.model,
+                    # temperature=0.1,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": self.prefix.format(query=query),
+                                },
+                                *msgs,
+                                {"type": "text", "text": self.suffix},
+                            ],
+                        },
+                    ],
+                )
+                response = response.choices[0].message.content
+            except Exception as e:
+                logger.error(f"{e}")
+                response = "<score>-1</score>"
 
         current_call = get_current_call()
         if current_call is None:
@@ -98,6 +115,33 @@ class LM(BaseModel):
             response=response,
             url=url,
         )
+
+    async def o3_call(self, msgs, query):
+        resp = await client.responses.create(
+            model="o3",
+            input=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "input_text",
+                            "text": self.prefix.format(query=query),
+                        },
+                        *msgs,
+                        {"type": "input_text", "text": self.suffix},
+                    ],
+                },
+            ],
+            text={
+                "format": {
+                "type": "text"
+                }
+            },
+            reasoning={
+                "effort": "high",
+            },
+        )
+        return resp
 
     def make_msg_sequence(self, tree: ReactionTree | List[str]):
         if isinstance(tree, ReactionTree):
@@ -115,7 +159,7 @@ class LM(BaseModel):
 
             msg = [
                 {
-                    "type": "text",
+                    "type": "input_text",
                     "text": f"\nReaction #{i+1}. Depth: {depth}\n",
                 },
                 inp,
@@ -125,7 +169,7 @@ class LM(BaseModel):
 
     def _get_txt_msg(self, smi):
         """Get text message."""
-        return {"type": "text", "text": f"{smi}"}
+        return {"type": "input_text", "text": f"{smi}"}
 
     def _get_img_msg(self, smi):
         """Get image message."""
@@ -154,10 +198,17 @@ class LM(BaseModel):
         return d
 
     async def run_single_task(self, task, data, nroutes=10):
-        result = await asyncio.gather(
-            *[self.run_single_route(task, d) for d in data[:nroutes]]
-        )
-        return result
+        # Schedule in batches of 30
+        bs = 20
+        batches = [data[i:i+bs] for i in range(0, len(data), bs)]
+        results = []
+        for i, batch in enumerate(batches):
+            logger.info(f"Running batch {i+1} of {len(batches)}. Task: {task.id}")
+            sleep(120)
+            results.extend(await asyncio.gather(
+                *[self.run_single_route(task, d) for d in batch]
+            ))
+        return results
 
     @model_validator(mode="after")
     def load_prompts(self):

@@ -148,7 +148,7 @@ def bench(ctx, task):
         "Corr": 0,
     }
 
-    for i, t in enumerate(tasks):
+    for i, t in enumerate(tasks[4:]):
         logger.info(task)
         if task is not None and t.id != task:
             logger.info("Skipping task:", t.id)

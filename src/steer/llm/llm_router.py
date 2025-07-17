@@ -26,9 +26,17 @@ router = Router(
             },
         },
         {
-            "model_name": "o3",  # model alias
+            "model_name": "o3-high",  # model alias
             "litellm_params": {
                 "model": "openai/o3",  # actual model name
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "rpm": 2,
+            },
+        },
+        {
+            "model_name": "o3-pro",  # model alias
+            "litellm_params": {
+                "model": "openai/o3-pro",  # actual model name
                 "api_key": os.getenv("OPENAI_API_KEY"),
                 "rpm": 2,
             },
