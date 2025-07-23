@@ -38,8 +38,7 @@ class LM(BaseModel):
     project_name: str = ""
 
     assert (not prompt_needs_expert_description) or (
-        (task is not None and task.expert_description is not None)
-        or (task is None and expert_description != None)
+        expert_description is not None
     )
 
     async def run(

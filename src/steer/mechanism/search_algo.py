@@ -45,7 +45,10 @@ async def score_one_step(
                 step=f"{curr_ms.canonical_smiles}>>{nms.canonical_smiles}",
                 expert_description=(
                     scorer.expert_description
-                    if scorer.prompt_needs_expert_description
+                    if (
+                        scorer.expert_description is not None
+                        and scorer.prompt_needs_expert_description
+                    )
                     else ""
                 ),
             )
