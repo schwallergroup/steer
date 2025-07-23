@@ -225,6 +225,7 @@ router = Router(
                 "api_key": os.getenv("OPENROUTER_API_KEY"),
                 "api_base": "https://openrouter.ai/api/v1",
                 # "rpm": 40,
+            },
         },
         {
             "model_name": "claude-4-sonnet",  # model alias
