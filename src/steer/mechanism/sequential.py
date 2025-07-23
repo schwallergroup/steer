@@ -37,7 +37,10 @@ class LM(BaseModel):
     expert_description: Optional[str] = None
     project_name: str = ""
 
-    assert (not prompt_needs_expert_description) or ((task is not None and task.expert_description is not None) or (task is None and expert_description != None))
+    assert (not prompt_needs_expert_description) or (
+        (task is not None and task.expert_description is not None)
+        or (task is None and expert_description != None)
+    )
 
     async def run(
         self,
@@ -57,7 +60,10 @@ class LM(BaseModel):
         else:
             msgs = self.make_msg_sequence(rxn, history)
             response = await self._run_llm(
-                msgs, step, taskid=task.id if task else "", expert_description=expert_description
+                msgs,
+                step,
+                taskid=task.id if task else "",
+                expert_description=expert_description,
             )
         return response
 
@@ -73,7 +79,13 @@ class LM(BaseModel):
                         "content": [
                             {
                                 "type": "text",
-                                "text": self.prefix if not self.prompt_needs_expert_description else self.prefix.format(expert_description=expert_description),
+                                "text": (
+                                    self.prefix
+                                    if not self.prompt_needs_expert_description
+                                    else self.prefix.format(
+                                        expert_description=expert_description
+                                    )
+                                ),
                             },
                             *msgs,
                             {

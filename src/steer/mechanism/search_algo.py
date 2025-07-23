@@ -1,11 +1,12 @@
-
-from colorama import Fore
 import asyncio
 from typing import List, Optional
+
+import numpy as np
+from colorama import Fore
+from rdkit.Chem import MolFromSmiles, MolToSmiles
+
 from steer.mechanism.molecule_set import MoleculeSet, MoleculeSetTooCrazyError
 from steer.mechanism.sequential import LM
-from rdkit.Chem import MolFromSmiles, MolToSmiles
-import numpy as np
 
 
 def rdkit_canonicalize(smi):
@@ -17,7 +18,9 @@ async def score_one_step(
     start_ms: MoleculeSet,
     goal_ms: MoleculeSet,
     curr_ms: MoleculeSet,
-    all_next_ms: Optional[List[MoleculeSet]] = None,# If None, will be calculated
+    all_next_ms: Optional[
+        List[MoleculeSet]
+    ] = None,  # If None, will be calculated
     history_ms: List[MoleculeSet] = [],
 ):
 
@@ -36,19 +39,23 @@ async def score_one_step(
         *[
             scorer.run(
                 rxn=f"{start_ms.canonical_smiles}>>{goal_ms.canonical_smiles}",
-                history=[hist.canonical_smiles for hist in history_ms+[curr_ms]],
+                history=[
+                    hist.canonical_smiles for hist in history_ms + [curr_ms]
+                ],
                 step=f"{curr_ms.canonical_smiles}>>{nms.canonical_smiles}",
-                expert_description=scorer.expert_description if scorer.prompt_needs_expert_description else "",
-
+                expert_description=(
+                    scorer.expert_description
+                    if scorer.prompt_needs_expert_description
+                    else ""
+                ),
             )
-            for nms in all_next_ms 
+            for nms in all_next_ms
         ]
     )
 
     scores = [scorer._parse_score(result) for result in response]
 
     return all_next_ms, scores
-
 
 
 async def beam_search(
@@ -66,9 +73,9 @@ async def beam_search(
     start_can_smi = start_ms.canonical_smiles
     goal_ms = MoleculeSet(goal_smiles)
     goal_can_smi = goal_ms.canonical_smiles
-    
-    nodes_seen = {0:
-        {
+
+    nodes_seen = {
+        0: {
             "ms": start_ms,
             "smiles": start_can_smi,
             "score": 0,
@@ -86,8 +93,9 @@ async def beam_search(
     selected_node = nodes_seen.pop(lowest_score_idx)
     nodes_expanded[lowest_score_idx] = selected_node
 
-
-    print(f"{Fore.YELLOW}Careful: For now only the exact goal is considered as a goal, no substructure detection{Fore.RESET}")
+    print(
+        f"{Fore.YELLOW}Careful: For now only the exact goal is considered as a goal, no substructure detection{Fore.RESET}"
+    )
 
     lowest_score_goal = None
     list_of_valid_goal_nodes = []
@@ -96,10 +104,15 @@ async def beam_search(
     n_nodes_expanded = 0
     llm_calls = 0
 
-    while lowest_score_goal is None or selected_node["score"] <= lowest_score_goal:
+    while (
+        lowest_score_goal is None
+        or selected_node["score"] <= lowest_score_goal
+    ):
 
         if llm_calls - last_cost_checkpoint > check_every:
-            print(f"{Fore.LIGHTBLACK_EX}Checkpoint: {llm_calls} LLM calls{Fore.RESET}")
+            print(
+                f"{Fore.LIGHTBLACK_EX}Checkpoint: {llm_calls} LLM calls{Fore.RESET}"
+            )
             last_cost_checkpoint += check_every
             breakpoint()
             print()
@@ -108,19 +121,49 @@ async def beam_search(
 
         # If the node is the goal, no need to expand it further
         if selected_node["smiles"] == goal_can_smi:
-            print(f"{Fore.LIGHTBLACK_EX}Selected node is the goal, passing to next node{Fore.RESET}")
+            print(
+                f"{Fore.LIGHTBLACK_EX}Selected node is the goal, passing to next node{Fore.RESET}"
+            )
             history_selected_node = get_history(selected_node, nodes_expanded)
-            history_str = '>>'.join([h.canonical_smiles for h in [start_ms] + history_selected_node + ([selected_node["ms"]] if selected_node["parent_idx"] is not None else [])])
-            print(f"{Fore.LIGHTBLACK_EX}History:\n{history_str} score: {selected_node['score']:5.3f}{Fore.RESET}")
+            history_str = ">>".join(
+                [
+                    h.canonical_smiles
+                    for h in [start_ms]
+                    + history_selected_node
+                    + (
+                        [selected_node["ms"]]
+                        if selected_node["parent_idx"] is not None
+                        else []
+                    )
+                ]
+            )
+            print(
+                f"{Fore.LIGHTBLACK_EX}History:\n{history_str} score: {selected_node['score']:5.3f}{Fore.RESET}"
+            )
 
         else:
-            print(f"{Fore.LIGHTBLACK_EX}Selected node: {selected_node}{Fore.RESET}")
+            print(
+                f"{Fore.LIGHTBLACK_EX}Selected node: {selected_node}{Fore.RESET}"
+            )
             history_selected_node = get_history(selected_node, nodes_expanded)
-            history_str = '>>'.join([h.canonical_smiles for h in [start_ms] + history_selected_node + ([selected_node["ms"]] if selected_node["parent_idx"] is not None else [])])
-            print(f"{Fore.LIGHTBLACK_EX}History:\n{history_str} score: {selected_node['score']:5.3f}{Fore.RESET}")
+            history_str = ">>".join(
+                [
+                    h.canonical_smiles
+                    for h in [start_ms]
+                    + history_selected_node
+                    + (
+                        [selected_node["ms"]]
+                        if selected_node["parent_idx"] is not None
+                        else []
+                    )
+                ]
+            )
+            print(
+                f"{Fore.LIGHTBLACK_EX}History:\n{history_str} score: {selected_node['score']:5.3f}{Fore.RESET}"
+            )
 
-            #breakpoint()
-            #print()
+            # breakpoint()
+            # print()
 
             nms_list, scores = await score_one_step(
                 scorer=scorer,
@@ -132,28 +175,37 @@ async def beam_search(
 
             reranked_nms_scores = sorted(
                 [(n_ms, score) for n_ms, score in zip(nms_list, scores)],
-                key=lambda x: x[1], reverse=True, # Here since we didn't calculate the opposite score, we sort in descending order
+                key=lambda x: x[1],
+                reverse=True,  # Here since we didn't calculate the opposite score, we sort in descending order
             )
 
             for n_ms, score in reranked_nms_scores:
-                print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 for Molecule set: {n_ms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {n_ms.explicit_canonical_smiles} )")
+                print(
+                    f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 for Molecule set: {n_ms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {n_ms.explicit_canonical_smiles} )"
+                )
                 llm_calls += 1
                 n_nodes_scored += 1
 
             if reranked_nms_scores[-1][1] < min_score_to_keep:
-                print(f"Getting rid of all scores below {min_score_to_keep} (min score is {reranked_nms_scores[-1][1]})")
+                print(
+                    f"Getting rid of all scores below {min_score_to_keep} (min score is {reranked_nms_scores[-1][1]})"
+                )
 
-            rescored_ms = {n_ms.canonical_smiles:
-                {
-                    "ms":n_ms,
-                    "score_list":[score],
+            rescored_ms = {
+                n_ms.canonical_smiles: {
+                    "ms": n_ms,
+                    "score_list": [score],
                     "score": np.mean(score),
                     "op_score": opposite_score(np.mean(score)),
-                } for n_ms, score in zip(nms_list, scores) if score >= min_score_to_keep
+                }
+                for n_ms, score in zip(nms_list, scores)
+                if score >= min_score_to_keep
             }
 
             if num_llm_calls_before_rescoring > 1:
-                print(f"Refining scores of the remaining nodes with {num_llm_calls_before_rescoring-1} additional LLM calls")
+                print(
+                    f"Refining scores of the remaining nodes with {num_llm_calls_before_rescoring-1} additional LLM calls"
+                )
                 for _ in range(num_llm_calls_before_rescoring - 1):
                     if len(rescored_ms) == 0:
                         print("No nodes to rescore")
@@ -169,23 +221,42 @@ async def beam_search(
                     )
 
                     for nms, score in zip(nms_list, scores):
-                        rescored_ms[nms.canonical_smiles]["score_list"].append(score)
-                        rescored_ms[nms.canonical_smiles]["score"] = np.mean(rescored_ms[nms.canonical_smiles]["score_list"])
-                        rescored_ms[nms.canonical_smiles]["op_score"] = opposite_score(rescored_ms[nms.canonical_smiles]["score"])
+                        rescored_ms[nms.canonical_smiles]["score_list"].append(
+                            score
+                        )
+                        rescored_ms[nms.canonical_smiles]["score"] = np.mean(
+                            rescored_ms[nms.canonical_smiles]["score_list"]
+                        )
+                        rescored_ms[nms.canonical_smiles]["op_score"] = (
+                            opposite_score(
+                                rescored_ms[nms.canonical_smiles]["score"]
+                            )
+                        )
 
                     sorted_next_nodes_scores = sorted(
-                        [(val["ms"], val["op_score"], val["score"]) for val in rescored_ms.values()],
-                        key=lambda x: x[1]
+                        [
+                            (val["ms"], val["op_score"], val["score"])
+                            for val in rescored_ms.values()
+                        ],
+                        key=lambda x: x[1],
                     )
 
                     for nms, op_score, score in sorted_next_nodes_scores:
-                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )")
+                        print(
+                            f"{Fore.LIGHTBLUE_EX}LLM Score: {score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )"
+                        )
                         llm_calls += 1
 
                     if sorted_next_nodes_scores[-1][2] < min_score_to_keep:
-                        print(f"Getting rid of all scores below {min_score_to_keep} (min score is {sorted_next_nodes_scores[-1][2]})")
-                        
-                        rescored_ms = {smiles: val for smiles, val in rescored_ms.items() if val["score"] >= min_score_to_keep}
+                        print(
+                            f"Getting rid of all scores below {min_score_to_keep} (min score is {sorted_next_nodes_scores[-1][2]})"
+                        )
+
+                        rescored_ms = {
+                            smiles: val
+                            for smiles, val in rescored_ms.items()
+                            if val["score"] >= min_score_to_keep
+                        }
 
             if tie_breaker == "take_all":
                 if len(rescored_ms) == 0:
@@ -194,18 +265,25 @@ async def beam_search(
                     kept_next_nodes_scores = sorted_next_nodes_scores
                 else:
                     score_cutoff = sorted_next_nodes_scores[beam_width - 1][1]
-                    kept_next_nodes_scores = [s for s in sorted_next_nodes_scores if s[1] <= score_cutoff]
+                    kept_next_nodes_scores = [
+                        s
+                        for s in sorted_next_nodes_scores
+                        if s[1] <= score_cutoff
+                    ]
 
             elif tie_breaker == "llm_max_1_then_take_all":
                 score_cutoff = sorted_next_nodes_scores[beam_width - 1][1]
-                kept_next_nodes_scores = [s for s in sorted_next_nodes_scores if s[1] <= score_cutoff]
+                kept_next_nodes_scores = [
+                    s for s in sorted_next_nodes_scores if s[1] <= score_cutoff
+                ]
 
                 # If there are more kept nodes than the beam width
                 if len(kept_next_nodes_scores) > beam_width:
                     print("Re-scoring the kept nodes")
                     # We will reassign scores of all the kept nodes and caluclate their average score
                     dict_of_observed_scores = {
-                        nms.canonical_smiles: [ori_score] for nms, _, ori_score in kept_next_nodes_scores
+                        nms.canonical_smiles: [ori_score]
+                        for nms, _, ori_score in kept_next_nodes_scores
                     }
 
                     nms, new_scores = await score_one_step(
@@ -213,33 +291,56 @@ async def beam_search(
                         start_ms=start_ms,
                         goal_ms=goal_ms,
                         curr_ms=selected_node["ms"],
-                        all_next_ms=[nms for nms, _, _ in kept_next_nodes_scores],
+                        all_next_ms=[
+                            nms for nms, _, _ in kept_next_nodes_scores
+                        ],
                         history_ms=history_selected_node,
                     )
 
                     for n_ms, new_score in zip(nms, new_scores):
-                        dict_of_observed_scores[n_ms.canonical_smiles].append(new_score)
-                    
-                    avg_scores = {nms_smiles: sum(scores)/len(scores) for nms_smiles, scores in dict_of_observed_scores.items()}
-                    op_scores = {nms_smiles: opposite_score(score) for nms_smiles, score in avg_scores.items()}
-                    
+                        dict_of_observed_scores[n_ms.canonical_smiles].append(
+                            new_score
+                        )
+
+                    avg_scores = {
+                        nms_smiles: sum(scores) / len(scores)
+                        for nms_smiles, scores in dict_of_observed_scores.items()
+                    }
+                    op_scores = {
+                        nms_smiles: opposite_score(score)
+                        for nms_smiles, score in avg_scores.items()
+                    }
+
                     sorted_avg_scores = sorted(
-                        [(n_ms, op_scores[n_ms.canonical_smiles], avg_scores[n_ms.canonical_smiles]) for n_ms in nms],
-                        key=lambda x: x[1]
+                        [
+                            (
+                                n_ms,
+                                op_scores[n_ms.canonical_smiles],
+                                avg_scores[n_ms.canonical_smiles],
+                            )
+                            for n_ms in nms
+                        ],
+                        key=lambda x: x[1],
                     )
 
                     score_cutoff = sorted_avg_scores[beam_width - 1][1]
-                    kept_next_nodes_scores = [s for s in sorted_avg_scores if s[1] <= score_cutoff]
+                    kept_next_nodes_scores = [
+                        s for s in sorted_avg_scores if s[1] <= score_cutoff
+                    ]
 
                     for nms, op_score, original_score in sorted_avg_scores:
-                        print(f"{Fore.LIGHTBLUE_EX}LLM Score: {original_score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )")
+                        print(
+                            f"{Fore.LIGHTBLUE_EX}LLM Score: {original_score:04.1f}/10 Search score: {op_score:05.3f} for Molecule set: {nms.rdkit_canonical_smiles} {'(<- chosen)' if MoleculeSet.default_canonicalization == 'RDKit' else '(chosen ->)'} (Explicit canonicalization: {nms.explicit_canonical_smiles} )"
+                        )
                         llm_calls += 1
 
             else:
-                raise NotImplementedError(f"tie_breaker {tie_breaker} not implemented")
+                raise NotImplementedError(
+                    f"tie_breaker {tie_breaker} not implemented"
+                )
 
             for nms, score, original_score in kept_next_nodes_scores:
-                nodes_seen[last_seen_idx+1] = {
+                nodes_seen[last_seen_idx + 1] = {
                     "ms": nms,
                     "smiles": nms.canonical_smiles,
                     "score": score + selected_node["score"],
@@ -253,7 +354,9 @@ async def beam_search(
             print(f"{Fore.RED}No more nodes to expand{Fore.RESET}")
             break
 
-        lowest_score_idx = min(nodes_seen, key=lambda x: nodes_seen[x]["score"])
+        lowest_score_idx = min(
+            nodes_seen, key=lambda x: nodes_seen[x]["score"]
+        )
         selected_node = nodes_seen.pop(lowest_score_idx)
         nodes_expanded[lowest_score_idx] = selected_node
 
@@ -262,28 +365,42 @@ async def beam_search(
             if lowest_score_goal is None:
                 lowest_score_goal = selected_node["score"]
             else:
-                lowest_score_goal = min(lowest_score_goal, selected_node["score"])
+                lowest_score_goal = min(
+                    lowest_score_goal, selected_node["score"]
+                )
 
     if len(list_of_valid_goal_nodes) == 0:
         print()
         print(f"{Fore.RED}No goal reached{Fore.RESET}")
     else:
         print()
-        print(f"{len(list_of_valid_goal_nodes)} {'goal' if len(list_of_valid_goal_nodes) == 1 else 'equivalent goals'} reached")
+        print(
+            f"{len(list_of_valid_goal_nodes)} {'goal' if len(list_of_valid_goal_nodes) == 1 else 'equivalent goals'} reached"
+        )
         print(f"{n_nodes_scored} nodes scored ({llm_calls} LLM calls)")
         print(f"{n_nodes_expanded} nodes expanded")
         for goal_nbr, goal_node in enumerate(list_of_valid_goal_nodes):
-            print(f"{Fore.GREEN}------------------ GOAL #{goal_nbr+1:03.0f} ------------------{Fore.RESET}")
+            print(
+                f"{Fore.GREEN}------------------ GOAL #{goal_nbr+1:03.0f} ------------------{Fore.RESET}"
+            )
             print(f"{Fore.GREEN}Goal reached!{Fore.RESET}")
             print(f"Goal node: {goal_node}")
-            history_str = '\n'.join([h.canonical_smiles for h in [start_ms] + get_history(goal_node, nodes_expanded) + [goal_ms]])
+            history_str = "\n".join(
+                [
+                    h.canonical_smiles
+                    for h in [start_ms]
+                    + get_history(goal_node, nodes_expanded)
+                    + [goal_ms]
+                ]
+            )
             print(f"History:\n{history_str} score: {goal_node['score']:5.3f}")
 
 
 def opposite_score(score):
 
     minimal_score = 0.001
-    return minimal_score + (1 - (score/10))**2
+    return minimal_score + (1 - (score / 10)) ** 2
+
 
 def get_history(node, expanded_nodes):
     reverse_history = []
@@ -292,6 +409,7 @@ def get_history(node, expanded_nodes):
         node = expanded_nodes[node["parent_idx"]]
 
     return [MoleculeSet(smi) for smi in reverse_history[:0:-1]]
+
 
 async def main(
     scorer: LM,
@@ -314,10 +432,6 @@ async def main(
     )
 
 
-
-
-
-
 if __name__ == "__main__":
     # Nu-attack on cyclohexanone
     expert_description = "1. First, the carbonyl will resonate to create an empty orbital on the carbon, which can be attacked by ammonia\n2. Then, a proton transfer can happen between the positively charged Nitrogen and the negatively charged Oxygen"
@@ -326,7 +440,7 @@ if __name__ == "__main__":
         "[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][N]([H])[H]",
         "[H][C]1([H])[C]([H])([H])[C]([H])([H])[C]([O-])([N+]([H])([H])[H])[C]([H])([H])[C]1([H])[H]",
         "[H+].[H][N]([H])[C]1([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
-        "[H][O][C]1([N]([H])[H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]"
+        "[H][O][C]1([N]([H])[H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H]",
     ]
 
     # carboxylic acid to acyl chloride
@@ -347,7 +461,7 @@ if __name__ == "__main__":
         "[O]=[S]=[O].[Cl-].[H][O][C+]([Cl])[C]([H])([H])[C]([H])([H])[C]1=[C]([H])[C]([H])=[C]([H])[C]([H])=[C]1[H]",
         "[O]=[S]=[O].[Cl-].[H][O+]=[C]([Cl])[C]([H])([H])[C]([H])([H])[C]1=[C]([H])[C]([H])=[C]([H])[C]([H])=[C]1[H]",
         "[O]=[S]=[O].[Cl-].[H+].[H][C]1=[C]([H])[C]([H])=[C]([C]([H])([H])[C]([H])([H])[C](=[O])[Cl])[C]([H])=[C]1[H]",
-        "[O]=[S]=[O].[H][C]1=[C]([H])[C]([H])=[C]([C]([H])([H])[C]([H])([H])[C](=[O])[Cl])[C]([H])=[C]1[H].[H][Cl]"
+        "[O]=[S]=[O].[H][C]1=[C]([H])[C]([H])=[C]([C]([H])([H])[C]([H])([H])[C](=[O])[Cl])[C]([H])=[C]1[H].[H][Cl]",
     ]
 
     # NaBH4 reduction of cyclohexanone
@@ -357,7 +471,7 @@ if __name__ == "__main__":
         "[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[H][B-]([H])([H])[H].[Na+]",
         "[H-].[H][B]([H])[H].[H][C]1([H])[C+]([O-])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[Na+]",
         "[H][B]([H])[H].[H][C]1([H])[C]([H])([H])[C]([H])([H])[C]([H])([O-])[C]([H])([H])[C]1([H])[H].[Na+]",
-        "[H][B-]([H])([H])[O][C]1([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[Na+]"
+        "[H][B-]([H])([H])[O][C]1([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]([H])([H])[C]1([H])[H].[Na+]",
     ]
 
     # Butanone acetalyzation with ethylen glycol
@@ -376,7 +490,7 @@ if __name__ == "__main__":
 
     # Acetone acetalyzation with methanol
 
-    correct_path = [    
+    correct_path = [
         "C=O.OC.OC.[H+]",
         "C=[OH+].OC.OC",
         "[CH2+]O.OC.OC",
@@ -408,7 +522,7 @@ if __name__ == "__main__":
         "O=C(CC)CC(N)([O-])C.[H+]",
         "O=C(CC)CC(N)(O)C",
     ]
-    
+
     # Wittig with phosphine
 
     # Same expert description for triphenylphosphine
@@ -422,7 +536,7 @@ if __name__ == "__main__":
         "[H][C+]([H])[C]([H])([H])[P]([H])([H])([H])[O-]",
         "[H][C+]([H])[C-]([H])[H].[H][P+]([H])([H])[O-]",
         "[H][C]([H])=[C]([H])[H].[H][P+]([H])([H])[O-]",
-        "[H][C]([H])=[C]([H])[H].[H][P]([H])([H])=[O]"
+        "[H][C]([H])=[C]([H])[H].[H][P]([H])([H])=[O]",
     ]
 
     # Hemiacetalization of formaldehyde with methanol
@@ -481,11 +595,13 @@ if __name__ == "__main__":
 
     last_cost_checkpoint = 0
     check_every = 500
-    #model = "random"
+    # model = "random"
     model = "claude-3-5-sonnet"
-    #prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game"
-    prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game_expert"
-    needs_expert_description =True 
+    # prompt = "steer.mechanism.prompts.preprint_prompt_last_step_plus_game"
+    prompt = (
+        "steer.mechanism.prompts.preprint_prompt_last_step_plus_game_expert"
+    )
+    needs_expert_description = True
 
     MoleculeSet.default_canonicalization = "RDKit"
 
@@ -496,14 +612,14 @@ if __name__ == "__main__":
     scorer = LM(
         prompt=prompt,
         prompt_needs_expert_description=needs_expert_description,
-        expert_description=expert_description if needs_expert_description else "",
+        expert_description=(
+            expert_description if needs_expert_description else ""
+        ),
         model=model,
         project_name="steer-mechanism-search-test",
     )
 
-
     i = 0
-
 
     try:
         res = asyncio.run(
@@ -516,8 +632,6 @@ if __name__ == "__main__":
                 beam_width=3,
                 tie_breaker="take_all",
             )
-
         )
     except KeyboardInterrupt:
         print("Manually interrupted")
-

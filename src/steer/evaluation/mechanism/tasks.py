@@ -19,7 +19,7 @@ class Task(BaseModel):
     rxn: str
     steps: List[str]
     step_options: List[List[str]]  # Possible moves at each step
-    expert_description:str
+    expert_description: str
 
     def evaluate(self, data: List[List[float]]) -> Tuple[List[float], List[float]]:  # type: ignore
         """data is a list of lists. list[0] is always correct one."""
@@ -33,7 +33,9 @@ class Task(BaseModel):
 
             corr = np.corrcoef(gt_scores, lm_scores)[0, 1]
             wandb.log({f"corr_{self.id}_{i}": corr})  # type: ignore
-            logger.debug(f"r: {corr:.4f}. Depth: {i}. Good-avg(bad): {lm_scores[0]-np.mean(lm_scores[1:])}")
+            logger.debug(
+                f"r: {corr:.4f}. Depth: {i}. Good-avg(bad): {lm_scores[0]-np.mean(lm_scores[1:])}"
+            )
         return gt, lm
 
     @classmethod

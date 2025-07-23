@@ -28,7 +28,9 @@ logger = setup_logger(__name__)
 @click.version_option()
 @click.option("--model", default="gpt-4o", help="Model to use")
 @click.option("--vision", default=False, help="Pass reactions as images")
-@click.option("--expert", default=False, help="If we want to use the expert description")
+@click.option(
+    "--expert", default=False, help="If we want to use the expert description"
+)
 @click.option("--task", default=None, help="Tasks to run")
 @click.pass_context
 def mech(ctx, model, vision, expert, task):
@@ -74,7 +76,7 @@ def bench(ctx):  # type: ignore
             prompt=prompt,
             model=model,
             project_name=project,
-            tasks_user=tasks.split(',') if isinstance(tasks, str) else tasks,
+            tasks_user=tasks.split(",") if isinstance(tasks, str) else tasks,
             expert_needed=expert,
         )
     )

@@ -175,9 +175,13 @@ from steer.mechanism.molecule_set import legal_moves_from_smiles
 
 
 def get_moves(state, _next, n=10):
-    response = legal_moves_from_smiles(state, highlight_reactive_center=False)['smiles_list']
+    response = legal_moves_from_smiles(state, highlight_reactive_center=False)[
+        "smiles_list"
+    ]
 
-    if _next in response: # We want n wrong moves here, so we remove the ground truth
+    if (
+        _next in response
+    ):  # We want n wrong moves here, so we remove the ground truth
         response.remove(_next)
 
     try:

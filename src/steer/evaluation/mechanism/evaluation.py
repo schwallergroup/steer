@@ -18,11 +18,15 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 from steer.mechanism.molecule_set import MoleculeSet
 
+
 def make_rxns(steps: List[str]):
     if len(steps) < 2:
         return []
-    #return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
-    return [f"{MoleculeSet(steps[i]).rdkit_canonical_smiles}>>{MoleculeSet(steps[i+1]).rdkit_canonical_smiles}" for i in range(len(steps) - 1)]
+    # return [f"{steps[i]}>>{steps[i+1]}" for i in range(len(steps) - 1)]
+    return [
+        f"{MoleculeSet(steps[i]).rdkit_canonical_smiles}>>{MoleculeSet(steps[i+1]).rdkit_canonical_smiles}"
+        for i in range(len(steps) - 1)
+    ]
 
 
 async def run_task(task, lm):
@@ -66,9 +70,9 @@ async def main(
         project_name=project_name,
         prompt_needs_expert_description=expert_needed,
     )
-    
+
     all_tasks = load_default_tasks()
-    
+
     if tasks_user is None:
         tasks = all_tasks
     else:

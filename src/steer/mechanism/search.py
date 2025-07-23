@@ -84,7 +84,9 @@ class MechanismSearch(BaseModel):
     def possible_moves(self, state: str):
         """Get possible moves."""
 
-        response = legal_moves_from_smiles(state, highlight_reactive_center=False)['smiles_list']
+        response = legal_moves_from_smiles(
+            state, highlight_reactive_center=False
+        )["smiles_list"]
 
         try:
             return np.random.choice(

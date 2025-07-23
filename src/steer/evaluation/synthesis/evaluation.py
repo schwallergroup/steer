@@ -16,6 +16,7 @@ logger = setup_logger()
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 def get_latest_file(path, fid):
     """Get the most recent file for a given task id."""
     import os
@@ -58,4 +59,3 @@ def mae(gt, lm):
     if isinstance(gt[0], bool):
         gt = [10 if x else 1 for x in gt]
     return np.mean(np.abs(np.array(gt) - np.array(lm)))
-

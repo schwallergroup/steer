@@ -89,7 +89,9 @@ class MechanismSearch(BaseModel):
     def possible_moves(self, state: Node):
         """Get possible moves."""
 
-        return legal_moves_from_smiles(state, highlight_reactive_center=False)['smiles_list']
+        return legal_moves_from_smiles(state, highlight_reactive_center=False)[
+            "smiles_list"
+        ]
 
     def is_solution(self, rxn: str, candidate: str):
         """Check if the reaction is solved."""

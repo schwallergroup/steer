@@ -1,19 +1,20 @@
-import re
 import copy
+import re
 from collections import Counter, defaultdict
 from itertools import product
 
 from colorama import Fore
-from rdkit import Chem
+from rdkit import Chem, RDLogger
 from rdkit.Chem import AllChem, DataStructs, rdFMCS
-
-from rdkit import RDLogger
 
 RDLogger.DisableLog("rdApp.*")
 
+
 class MoleculeSetTooCrazyError(Exception):
     """Base class for other custom exceptions"""
+
     pass
+
 
 class MoleculeSet:
     """
@@ -21,7 +22,7 @@ class MoleculeSet:
     """
 
     # Class attribute to know if the default canonicalization is Explicit or RDKit
-    default_canonicalization = "Explicit" #"RDKit"
+    default_canonicalization = "Explicit"  # "RDKit"
 
     dict_bond_type = {
         1: Chem.BondType.SINGLE,
@@ -88,7 +89,9 @@ class MoleculeSet:
 
     @property
     def rdkit_canonical_smiles(self):
-        return Chem.MolToSmiles(Chem.MolFromSmiles(self.explicit_canonical_smiles))
+        return Chem.MolToSmiles(
+            Chem.MolFromSmiles(self.explicit_canonical_smiles)
+        )
 
     @property
     def explicit_canonical_smiles(self):
@@ -111,24 +114,27 @@ class MoleculeSet:
         mol = copy.deepcopy(self.mol)
 
         if not mol.GetAtomWithIdx(0).HasProp("reactive_center"):
-            print(f"{Fore.YELLOW}Error in reactive_center_smiles: MoleculeSet was probably not created with track_atoms=True.{Fore.RESET}")
+            print(
+                f"{Fore.YELLOW}Error in reactive_center_smiles: MoleculeSet was probably not created with track_atoms=True.{Fore.RESET}"
+            )
             return ""
 
         # align Atom Map Idx on reactive_center_idx
         for a in mol.GetAtoms():
             a.SetAtomMapNum(int(a.GetProp("reactive_center")))
-        
+
         # Same for parent_mol
         parent_mol = copy.deepcopy(self.parent_mol)
         if not parent_mol.GetAtomWithIdx(0).HasProp("reactive_center"):
-            print(f"{Fore.YELLOW}Error in reactive_center_smiles: MoleculeSet was probably not created with track_atoms=True.{Fore.RESET}")
+            print(
+                f"{Fore.YELLOW}Error in reactive_center_smiles: MoleculeSet was probably not created with track_atoms=True.{Fore.RESET}"
+            )
             return ""
         # align Atom Map Idx on reactive_center_idx
         for a in parent_mol.GetAtoms():
             a.SetAtomMapNum(int(a.GetProp("reactive_center")))
 
         return f"{Chem.MolToSmiles(parent_mol)}>>{Chem.MolToSmiles(mol)}"
-
 
     @property
     def all_legal_moves(self):
@@ -156,7 +162,8 @@ class MoleculeSet:
     def all_legal_next_tracked_ms(self):
         if self._all_legal_next_tracked_ms is None:
             self._all_legal_next_tracked_ms = [
-                self.make_move(m, track_atoms=True) for m in self.all_legal_moves
+                self.make_move(m, track_atoms=True)
+                for m in self.all_legal_moves
             ]
         return self._all_legal_next_tracked_ms
 
@@ -172,7 +179,8 @@ class MoleculeSet:
     def all_legal_next_reactive_center_smiles(self):
         if self._all_legal_next_tracked_smiles is None:
             self._all_legal_next_tracked_smiles = [
-                m.reactive_center_smiles for m in self.all_legal_next_tracked_ms
+                m.reactive_center_smiles
+                for m in self.all_legal_next_tracked_ms
             ]
         return self._all_legal_next_tracked_smiles
 
@@ -350,39 +358,48 @@ class MoleculeSet:
 
     def tag_reactive_center(self, mol):
         # Tag the reactive center as the atoms that changed their direct environment
-        
+
         dict_mol_env = {
-            atom.GetProp('tracking_idx'): (atom, Counter(
-                [
-                    (
-                        bond.GetBondTypeAsDouble(),
-                        bond.GetOtherAtom(atom).GetSymbol()
-                    )
-                    for bond in atom.GetBonds()
-                ]
-            ))
-        for atom in mol.GetAtoms()
+            atom.GetProp("tracking_idx"): (
+                atom,
+                Counter(
+                    [
+                        (
+                            bond.GetBondTypeAsDouble(),
+                            bond.GetOtherAtom(atom).GetSymbol(),
+                        )
+                        for bond in atom.GetBonds()
+                    ]
+                ),
+            )
+            for atom in mol.GetAtoms()
         }
 
         for atom in self.mol.GetAtoms():
-            assert atom.GetProp('tracking_idx') in dict_mol_env.keys(), f"Error in tag_reactive_center: Tracking index {atom.GetProp('tracking_idx')} not found in reference molecule. Either the molecules are not aligned or the tracking index is not set properly."
+            assert (
+                atom.GetProp("tracking_idx") in dict_mol_env.keys()
+            ), f"Error in tag_reactive_center: Tracking index {atom.GetProp('tracking_idx')} not found in reference molecule. Either the molecules are not aligned or the tracking index is not set properly."
             environment = Counter(
                 [
                     (
                         bond.GetBondTypeAsDouble(),
-                        bond.GetOtherAtom(atom).GetSymbol()
+                        bond.GetOtherAtom(atom).GetSymbol(),
                     )
                     for bond in atom.GetBonds()
                 ]
             )
-            #print(f"Environment: {environment}")
-            #print(f"Reference: {dict_mol_env[atom.GetProp('tracking_idx')]}")
-            if dict_mol_env[atom.GetProp('tracking_idx')][1] != environment:
-                atom.SetProp('reactive_center', '1')
-                dict_mol_env[atom.GetProp('tracking_idx')][0].SetProp('reactive_center', '1')
+            # print(f"Environment: {environment}")
+            # print(f"Reference: {dict_mol_env[atom.GetProp('tracking_idx')]}")
+            if dict_mol_env[atom.GetProp("tracking_idx")][1] != environment:
+                atom.SetProp("reactive_center", "1")
+                dict_mol_env[atom.GetProp("tracking_idx")][0].SetProp(
+                    "reactive_center", "1"
+                )
             else:
-                atom.SetProp('reactive_center', '0')
-                dict_mol_env[atom.GetProp('tracking_idx')][0].SetProp('reactive_center', '0')
+                atom.SetProp("reactive_center", "0")
+                dict_mol_env[atom.GetProp("tracking_idx")][0].SetProp(
+                    "reactive_center", "0"
+                )
 
     def align_oneself_with(self, tracked_mol):
         canonical_idx_self = list(
@@ -414,7 +431,7 @@ class MoleculeSet:
             "tracking_idx"
         ):
             for idx, a in enumerate(self.mol.GetAtoms()):
-                a.SetProp("tracking_idx", str(idx+1))
+                a.SetProp("tracking_idx", str(idx + 1))
 
         mol = Chem.EditableMol(self.mol)
 
@@ -549,9 +566,10 @@ class MoleculeSet:
                 can_smi_list.remove(gs)
         return True
 
+
 def legal_moves_from_smiles(
-    current_smiles:str,
-    highlight_reactive_center:bool=False,
+    current_smiles: str,
+    highlight_reactive_center: bool = False,
 ):
     ms = MoleculeSet(current_smiles)
 
@@ -560,13 +578,16 @@ def legal_moves_from_smiles(
     for move in ms.all_legal_moves:
         try:
             next_ms = ms.make_move(move, track_atoms=True)
-            all_legal_next_smiles.append(next_ms.canonical_smiles if not highlight_reactive_center else next_ms.reactive_center_smiles)
-            
+            all_legal_next_smiles.append(
+                next_ms.canonical_smiles
+                if not highlight_reactive_center
+                else next_ms.reactive_center_smiles
+            )
+
         except MoleculeSetTooCrazyError:
             all_error_moves.append(move)
 
     return {
-        "smiles_list":all_legal_next_smiles,
-        "rdkit_errors":all_error_moves,
+        "smiles_list": all_legal_next_smiles,
+        "rdkit_errors": all_error_moves,
     }
-
