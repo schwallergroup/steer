@@ -13,7 +13,5 @@ class TestModyke(unittest.TestCase):
 
         This is only meant to be an example test.
         """
-        from steer.llm import Heuristic
-        from steer.utils import get_rxn_img
 
         assert True
