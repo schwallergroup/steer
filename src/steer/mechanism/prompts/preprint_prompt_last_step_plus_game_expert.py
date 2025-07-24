@@ -1,3 +1,7 @@
+"""
+Prompt used to evaluate the last step of a proposed mechanism (with natural language guidance) in the mechanism game.
+"""
+
 prefix = """You are an expert chemist participating in a step-by-step search algorithm to evaluate proposed reaction mechanisms. Your task is to analyze partial mechanisms and determine their potential to explain a target reaction, even if they are incomplete. This evaluation will help identify promising directions for further exploration.
 
 Another expert chemist gave us the following description of the mechanism:

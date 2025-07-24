@@ -23,7 +23,9 @@ async def score_one_step(
     ] = None,  # If None, will be calculated
     history_ms: List[MoleculeSet] = [],
 ):
-
+    """
+    Scores the next possible moves from the current molecule set using the provided scorer.
+    """
     if all_next_ms is None:
         all_next_ms = []
         for move in curr_ms.all_legal_moves:
@@ -70,6 +72,9 @@ async def beam_search(
     num_llm_calls_before_rescoring: int = 2,
     min_score_to_keep: float = 5,
 ):
+    """
+    Performs a beam search to find a path from the start molecule set to the goal molecule set.
+    """
     global last_cost_checkpoint, check_every
 
     start_ms = MoleculeSet(start_smiles)
@@ -400,12 +405,18 @@ async def beam_search(
 
 
 def opposite_score(score):
+    """
+    Acts as a proxy for the cost of a move, returning a value that is lower for higher scores.
+    """
 
     minimal_score = 0.001
     return minimal_score + (1 - (score / 10)) ** 2
 
 
 def get_history(node, expanded_nodes):
+    """
+    Returns the history of the node, starting from the root node.
+    """
     reverse_history = []
     while node["parent_idx"] is not None:
         reverse_history.append(node["smiles"])
@@ -423,7 +434,9 @@ async def main(
     num_llm_calls_before_rescoring: int = 3,
     min_score_to_keep: float = 5,
 ):
-
+    """
+    Main function to run the beam search algorithm.
+    """
     await beam_search(
         scorer=scorer,
         start_smiles=start_smiles,

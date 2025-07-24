@@ -102,6 +102,7 @@ class RandomPolicy(BaseModel):
 
 
 def format_path(path):
+    """Format the path for logging."""
     return ">>".join(path)
 
 

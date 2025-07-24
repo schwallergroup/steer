@@ -107,6 +107,7 @@ class LM(BaseModel):
         )
 
     def make_msg_sequence(self, rxn: str, history: Optional[List[str]]):
+        """Make message sequence for the LLM."""
         msgs = [self._get_msg(rxn)]
         if history is not None:
             msgs.append(
@@ -121,6 +122,7 @@ class LM(BaseModel):
         return msgs
 
     def _get_msg(self, smi):
+        """Get message for the LLM."""
         if self.vision:
             inp = self._get_img_msg(smi)
         else:
@@ -149,6 +151,7 @@ class LM(BaseModel):
 
     @model_validator(mode="after")
     def load_prompts(self):
+        """Load prompts from the specified module."""
         if self.project_name:
             weave.init(self.project_name)
         if self.prompt is not None:
@@ -174,6 +177,7 @@ class LM(BaseModel):
 
 
 async def main():
+    """Run the LM with a sample reaction."""
     lm = LM(
         prompt="steer.mechanism.prompts.preprint_prompt_last_step_plus_game",
         model="claude-3-5-sonnet",

@@ -72,12 +72,18 @@ class MoleculeSet:
 
     @property
     def fp(self):
+        """
+        returns the fingerprint of the MoleculeSet
+        """
         if self._fp is None:
             self._fp = MoleculeSet.fp_gen.GetFingerprint(self.mol)
         return self._fp
 
     @property
     def canonical_smiles(self):
+        """
+        Returns the canonical SMILES of the MoleculeSet, which is either explicit (all Hs are explicit) or RDKit (default RDKit with implicit Hs)
+        """
         if MoleculeSet.default_canonicalization == "Explicit":
             return self.explicit_canonical_smiles
         elif MoleculeSet.default_canonicalization == "RDKit":
@@ -89,16 +95,25 @@ class MoleculeSet:
 
     @property
     def rdkit_canonical_smiles(self):
+        """
+        Returns the canonical SMILES of the MoleculeSet using RDKit's default canonicalization.
+        """
         return Chem.MolToSmiles(
             Chem.MolFromSmiles(self.explicit_canonical_smiles)
         )
 
     @property
     def explicit_canonical_smiles(self):
+        """
+        Returns the canonical SMILES of the MoleculeSet with all hydrogens explicit.
+        """
         return self.clean_smiles_artefacts(Chem.MolToSmiles(self.mol))
 
     @property
     def tracked_smiles(self):
+        """
+        Explicit the "tracking_idx" of each atom in the molecule, and returns the SMILES.
+        """
         # copy mol
         mol = copy.deepcopy(self.mol)
 
@@ -110,6 +125,9 @@ class MoleculeSet:
 
     @property
     def reactive_center_smiles(self):
+        """
+        Explicit the "reactive_center" of each atom in the molecule, and returns the reaction between parent SMILES and self.
+        """
         # copy mol
         mol = copy.deepcopy(self.mol)
 
@@ -138,12 +156,18 @@ class MoleculeSet:
 
     @property
     def all_legal_moves(self):
+        """
+        Returns all legal moves that can be made from the current molecule, calculated from self.calculate_all_legal_moves.
+        """
         if self._all_legal_moves is None:
             self._all_legal_moves = self.calculate_all_legal_moves()
         return self._all_legal_moves
 
     @property
     def all_legal_next_ms(self):
+        """
+        Return all legal MoleculeSet's that can be reached from the current one by making only one legal moves.
+        """
         if self._all_legal_next_ms is None:
             self._all_legal_next_ms = [
                 self.make_move(m) for m in self.all_legal_moves
@@ -152,6 +176,9 @@ class MoleculeSet:
 
     @property
     def all_legal_next_smiles(self):
+        """
+        Return all legal SMILES that can be reached from the current one by making only one legal moves.
+        """
         if self._all_legal_next_smiles is None:
             self._all_legal_next_smiles = [
                 m.canonical_smiles for m in self.all_legal_next_ms
@@ -160,6 +187,9 @@ class MoleculeSet:
 
     @property
     def all_legal_next_tracked_ms(self):
+        """
+        Return all legal MoleculeSet's that can be reached from the current one by making only one legal moves, with tracking of atoms.
+        """
         if self._all_legal_next_tracked_ms is None:
             self._all_legal_next_tracked_ms = [
                 self.make_move(m, track_atoms=True)
@@ -169,6 +199,9 @@ class MoleculeSet:
 
     @property
     def all_legal_next_tracked_smiles(self):
+        """
+        Return all legal SMILES that can be reached from the current one by making only one legal moves, with tracking of atoms.
+        """
         if self._all_legal_next_tracked_smiles is None:
             self._all_legal_next_tracked_smiles = [
                 m.tracked_smiles for m in self.all_legal_next_tracked_ms
@@ -177,6 +210,9 @@ class MoleculeSet:
 
     @property
     def all_legal_next_reactive_center_smiles(self):
+        """
+        Return all legal SMILES that can be reached from the current one by making only one legal moves, with tracking of reactive centers.
+        """
         if self._all_legal_next_tracked_smiles is None:
             self._all_legal_next_tracked_smiles = [
                 m.reactive_center_smiles
@@ -185,6 +221,9 @@ class MoleculeSet:
         return self._all_legal_next_tracked_smiles
 
     def filter_indistinguishable_moves(self, list_moves):
+        """
+        Removes indistinguishable (duplicate) moves from the list of moves.
+        """
         already_observed_move = []
         list_indistinguishable_moves = []
 
@@ -205,6 +244,9 @@ class MoleculeSet:
         return list_indistinguishable_moves
 
     def determine_lone_pairs(self):
+        """
+        Determines the number of lone pairs for each atom in the molecule.
+        """
         lone_pairs_dict = {}
         for atom in self.mol.GetAtoms():
             # Total valence electrons for a neutral atom
@@ -234,6 +276,9 @@ class MoleculeSet:
         ]
 
     def determine_empty_orbitals(self):
+        """
+        Determines the number of empty orbitals for each atom in the molecule.
+        """
         lone_pairs_dict = {}
         empty_orbital_dict = {}
 
@@ -290,6 +335,9 @@ class MoleculeSet:
         ]
 
     def calculate_all_legal_moves(self):
+        """
+        Return all legal attack or ionizing moves that can be made from the current MoleculeSet.
+        """
         moves = []
         moves += [("a", m[0], m[1]) for m in self.all_legal_attacking_moves()]
         moves += [("i", m[0], m[1]) for m in self.all_legal_ionizing_moves()]
@@ -334,6 +382,9 @@ class MoleculeSet:
         return moves
 
     def make_move(self, move, track_atoms=False):
+        """
+        Returns the MoleculeSet resulting from the move applied to the current MoleculeSet.
+        """
 
         if move[0] == "i":  # ionization move
             mol = self.make_ionizing_move(*move[1:3], track_atoms=track_atoms)
@@ -357,6 +408,9 @@ class MoleculeSet:
         return new_molecule_set
 
     def tag_reactive_center(self, mol):
+        """
+        Tag each atom that changes its direct environment as a reactive center.
+        """
         # Tag the reactive center as the atoms that changed their direct environment
 
         dict_mol_env = {
@@ -402,6 +456,9 @@ class MoleculeSet:
                 )
 
     def align_oneself_with(self, tracked_mol):
+        """
+        Utils function to align the indices of the self object with the tracked_mol.
+        """
         canonical_idx_self = list(
             Chem.CanonicalRankAtoms(self.mol, breakTies=True)
         )
@@ -426,6 +483,9 @@ class MoleculeSet:
             )
 
     def make_ionizing_move(self, bond_idx, atom_idx, track_atoms=False):
+        """
+        Returns the MoleculeSet resulting from the ionization move applied to the current MoleculeSet.
+        """
 
         if track_atoms and not self.mol.GetAtomWithIdx(0).HasProp(
             "tracking_idx"
@@ -455,6 +515,9 @@ class MoleculeSet:
         return mol
 
     def make_attacking_move(self, lp_atom_idx, eo_atom_idx, track_atoms=False):
+        """
+        Returns the MoleculeSet resulting from the attacking move applied to the current MoleculeSet.
+        """
         # lp = lone pair, eo = empty orbital
 
         if track_atoms and not self.mol.GetAtomWithIdx(0).HasProp(
@@ -490,6 +553,9 @@ class MoleculeSet:
         return mol
 
     def clean_smiles_artefacts(self, smiles, verbose=False):
+        """
+        Cleans the SMILES string by removing artefact hydrogens and putting atoms in brackets.
+        """
         # This function acts as a SMILES sanitizer, to avoid some simplification of SMILES that don't apply to this exact use case
         smiles_wo_aretacts_h = self.remove_artefact_hydrogens(smiles)
         cleaned_smiles = self.put_atoms_in_brackets(smiles_wo_aretacts_h)
@@ -501,16 +567,18 @@ class MoleculeSet:
         return cleaned_smiles
 
     def remove_artefact_hydrogens(self, smiles):
-        # This function counteracts the addition that sometimes happens of
-        # hydrogens that are neither implicit nor explicit but appear in the SMILES
-
+        """
+        This function counteracts the addition of hydrogens that are neither implicit nor explicit but appear in the SMILES.
+        """
         # This pattern eliminates any hydrogens not alone in square brackets
         pattern = r"(?<!\[)H\d*"
         cleaned_smiles = re.sub(pattern, "", smiles)
         return cleaned_smiles
 
     def put_atoms_in_brackets(self, smiles):
-        # Put every atom in bracket, to avoid the apparition of implicit hydrogens
+        """
+        Put every atom in brackets, to avoid the apparition of implicit hydrogens.
+        """
 
         # Match any atom symbol that doesn't need brackets in SMILES notation
         pattern = r"(?<!\[)(Br|B|Cl|C|N|O|P|S|F|I)"
@@ -521,9 +589,10 @@ class MoleculeSet:
         return cleaned_smiles
 
     def atom_dictionary(self):
-        # Return a dictionary with the number of each type of atom as well as the total charge.
-        # This dictionary should always remain constant before and after a legal move, so this
-        # function serves as an assertion test.
+        """
+        Returns a dictionary with the number of each type of atom and the total charge.
+        This dictionary should always remain constant before and after a legal move, so this function serves as an assertion test.
+        """
         atom_dict = defaultdict(int)
 
         for a in self.mol.GetAtoms():
@@ -533,13 +602,22 @@ class MoleculeSet:
         return atom_dict
 
     def largest_common_substructure(self, other_ms):
+        """
+        Returns the largest common substructure between two MoleculeSet objects.
+        """
         MCS_result = rdFMCS.FindMCS([self.mol, other_ms.mol])
         return MCS_result
 
     def tanimoto_similarity(self, other_ms):
+        """
+        Returns the Tanimoto similarity between the fingerprints of two MoleculeSet objects.
+        """
         return DataStructs.TanimotoSimilarity(self.fp, other_ms.fp)
 
     def has_reached_goal(self, goal_ms):
+        """
+        Checks if the current MoleculeSet has reached the goal MoleculeSet.
+        """
         if self.smiles == goal_ms.smiles:
             return True
         # else
@@ -571,6 +649,9 @@ def legal_moves_from_smiles(
     current_smiles: str,
     highlight_reactive_center: bool = False,
 ):
+    """
+    Returns a dictionary with all legal next SMILES from the current SMILES.
+    """
     ms = MoleculeSet(current_smiles)
 
     all_legal_next_smiles = []

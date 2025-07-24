@@ -1,3 +1,7 @@
+"""
+Prompt used to evaluate the last step of a proposed mechanism (without natural language guidance) in the mechanism game.
+"""
+
 prefix = """You are an expert chemist participating in a step-by-step search algorithm to evaluate proposed reaction mechanisms. Your task is to analyze partial mechanisms and determine their potential to explain a target reaction, even if they are incomplete. This evaluation will help identify promising directions for further exploration.
 
 Also, keep in mind that you are playing a game. This is a mechanism game that forces all chemical processes to be broken down into their most fundamental steps. Even processes that occur in a concerted fashion in reality must be shown as separate elementary steps. The allowed moves are only of two types:
