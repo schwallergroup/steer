@@ -1,3 +1,7 @@
+"""
+Some utilities to get reaction images from SMILES strings.
+"""
+
 import base64
 import os
 from io import BytesIO
@@ -8,6 +12,9 @@ from PIL import Image
 
 
 def get_manual_rxn_img(smiles) -> Image.Image:
+    """
+    Get a reaction image from a SMILES string.
+    """
 
     reactants, _, products = smiles.split(">")
 
@@ -42,10 +49,12 @@ def get_manual_rxn_img(smiles) -> Image.Image:
 
 
 def get_rxn_img(smiles, final_size: tuple = (1456, 819)) -> Image.Image:
+    """
+    Get a reaction image from a SMILES string using the Simolecule CDK Depict service.
+    """
 
     # The URL for the GET request
-    # url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
-    url = "http://liacpc17.epfl.ch:8081/depict/cot/svg"
+    url = "https://www.simolecule.com/cdkdepict/depict/cot/svg"
 
     # The parameters for the request
     params = {

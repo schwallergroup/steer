@@ -33,12 +33,19 @@ class LM(BaseModel):
     intermed: str = ""
     suffix: str = ""
     prompt: Optional[str] = None  # Path to the prompt module
+    prompt_needs_expert_description: bool = False
+    expert_description: Optional[str] = None
     project_name: str = ""
+
+    assert (not prompt_needs_expert_description) or (
+        expert_description is not None
+    )
 
     async def run(
         self,
         rxn: str,
         step: str,
+        expert_description: str,
         history: Optional[List[str]] = None,
         task: Any = None,
     ):
@@ -52,12 +59,15 @@ class LM(BaseModel):
         else:
             msgs = self.make_msg_sequence(rxn, history)
             response = await self._run_llm(
-                msgs, step, taskid=task.id if task else ""
+                msgs,
+                step,
+                taskid=task.id if task else "",
+                expert_description=expert_description,
             )
         return response
 
     @weave.op()
-    async def _run_llm(self, msgs, step, taskid=""):
+    async def _run_llm(self, msgs, step, taskid="", expert_description=""):
         try:
             response = await router.acompletion(
                 model=self.model,
@@ -68,7 +78,13 @@ class LM(BaseModel):
                         "content": [
                             {
                                 "type": "text",
-                                "text": self.prefix,
+                                "text": (
+                                    self.prefix
+                                    if not self.prompt_needs_expert_description
+                                    else self.prefix.format(
+                                        expert_description=expert_description
+                                    )
+                                ),
                             },
                             *msgs,
                             {
@@ -87,10 +103,11 @@ class LM(BaseModel):
         current_call = get_current_call()
         return dict(
             response=response,
-            url=current_call.ui_url or "-",
+            url=current_call.ui_url if current_call is not None else "-",
         )
 
     def make_msg_sequence(self, rxn: str, history: Optional[List[str]]):
+        """Make message sequence for the LLM."""
         msgs = [self._get_msg(rxn)]
         if history is not None:
             msgs.append(
@@ -105,6 +122,7 @@ class LM(BaseModel):
         return msgs
 
     def _get_msg(self, smi):
+        """Get message for the LLM."""
         if self.vision:
             inp = self._get_img_msg(smi)
         else:
@@ -133,6 +151,7 @@ class LM(BaseModel):
 
     @model_validator(mode="after")
     def load_prompts(self):
+        """Load prompts from the specified module."""
         if self.project_name:
             weave.init(self.project_name)
         if self.prompt is not None:
@@ -158,8 +177,9 @@ class LM(BaseModel):
 
 
 async def main():
+    """Run the LM with a sample reaction."""
     lm = LM(
-        prompt="steer.mechanism.prompts.alphamol_partial",
+        prompt="steer.mechanism.prompts.preprint_prompt_last_step_plus_game",
         model="claude-3-5-sonnet",
         project_name="steer-mechanism-test",
     )

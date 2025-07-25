@@ -192,6 +192,42 @@ router = Router(
             },
         },
         {
+            "model_name": "deepseek-3",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-chat",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "deepseek-r1",  # model alias
+            "litellm_params": {
+                "model": "openrouter/deepseek/deepseek-r1",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "qwq-32b",  # model alias
+            "litellm_params": {
+                "model": "openrouter/qwen/qwq-32b-preview",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
+            "model_name": "gemini-2-5-pro",  # model alias
+            "litellm_params": {
+                "model": "openrouter/google/gemini-2.5-pro-preview",  # actual model name
+                "api_key": os.getenv("OPENROUTER_API_KEY"),
+                "api_base": "https://openrouter.ai/api/v1",
+                # "rpm": 40,
+            },
+        },
+        {
             "model_name": "claude-4-sonnet",  # model alias
             "litellm_params": {
                 "model": "anthropic/claude-sonnet-4-20250514",  # actual model name

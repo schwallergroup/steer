@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from rdkit import Chem, RDLogger
 
 from steer.logger import setup_logger
+from steer.mechanism.molecule_set import legal_moves_from_smiles
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -87,10 +88,10 @@ class MechanismSearch(BaseModel):
 
     def possible_moves(self, state: Node):
         """Get possible moves."""
-        url = "http://liacpc17.epfl.ch:5001/legal_moves"
-        req = {"smiles": state.smiles, "highlight_reactive_center": False}
-        response = requests.post(url, json=req).json()["smiles_list"]
-        return response
+
+        return legal_moves_from_smiles(state, highlight_reactive_center=False)[
+            "smiles_list"
+        ]
 
     def is_solution(self, rxn: str, candidate: str):
         """Check if the reaction is solved."""
