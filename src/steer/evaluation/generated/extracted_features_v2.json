@@ -114,43 +114,8 @@
           "rationale": "The route uses orthogonal tert-butyl and benzyl ester protection followed by sequential deprotection and re-esterification to methyl esters."
         }
       ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "CC(C)c1ccc(-n2nc(O)c3c(=O)c4ccc(Cl)cc4[nH]c3c2=O)cc1",
-      "features": [
-        {
-          "prompt": "Late stage demethylation reaction",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "demethylation",
-            "timing": "late",
-            "substrate_pattern": "COc1ccc(*)cc1"
-          },
-          "rationale": "Route involves methoxy group removal as the final step, which is strategically unusual."
-        },
-        {
-          "prompt": "Early stage methoxy group installation",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "methylation",
-            "timing": "early",
-            "substrate_pattern": "Oc1ccc(*)cc1"
-          },
-          "rationale": "Methoxy group is installed early via Williamson ether synthesis then later removed."
-        },
-        {
-          "prompt": "Late stage complex heterocycle formation",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_type": "fused_heterocycle",
-            "timing": "late",
-            "complexity": "multi_ring"
-          },
-          "rationale": "Key pyrazolo-quinoline ring system is formed late via complex cyclocondensation."
-        }
-      ]
     }
+
   ],
   "target_004.json": [
     {
@@ -189,120 +154,10 @@
           "rationale": "The route employs both SEM protection for imidazole and acetal protection for aldehyde functionality."
         }
       ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "CCOC(=O)c1nc(N2CC[C@H](NC(=O)c3nc(C(F)(F)F)c(CC)[nH]3)[C@H](OC)C2)sc1C",
-      "features": [
-        {
-          "prompt": "Late stage C-N cross-coupling formation",
-          "feature_type": "specific_bond_break",
-          "parameters": {
-            "bond_type": "C-N",
-            "timing": "late",
-            "reaction_class": "cross_coupling"
-          },
-          "rationale": "The key C-N bond connecting thiazole and piperidine fragments is formed in the final step via Buchwald-Hartwig coupling."
-        },
-        {
-          "prompt": "Convergent synthesis via two major fragments",
-          "feature_type": "convergent_strategy",
-          "parameters": {
-            "fragment_count": 2,
-            "coupling_stage": "final"
-          },
-          "rationale": "The synthesis assembles an aryl bromide fragment and a piperidine fragment in the final coupling step."
-        },
-        {
-          "prompt": "Protecting group swap strategy employed",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "swap_present": true,
-            "groups": [
-              "Boc",
-              "SEM"
-            ],
-            "functional_group": "imidazole_nitrogen"
-          },
-          "rationale": "The route includes deprotection of N-Boc followed by re-protection with N-SEM on the imidazole ring."
-        }
-      ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "CCOC(=O)c1nc(N2CC[C@H](NC(=O)c3nc(C(F)(F)F)c(CC)[nH]3)[C@H](OC)C2)sc1C",
-      "features": [
-        {
-          "prompt": "Late thiazole ring formation",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "c1scnc1",
-            "timing": "late",
-            "stage_threshold": 0.7
-          },
-          "rationale": "The thiazole ring is formed in the second step from the end, representing a late-stage ring formation strategy."
-        },
-        {
-          "prompt": "Protecting group swap strategy",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "swap_pattern": "sequential_deprotection_protection",
-            "groups": [
-              "Boc",
-              "SEM"
-            ]
-          },
-          "rationale": "The route involves removing a Boc group and immediately installing a SEM group on the same nitrogen."
-        },
-        {
-          "prompt": "Late stage amide coupling",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "amide_formation",
-            "timing": "late",
-            "stage_threshold": 0.7
-          },
-          "rationale": "The amide bond formation between pyrazole carboxylic acid and piperidine occurs as the fourth step from the end."
-        }
-      ]
     }
   ],
   "target_005.json": [
-    {
-      "route_index": 2,
-      "smiles": "NC1=N[C@@]2(c3ccc(F)cc3F)CO[C@@H](c3nnco3)C[C@H]2CS1",
-      "features": [
-        {
-          "prompt": "Late oxadiazole ring formation",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "c1nnco1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "The 1,3,4-oxadiazole ring is formed in the final step from a hydrazide precursor."
-        },
-        {
-          "prompt": "Early stage thiazine ring assembly",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "c1cscnc1",
-            "timing": "early",
-            "direction": "formation"
-          },
-          "rationale": "The thiazine core is constructed early in the sequence via isothiocyanate cyclization with an amino alcohol."
-        },
-        {
-          "prompt": "Azide reduction for amine introduction",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_smarts": "[N-:1]=[N+:2]=[N-:3]>>[NH2:1]",
-            "must_be_present": true
-          },
-          "rationale": "Azide reduction is used as a key strategy to introduce nitrogen at a sterically hindered quaternary center."
-        }
-      ]
-    },
+ 
     {
       "route_index": 0,
       "smiles": "NC1=N[C@@]2(c3ccc(F)cc3F)CO[C@@H](c3nnco3)C[C@H]2CS1",
@@ -342,43 +197,6 @@
           "rationale": "The thiazolidine ring is formed early via intramolecular cyclization of a protected thiourea derivative."
         }
       ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "NC1=N[C@@]2(c3ccc(F)cc3F)CO[C@@H](c3nnco3)C[C@H]2CS1",
-      "features": [
-        {
-          "prompt": "Late stage oxadiazole ring formation",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "[#6]1[#7][#7][#6][#8]1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "The 1,3,4-oxadiazole ring is formed as the final step via cyclodehydration of a formylhydrazide."
-        },
-        {
-          "prompt": "Sequential deprotection protection cycle",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "functional_group": "alcohol",
-            "cycle_type": "deprotect_reprotect",
-            "first_pg": "benzyl",
-            "second_pg": "trityl"
-          },
-          "rationale": "The route removes a benzyl ether then immediately protects the same alcohol with trityl."
-        },
-        {
-          "prompt": "Thiadiazine ring formation via intramolecular cyclization",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "[#6]1[#7]=[#6][#16][#6][#6]1",
-            "mechanism": "intramolecular_cyclization",
-            "nucleophile": "thiourea"
-          },
-          "rationale": "The key thiadiazine ring is formed through intramolecular cyclization of a thiourea intermediate with an alcohol."
-        }
-      ]
     }
   ],
   "target_006.json": [
@@ -413,42 +231,6 @@
             "timing": "early"
           },
           "rationale": "Quinolinone heterocycle is constructed in the first step of the synthetic sequence."
-        }
-      ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "COc1ccc2c(Nc3c(Cl)cncc3Cl)cc(=O)[nH]c2c1OCCCCCCN1CCCNCC1",
-      "features": [
-        {
-          "prompt": "Early quinoline core formation",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "c1ccc2cccnc2c1",
-            "stage": "early",
-            "step_depth": 8
-          },
-          "rationale": "The quinoline core is constructed first via Gould-Jacobs cyclization before functional group modifications."
-        },
-        {
-          "prompt": "Benzyl protecting group for phenol",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "functional_group": "phenol",
-            "protecting_group": "benzyl",
-            "removal_method": "hydrogenation"
-          },
-          "rationale": "Phenol is protected as benzyl ether to prevent interference during palladium-catalyzed coupling."
-        },
-        {
-          "prompt": "Late stage Buchwald-Hartwig coupling",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "buchwald_hartwig",
-            "stage": "late",
-            "step_depth": 3
-          },
-          "rationale": "Key C-N bond formation between quinoline and pyridine fragments occurs in later stages of synthesis."
         }
       ]
     },
@@ -519,185 +301,9 @@
           "rationale": "Route uses four different protecting groups (Boc, allyl, benzyl, TBS) that can be removed selectively."
         }
       ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCc2ccc(C#N)cc2)c1",
-      "features": [
-        {
-          "prompt": "Late stage alkyne reduction",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "alkyne_reduction",
-            "step_position": "final",
-            "substrate_complexity": "high"
-          },
-          "rationale": "Terminal alkyne is reduced to alkane in the final step despite presence of multiple other reducible groups."
-        },
-        {
-          "prompt": "Early allyl deprotection before selective alkylation",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "allyl",
-            "deprotection_timing": "before_selective_reaction",
-            "target_functional_group": "phenol"
-          },
-          "rationale": "Allyl protecting group is removed before the step that requires selective protection of one phenol over another."
-        }
-      ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCc2ccc(C#N)cc2)c1",
-      "features": [
-        {
-          "prompt": "Benzyl protecting group with incompatible deprotection conditions",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "benzyl",
-            "deprotection_method": "hydrogenation",
-            "incompatible_groups": [
-              "nitrile",
-              "aryl_iodide",
-              "vinyl"
-            ]
-          },
-          "rationale": "Benzyl ether protection is used despite the presence of functional groups that would be reduced during hydrogenolytic deprotection."
-        },
-        {
-          "prompt": "Late stage Sonogashira coupling for alkyne installation",
-          "feature_type": "specific_bond_break",
-          "parameters": {
-            "bond_type": "C-C_alkyne",
-            "reaction_type": "Sonogashira",
-            "timing": "late"
-          },
-          "rationale": "The key alkyne-aryl bond is formed via Sonogashira coupling at a late stage in the synthesis."
-        }
-      ]
-    }
-  ],
-  "target_008.json": [
-    {
-      "route_index": 1,
-      "smiles": "O=C(OCc1ccccc1)N1CC[C@H]2CCCN(CCc3ccccc3)C[C@H]21",
-      "features": [
-        {
-          "prompt": "Cbz protecting group with benzyl group present",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "Cbz",
-            "conflicting_group": "N-benzyl",
-            "selectivity_issue": true
-          },
-          "rationale": "Both Cbz and N-benzyl groups are removed under identical hydrogenation conditions, creating selectivity problems."
-        },
-        {
-          "prompt": "Early lactam reduction before final alkylation",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "C1CCNCC1",
-            "timing": "early",
-            "direction": "break"
-          },
-          "rationale": "Lactam is reduced to diamine early in the sequence, requiring subsequent protecting group manipulations."
-        }
-      ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "O=C(OCc1ccccc1)N1CC[C@H]2CCCN(CCc3ccccc3)C[C@H]21",
-      "features": [
-        {
-          "prompt": "N-benzyl and Cbz protecting group compatibility issue",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "pg1_smarts": "[#7]-C(=O)-O-Cc1ccccc1",
-            "pg2_smarts": "[#7]-Cc1ccccc1",
-            "orthogonal": false,
-            "removal_conditions": "hydrogenolysis"
-          },
-          "rationale": "Both protecting groups are cleaved under identical hydrogenolysis conditions, making selective removal impossible"
-        },
-        {
-          "prompt": "Early stage N-alkylation on diamine substrate",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "N-alkylation",
-            "substrate_pattern": "[#7H1]-[C,c]",
-            "substrate_count": 2,
-            "timing": "early"
-          },
-          "rationale": "N-alkylation performed early on substrate with two similar secondary amines leads to regioselectivity issues"
-        }
-      ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "O=C(OCc1ccccc1)N1CC[C@H]2CCCN(CCc3ccccc3)C[C@H]21",
-      "features": [
-        {
-          "prompt": "Two-stage ring formation strategy",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_count": 2,
-            "formation_stages": [
-              "pyrrolidine first",
-              "piperidine second"
-            ]
-          },
-          "rationale": "The route forms a 5-membered pyrrolidine ring first, then attempts a 6-membered ring formation as the final step."
-        },
-        {
-          "prompt": "Cbz protecting group throughout cyclizations",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "Cbz",
-            "maintained_through": "ring_formations",
-            "timing": "persistent"
-          },
-          "rationale": "The Cbz protecting group is maintained through both ring-forming steps rather than being removed before cyclizations."
-        },
-        {
-          "prompt": "Alcohol protection-deprotection cycle",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "acetate",
-            "cycle_type": "protection_deprotection",
-            "functional_group": "alcohol"
-          },
-          "rationale": "The route includes acetate protection of an alcohol followed by its deprotection several steps later."
-        }
-      ]
     }
   ],
   "target_009.json": [
-    {
-      "route_index": 1,
-      "smiles": "N[C@H]1CC[C@H]1c1ccc(Cl)cc1",
-      "features": [
-        {
-          "prompt": "Protecting group swap from Boc to trityl",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "swap_pattern": "Boc_to_trityl",
-            "sequential_deprotection_protection": true,
-            "same_functional_group": "amine"
-          },
-          "rationale": "Route performs sequential Boc deprotection followed immediately by trityl protection of the same amine."
-        },
-        {
-          "prompt": "Early stage enol triflate Suzuki coupling",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "suzuki_coupling",
-            "substrate_type": "enol_triflate",
-            "timing": "early"
-          },
-          "rationale": "Suzuki coupling with enol triflate is used early to form the key C-C bond between cyclobutene and aryl fragments."
-        }
-      ]
-    },
     {
       "route_index": 0,
       "smiles": "N[C@H]1CC[C@H]1c1ccc(Cl)cc1",
@@ -732,71 +338,9 @@
           "rationale": "Mitsunobu reaction is used to invert stereochemistry from cis alcohol to trans N-alkylated product."
         }
       ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "N[C@H]1CC[C@H]1c1ccc(Cl)cc1",
-      "features": [
-        {
-          "prompt": "Late stage cyclobutane ring saturation",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "C1CCC1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "The cyclobutane ring is saturated via hydrogenation in the final step rather than earlier in the synthesis"
-        },
-        {
-          "prompt": "Early stage cyclobutenone core construction",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "O=C1C=CC1",
-            "timing": "early",
-            "count": 1
-          },
-          "rationale": "The \u03b1,\u03b2-unsaturated cyclobutenone core is assembled early from simple cyclobutanone via dehydrogenation"
-        },
-        {
-          "prompt": "Phthalimide protecting group strategy for amine",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "phthalimide",
-            "functional_group": "amine",
-            "installation_method": "mitsunobu",
-            "removal_method": "hydrazinolysis"
-          },
-          "rationale": "Gabriel synthesis approach uses phthalimide protection to prevent amine interference during earlier transformations"
-        }
-      ]
     }
   ],
   "target_010.json": [
-    {
-      "route_index": 2,
-      "smiles": "CCc1nc(C)c(C(=O)Nc2ccc(-c3ccc(C45CCC(CC(=O)OC)(CC4)OC5)cc3)cc2)o1",
-      "features": [
-        {
-          "prompt": "Convergent synthesis via two fragments",
-          "feature_type": "convergent_strategy",
-          "parameters": {
-            "fragment_count": 2,
-            "coupling_step_depth": 0
-          },
-          "rationale": "Two complex fragments are prepared separately and joined in the final Suzuki coupling step."
-        },
-        {
-          "prompt": "Late stage biaryl coupling",
-          "feature_type": "specific_bond_break",
-          "parameters": {
-            "bond_type": "biaryl_cc",
-            "timing": "late",
-            "reaction_depth": 0
-          },
-          "rationale": "The key biaryl C-C bond is formed in the final step via Suzuki coupling reaction."
-        }
-      ]
-    },
     {
       "route_index": 1,
       "smiles": "CCc1nc(C)c(C(=O)Nc2ccc(-c3ccc(C45CCC(CC(=O)OC)(CC4)OC5)cc3)cc2)o1",
@@ -822,45 +366,8 @@
           "rationale": "The route assembles two pre-formed complex fragments (oxazole-amide-boronic acid and spirocyclic aryl bromide) in the final coupling step."
         }
       ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "CCc1nc(C)c(C(=O)Nc2ccc(-c3ccc(C45CCC(CC(=O)OC)(CC4)OC5)cc3)cc2)o1",
-      "features": [
-        {
-          "prompt": "Convergent synthesis via Suzuki coupling",
-          "feature_type": "convergent_strategy",
-          "parameters": {
-            "coupling_reaction": "Suzuki-Miyaura",
-            "fragment_count": 2,
-            "coupling_depth": 2
-          },
-          "rationale": "Two complex fragments are synthesized separately and joined via Suzuki coupling at depth 2."
-        },
-        {
-          "prompt": "Early spirocycle formation via intramolecular etherification",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_type": "spirocycle",
-            "formation_depth": 6,
-            "mechanism": "intramolecular_etherification"
-          },
-          "rationale": "The key spirocycle is formed early in the synthesis at depth 6 via intramolecular SN1 reaction."
-        },
-        {
-          "prompt": "Late stage amide coupling",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "bond_type": "amide",
-            "timing": "late",
-            "direction": "formation",
-            "depth": 0
-          },
-          "rationale": "Final amide bond is formed in the last step using peptide coupling reagents."
-        }
-      ]
     }
-  ],
+   ],
   "target_011.json": [
     {
       "route_index": 1,
