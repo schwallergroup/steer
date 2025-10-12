@@ -260,7 +260,7 @@ def generate_all_evaluation_codes(
                 # Save metadata
                 generated_codes[feature_id] = {
                     'source_file': result['source_file'],
-                    'route_index': result['route_idx'],
+                    'route_index': result['route_index'],
                     'smiles': result['smiles'],
                     'prompt': result['prompt'],
                     'feature_type': result['feature_type'],
