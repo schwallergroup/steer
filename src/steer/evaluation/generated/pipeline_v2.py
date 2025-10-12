@@ -209,8 +209,8 @@ def main():
     # Validate max_workers
     if args.max_workers > 10:
         print("⚠️  Warning: max_workers > 10 may hit API rate limits")
-        print("   Reducing to 10")
-        args.max_workers = 10
+        # print("   Reducing to 10")
+        # args.max_workers = 10
 
     # Run pipeline
     run_pipeline_v2(

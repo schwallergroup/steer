@@ -278,7 +278,9 @@ def extract_features_from_all_routes(
         routes = load_route_data(file_path)
 
         if routes_per_file:
-            routes = routes[:routes_per_file]
+            # Sample a random subset of routes
+            import random
+            routes = random.sample(routes, min(routes_per_file, len(routes)))
 
         print(f"  {len(routes)} routes to process...")
 
