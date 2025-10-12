@@ -15,6 +15,9 @@ from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import numpy as np
 from scipy.stats import spearmanr, pearsonr
+from rdkit import RDLogger
+RDLogger.DisableLog('rdApp.*')
+
 
 # Add project root to path
 project_root = Path(__file__).resolve().parent.parent.parent.parent
