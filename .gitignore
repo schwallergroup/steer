@@ -918,3 +918,5 @@ data/aryl_prompt
 data/*svg
 data/*png
 data/vus_route
+
+uspto190/*/*json
