@@ -1,7 +1,7 @@
 """Definition of the Task class and loading of default tasks."""
 
 import os
-from typing import Callable, Literal, Optional
+from typing import Callable, Literal, Optional, Any
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -18,7 +18,7 @@ class Task(BaseModel):
     id: str
     smiles: str
     prompt: str
-    eval_type: Literal["RingBreakDepth", "SpecificBondBreak", "MultiRxnCond"]
+    eval_type: Any #Literal["RingBreakDepth", "SpecificBondBreak", "MultiRxnCond"]
     eval_config: dict
     evaluate: Callable = Field(default=lambda x: None)
 
