@@ -1,0 +1,4899 @@
+[
+ {
+    "smiles": "C[C@H](c1ccccc1)N1C[C@]2(C(=O)OC(C)(C)C)C=CC[C@@H]2C1=S",
+    "prompt": "Ring-closing metathesis for bicyclic core formation",
+    "id": "target_001",
+    "eval_type": "Feature_001",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "ring_closing_metathesis",
+        "required": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "RCM is identified as the key strategic step for building the bicyclic core structure with high efficiency and yield",
+    "_source": {
+      "file": "target_001.json",
+      "route_index": 0
+    }
+  },
+  {
+    "smiles": "COc1ccc2nc(-c3ccc(OC)c(F)c3)nc(C(=O)NC(CO)Cc3c[nH]c4cccnc34)c2c1",
+    "prompt": "Late stage amide coupling",
+    "id": "target_016",
+    "eval_type": "Feature_040",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late",
+        "stage_threshold": 0.8
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final amide bond formation occurs in the last step of the synthesis.",
+    "_source": {
+      "file": "target_016.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 12.726757369614509,
+      "std_score": 26.771838299588147,
+      "min_score": 0.0,
+      "max_score": 83.33333333333331,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CC(C)c1ccc(-n2nc(O)c3c(=O)c4ccc(Cl)cc4[nH]c3c2=O)cc1",
+    "prompt": "Early quinoline core construction",
+    "id": "target_003",
+    "eval_type": "Feature_005",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccc2cccnc2c1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Quinoline heterocycle is assembled early via Gould-Jacobs reaction before complex cascade cyclizations.",
+    "_source": {
+      "file": "target_003.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 7.399254866996803,
+      "std_score": 1.3583973687600126,
+      "min_score": 3.333333333333334,
+      "max_score": 9.166666666666666,
+      "n_routes": 31
+    }
+  },
+  {
+    "smiles": "CC(C)c1ccc2c(c1)OC1(O)c3ccccc3C(=O)C21NC(=O)c1cc(-c2ccccc2)n[nH]1",
+    "prompt": "Late pyrazole ring formation",
+    "id": "target_023",
+    "eval_type": "Feature_089",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1cc[nH]n1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Pyrazole ring is formed in the final step via cyclocondensation reaction.",
+    "_source": {
+      "file": "target_023.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 0.38923719958202707,
+      "std_score": 1.4310134046561855,
+      "min_score": 0.0,
+      "max_score": 5.833333333333332,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CC(C)c1ccc2c(c1)OC1(O)c3ccccc3C(=O)C21NC(=O)c1cc(-c2ccccc2)n[nH]1",
+    "prompt": "Late stage pyrazole ring formation",
+    "id": "target_023",
+    "eval_type": "Feature_087",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[nH]1ncc(c1)",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyrazole ring is constructed in the final step via multi-component reaction on complex intermediate.",
+    "_source": {
+      "file": "target_023.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.38923719958202707,
+      "std_score": 1.4310134046561855,
+      "min_score": 0.0,
+      "max_score": 5.833333333333332,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CCOC(=O)c1cc2c(F)cccc2nc1[C@H](C)NC(=O)OC(C)(C)C",
+    "prompt": "Late stage ester formation",
+    "id": "target_015",
+    "eval_type": "Feature_037",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "esterification",
+        "timing": "late",
+        "substrate": "carboxylic_acid"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Final esterification occurs in the last step after all other functional group manipulations are complete.",
+    "_source": {
+      "file": "target_015.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.3548951048951046,
+      "std_score": 2.516814693861533,
+      "min_score": 0.0,
+      "max_score": 6.8181818181818175,
+      "n_routes": 13
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)NC1(C2CCc3cc(Sc4cccc(OCc5ccccc5)c4)ccc3C2)COC(C)(C)OC1",
+    "prompt": "Late stage carbon-sulfur bond formation",
+    "id": "target_020",
+    "eval_type": "Feature_068",
+    "eval_config": {
+      "parameters": {
+        "bond_type": "C-S",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step involves forming the key C-S bond via palladium-catalyzed cross-coupling as the last synthetic transformation.",
+    "_source": {
+      "file": "target_020.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 8.463710202840636,
+      "std_score": 9.57416758092844,
+      "min_score": 0.0,
+      "max_score": 28.57142857142857,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "C#CC1(O)C(C)=CC2(CC1(C)C(F)(F)F)OC(C)C(C)O2",
+    "prompt": "Late stage cyclic acetal formation",
+    "id": "target_018",
+    "eval_type": "Feature_055",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[O]C[O]",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The dioxolane ring is formed via transacetalization in the final stages of the synthesis.",
+    "_source": {
+      "file": "target_018.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.7165750915750915,
+      "std_score": 1.9885202196262401,
+      "min_score": 0.0,
+      "max_score": 6.666666666666668,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "C#CC1(O)C(C)=CC2(CC1(C)C(F)(F)F)OC(C)C(C)O2",
+    "prompt": "Tertiary alcohol acetate protection-deprotection cycle",
+    "id": "target_018",
+    "eval_type": "Feature_052",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "acetate",
+        "functional_group": "tertiary_alcohol",
+        "operation": "cycle"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Route involves protecting tertiary alcohol as acetate then removing it in final step.",
+    "_source": {
+      "file": "target_018.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 3.076923076923077,
+      "std_score": 4.615384615384615,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "COC(=O)CC12CCC(c3ccc(Br)cc3)(CC1)CO2",
+    "prompt": "Late stage nitrile hydrolysis to ester",
+    "id": "target_017",
+    "eval_type": "Feature_045",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "nitrile_hydrolysis",
+        "timing": "late",
+        "product_functional_group": "ester"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The nitrile is converted to methyl ester as the final step rather than earlier in the sequence",
+    "_source": {
+      "file": "target_017.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 2.0313852813852815,
+      "std_score": 3.007783710831942,
+      "min_score": 0.0,
+      "max_score": 7.5,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC(=O)CC12CCC(c3ccc(Br)cc3)(CC1)CO2",
+    "prompt": "Mixed ester protecting group approach",
+    "id": "target_017",
+    "eval_type": "Feature_050",
+    "eval_config": {
+      "parameters": {
+        "protecting_groups": [
+          "tert-butyl ester",
+          "ethyl ester"
+        ],
+        "strategy": "differential_protection",
+        "selectivity": "acid_labile_vs_stable"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Employs tert-butyl and ethyl esters for differential deprotection under mild acidic conditions.",
+    "_source": {
+      "file": "target_017.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 6.818181818181818,
+      "std_score": 4.657704893617999,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC(=O)CC12CCC(c3ccc(Br)cc3)(CC1)CO2",
+    "prompt": "Malonic ester decarboxylation strategy",
+    "id": "target_017",
+    "eval_type": "Feature_049",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "decarboxylation",
+        "substrate_pattern": "C(C(=O)OCC)(C(=O)OCC)",
+        "product_pattern": "CC(=O)OCC"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Uses malonic ester alkylation followed by decarboxylation to install the side chain.",
+    "_source": {
+      "file": "target_017.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 2.607323232323232,
+      "std_score": 1.9903191533291762,
+      "min_score": 0.0,
+      "max_score": 4.444444444444445,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CCCC[C@@H](C(=O)N1CCC[C@H]1C(=O)O)[C@@H](F)C(=O)OC",
+    "prompt": "Ester hydrolysis followed by re-esterification sequence",
+    "id": "target_002",
+    "eval_type": "Feature_004",
+    "eval_config": {
+      "parameters": {
+        "reaction_sequence": [
+          "ester_hydrolysis",
+          "esterification"
+        ],
+        "functional_group": "ester",
+        "consecutive": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route includes ethyl ester hydrolysis immediately followed by methyl ester formation, creating a functional group interconversion cycle.",
+    "_source": {
+      "file": "target_002.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 8.0,
+      "std_score": 4.0,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CCCN(CCC)Cc1cc(CO)c(=O)n2c(-c3c(C)cc(C)cc3C)cccc12",
+    "prompt": "Trityl protecting group for primary alcohol",
+    "id": "target_013",
+    "eval_type": "Feature_031",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "trityl",
+        "functional_group": "primary_alcohol",
+        "smarts": "[CH2:1][OH:2]>>[CH2:1][O:2]C(c1ccccc1)(c2ccccc2)c3ccccc3"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Route employs trityl protection strategy for primary alcohol with late-stage deprotection.",
+    "_source": {
+      "file": "target_013.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 8.959774524991918,
+      "std_score": 0.2768723588840724,
+      "min_score": 8.333333333333334,
+      "max_score": 9.285714285714286,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "N[C@H]1CC[C@H]1c1ccc(Cl)cc1",
+    "prompt": "Convergent synthesis via Suzuki coupling",
+    "id": "target_009",
+    "eval_type": "Feature_023",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "fragments": 2,
+        "timing": "early"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Two main fragments (iodo-enone and boronic acid) are joined via palladium-catalyzed Suzuki cross-coupling.",
+    "_source": {
+      "file": "target_009.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 30.26455026455027,
+      "std_score": 21.556675027360132,
+      "min_score": 0.0,
+      "max_score": 48.57142857142858,
+      "n_routes": 3
+    }
+  },
+  {
+    "smiles": "CCc1nc(C)c(C(=O)Nc2ccc(-c3ccc(C45CCC(CC(=O)OC)(CC4)OC5)cc3)cc2)o1",
+    "prompt": "Late stage Suzuki coupling for biaryl formation",
+    "id": "target_010",
+    "eval_type": "Feature_025",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "timing": "late",
+        "bonds_formed": "C-C"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses Suzuki coupling to form the key biaryl bond between two complex fragments.",
+    "_source": {
+      "file": "target_010.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.22619047619047628,
+      "std_score": 0.7041945914842981,
+      "min_score": 0.0,
+      "max_score": 2.857142857142858,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COc1ccc2nccc(C(N)CC[C@@H]3CCN(CCSc4cccs4)C[C@@H]3C(=O)O)c2c1",
+    "prompt": "Late stage piperidine ring formation",
+    "id": "target_031",
+    "eval_type": "Feature_138",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The six-membered piperidine ring is formed via intramolecular cyclization in the later stages of the synthesis rather than early assembly.",
+    "_source": {
+      "file": "target_031.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 1.650793650793651,
+      "std_score": 2.993011801196635,
+      "min_score": 0.0,
+      "max_score": 9.09090909090909,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "COc1ccc2nccc(C(N)CC[C@@H]3CCN(CCSc4cccs4)C[C@@H]3C(=O)O)c2c1",
+    "prompt": "Boc protecting group cycling strategy",
+    "id": "target_031",
+    "eval_type": "Feature_139",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Boc",
+        "install_and_remove": true,
+        "temporary": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Boc protection is installed on the amine and later removed, representing a temporary protection strategy during the synthesis.",
+    "_source": {
+      "file": "target_031.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 2.5,
+      "std_score": 4.330127018922194,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "COc1ccc2nccc(C(N)CC[C@@H]3CCN(CCSc4cccs4)C[C@@H]3C(=O)O)c2c1",
+    "prompt": "Oxime intermediate for amine formation",
+    "id": "target_031",
+    "eval_type": "Feature_137",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "oxime_formation_reduction",
+        "intermediate": "oxime",
+        "target_group": "primary_amine"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses a ketone-to-oxime-to-amine sequence rather than direct ketone reduction for primary amine synthesis.",
+    "_source": {
+      "file": "target_031.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 3.5714285714285716,
+      "std_score": 4.7915742374995505,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "CCN1CCN(CCCCCCOc2c(OC)ccc3c(Nc4c(Cl)cncc4Cl)cc(=O)[nH]c23)CC1",
+    "prompt": "Early quinoline ring formation",
+    "id": "target_033",
+    "eval_type": "Feature_148",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccc2cccnc2c1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The quinoline core is constructed in the first step via Conrad-Limpach synthesis before subsequent functionalizations.",
+    "_source": {
+      "file": "target_033.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 0.6205128205128204,
+      "std_score": 1.5609804906034883,
+      "min_score": 0.0,
+      "max_score": 6.0,
+      "n_routes": 15
+    }
+  },
+  {
+    "smiles": "FC(F)(F)Cn1ncnc1-c1cc2n(n1)-c1cc(C3CCNCC3)ccc1OCC2",
+    "prompt": "Late stage Boc deprotection strategy",
+    "id": "target_029",
+    "eval_type": "Feature_123",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Boc",
+        "timing": "final_step",
+        "group_protected": "nitrogen"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Boc protecting group is maintained throughout synthesis and removed in the final step to avoid carrying reactive secondary amine.",
+    "_source": {
+      "file": "target_029.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 70.9090909090909,
+      "std_score": 10.909090909090907,
+      "min_score": 60.0,
+      "max_score": 81.81818181818181,
+      "n_routes": 2
+    }
+  },
+  {
+    "smiles": "C[C@]1(F)CC(F)(F)[C@@](C)(c2cc(N)ccc2F)N=C1N",
+    "prompt": "Multiple protecting group cycling strategy",
+    "id": "target_030",
+    "eval_type": "Feature_128",
+    "eval_config": {
+      "parameters": {
+        "protection_steps": [
+          "Boc protection",
+          "benzyl protection (first)",
+          "benzyl protection (second)"
+        ],
+        "deprotection_steps": [
+          "Boc deprotection",
+          "dibenzyl deprotection"
+        ],
+        "cycle_count": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route involves both Boc protection/deprotection cycle and benzyl protection/deprotection cycle for the amine functionality.",
+    "_source": {
+      "file": "target_030.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 8.26086956521739,
+      "std_score": 3.7903469074266725,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "C[C@]1(F)CC(F)(F)[C@@](C)(c2cc(N)ccc2F)N=C1N",
+    "prompt": "Late stage Curtius rearrangement for amine formation",
+    "id": "target_030",
+    "eval_type": "Feature_130",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "curtius_rearrangement",
+        "functional_group_change": "COOH_to_NH2",
+        "stage": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses Curtius rearrangement as the final step to convert carboxylic acid to amine.",
+    "_source": {
+      "file": "target_030.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 5.729813664596273,
+      "std_score": 3.5159024033880257,
+      "min_score": 0.0,
+      "max_score": 8.88888888888889,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COc1cc2c(=O)[nH]c(=O)n([C@@H]3O[C@H](CO)[C@H]4OC(C)(C)O[C@H]43)c2cc1OC",
+    "prompt": "Early stage Grignard reagent preparation",
+    "id": "target_036",
+    "eval_type": "Feature_175",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "grignard_formation",
+        "timing": "early",
+        "depth_threshold": 7
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Grignard reagent is prepared in the initial steps for subsequent C-C bond formation.",
+    "_source": {
+      "file": "target_036.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.7418026418026418,
+      "std_score": 1.2425167380324236,
+      "min_score": 0.0,
+      "max_score": 3.846153846153846,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(C)S(=O)(=O)N[C@H]1CCOC[C@H]1c1ccc(-c2ccc(C#N)s2)cc1",
+    "prompt": "Late stage Suzuki coupling for biaryl formation",
+    "id": "target_039",
+    "eval_type": "Feature_200",
+    "eval_config": {
+      "parameters": {
+        "bond_smarts": "c1ccc(-c2sccc2)cc1",
+        "timing": "late",
+        "reaction_type": "suzuki_coupling"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key biaryl bond between phenyl and thiophene rings is formed via Suzuki coupling at depth 3.",
+    "_source": {
+      "file": "target_039.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 61.86904761904763,
+      "std_score": 32.029596406782204,
+      "min_score": 0.0,
+      "max_score": 88.88888888888889,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COc1cc2ncc3c(N)nc(-c4cncc(OCCNCc5ccc(F)cc5)c4)cc3c2cc1OC",
+    "prompt": "Convergent synthesis via two major fragments",
+    "id": "target_040",
+    "eval_type": "Feature_210",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "coupling_stage": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses a convergent approach joining two prepared fragments in the key pyrimidine annulation step.",
+    "_source": {
+      "file": "target_040.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 34.29207638766462,
+      "std_score": 15.30160812456438,
+      "min_score": 16.666666666666664,
+      "max_score": 71.42857142857143,
+      "n_routes": 68
+    }
+  },
+  {
+    "smiles": "Cn1nccc1[C@]1(O)CCCC[C@H]1O",
+    "prompt": "Late stage pyrazole ring formation",
+    "id": "target_043",
+    "eval_type": "Feature_226",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccnn1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Pyrazole heterocycle is constructed late in the synthesis via reaction with methylhydrazine",
+    "_source": {
+      "file": "target_043.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 28.28514739229025,
+      "std_score": 34.0169106245612,
+      "min_score": 0.0,
+      "max_score": 85.71428571428571,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CNCC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCC(C)(C)O)c1",
+    "prompt": "Late stage piperidine ring formation",
+    "id": "target_044",
+    "eval_type": "Feature_233",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The six-membered piperidine ring is constructed late in the synthesis via intramolecular SN2 cyclization, which is described as highly feasible and efficient.",
+    "_source": {
+      "file": "target_044.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.659090909090909,
+      "std_score": 2.9644792211013384,
+      "min_score": 0.0,
+      "max_score": 8.333333333333334,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CNCC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCC(C)(C)O)c1",
+    "prompt": "Late intramolecular piperidine ring formation",
+    "id": "target_044",
+    "eval_type": "Feature_236",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "late",
+        "formation_type": "intramolecular_cyclization"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The piperidine core is formed late in the synthesis via intramolecular N-alkylation cyclization.",
+    "_source": {
+      "file": "target_044.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 23.40909090909091,
+      "std_score": 26.827649843831843,
+      "min_score": 0.0,
+      "max_score": 60.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COc1ccc2c(Nc3c(Cl)cncc3Cl)cc(=O)[nH]c2c1OCCCCCCN1CCCN(C)CC1",
+    "prompt": "Early quinolinone core assembly",
+    "id": "target_045",
+    "eval_type": "Feature_247",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#6]1:[#6]:[#6]:[#6]2:[#6](:[#6]:1):[#7]:[#6](=[O]):[#6]:[#6]:2",
+        "timing": "early",
+        "step_position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The quinolinone bicyclic core is constructed in the first step from aniline and malonic acid derivative.",
+    "_source": {
+      "file": "target_045.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 5.765998707175179,
+      "std_score": 10.897754093000996,
+      "min_score": 0.0,
+      "max_score": 40.0,
+      "n_routes": 17
+    }
+  },
+  {
+    "smiles": "CCC[C@@H](CCO)Nc1nc(N)nc(C)c1Cc1ccc(CN2CCC[C@@H]2C(=O)O)cc1OC",
+    "prompt": "Late pyrimidine ring formation",
+    "id": "target_051",
+    "eval_type": "Feature_281",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1cncnc1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyrimidine ring is constructed in step 4 via guanidine condensation with \u03b2-keto ester, building significant complexity late in the synthesis.",
+    "_source": {
+      "file": "target_051.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 4.894557823129253,
+      "std_score": 0.8603201199609369,
+      "min_score": 2.8571428571428568,
+      "max_score": 6.0,
+      "n_routes": 14
+    }
+  },
+  {
+    "smiles": "COC[C@H](C)COCc1ccc([C@@]2(O)CCN(C(=O)OC(C)(C)C)C[C@@H]2C=NO)cc1",
+    "prompt": "Early trichloroacetimidate installation before organometallic chemistry",
+    "id": "target_046",
+    "eval_type": "Feature_252",
+    "eval_config": {
+      "parameters": {
+        "protecting_group_smarts": "N=C(OC*)C(Cl)(Cl)Cl",
+        "installation_step": 8,
+        "total_steps": 7,
+        "incompatible_reaction_types": [
+          "organometallic"
+        ]
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The trichloroacetimidate protecting group is installed early but must survive incompatible organometallic conditions in step 7.",
+    "_source": {
+      "file": "target_046.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 36.15265151515151,
+      "std_score": 44.282419135955585,
+      "min_score": 0.0,
+      "max_score": 92.04545454545453,
+      "n_routes": 25
+    }
+  },
+  {
+    "smiles": "COc1ccccc1C[C@H](C[C@H](O[Si](C)(C)C(C)(C)C)[C@H](Cc1ccccc1)NC(=O)OC(C)(C)C)C(=O)O",
+    "prompt": "Late stage benzyl ester deprotection",
+    "id": "target_050",
+    "eval_type": "Feature_273",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protecting_group": "benzyl",
+        "timing": "final_step",
+        "method": "hydrogenolysis"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Final step uses catalytic hydrogenolysis to reveal target carboxylic acid from benzyl ester protection.",
+    "_source": {
+      "file": "target_050.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 23.5,
+      "std_score": 20.80264406271472,
+      "min_score": 0.0,
+      "max_score": 70.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CCc1[nH]c(C(=O)N[C@H]2CCN(c3cccc(C(=O)O)c3)C[C@H]2OC)nc1C(F)(F)F",
+    "prompt": "Late stage primary amide formation",
+    "id": "target_052",
+    "eval_type": "Feature_286",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amidation",
+        "substrate_pattern": "C(=O)O",
+        "product_pattern": "C(=O)N",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Primary amide is installed in the final step via direct amidation of carboxylic acid.",
+    "_source": {
+      "file": "target_052.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.6785714285714286,
+      "std_score": 2.7526184881298494,
+      "min_score": 0.0,
+      "max_score": 7.333333333333334,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "O=C(Nc1ccc(-c2cnc(C34CC5CC(CC(C(=O)O)(C5)C3)C4)s2)cc1)Nc1ccccc1F",
+    "prompt": "Carboxylic acid protection-deprotection cycling",
+    "id": "target_053",
+    "eval_type": "Feature_294",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protecting_group": "ethyl_ester",
+        "cycle_count": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Carboxylic acid is protected as ethyl ester then deprotected in final step.",
+    "_source": {
+      "file": "target_053.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 8.636363636363637,
+      "std_score": 3.4317429251230678,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "Cc1cc(C#N)cnc1C(=O)Nc1ccc(F)c([C@@]2(C)N=C(N)[C@@](C)(F)CC2(F)F)c1",
+    "prompt": "Sandmeyer reaction for aryl bromide formation",
+    "id": "target_055",
+    "eval_type": "Feature_311",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sandmeyer",
+        "substrate": "aromatic_amine",
+        "product": "aryl_bromide"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Uses Sandmeyer reaction to convert aromatic amine to aryl bromide via diazonium intermediate",
+    "_source": {
+      "file": "target_055.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.8333333333333334,
+      "std_score": 2.7638539919628333,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "Cc1cc(C#N)cnc1C(=O)Nc1ccc(F)c([C@@]2(C)N=C(N)[C@@](C)(F)CC2(F)F)c1",
+    "prompt": "Late stage amide coupling",
+    "id": "target_055",
+    "eval_type": "Feature_314",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late",
+        "step_position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The target molecule is assembled via amide bond formation as the final step.",
+    "_source": {
+      "file": "target_055.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 13.133313445813444,
+      "std_score": 6.569418495567621,
+      "min_score": 7.142857142857142,
+      "max_score": 33.33333333333333,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "COc1cc(-c2cccc(C(F)(F)F)c2)c(F)cc1-c1nncc2cc(S(=O)(=O)Nc3ccon3)ccc12",
+    "prompt": "Late stage sulfonamide formation",
+    "id": "target_054",
+    "eval_type": "Feature_303",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sulfonamide_formation",
+        "timing": "late",
+        "stage_threshold": 0.8
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Sulfonamide bond formation occurs in the final step using pentafluorophenyl sulfonate ester.",
+    "_source": {
+      "file": "target_054.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 4.548229407509326,
+      "std_score": 1.488528640905038,
+      "min_score": 1.9230769230769231,
+      "max_score": 7.499999999999999,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "C[C@@H](n1ncn(-c2ccc(Cl)cc2)c1=O)[C@@]1(c2ccc(F)cc2F)CO1",
+    "prompt": "Late stage epoxide formation via Corey-Chaykovsky",
+    "id": "target_058",
+    "eval_type": "Feature_331",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "epoxidation",
+        "reagent_pattern": "C[S+](C)C",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Epoxide ring is formed in the final step using dimethylsulfoxonium ylide on a ketone.",
+    "_source": {
+      "file": "target_058.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.775,
+      "std_score": 3.550440113563387,
+      "min_score": 0.0,
+      "max_score": 9.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "C[C@@H](n1ncn(-c2ccc(Cl)cc2)c1=O)[C@@]1(c2ccc(F)cc2F)CO1",
+    "prompt": "Extensive carboxylic acid derivative cycling",
+    "id": "target_058",
+    "eval_type": "Feature_329",
+    "eval_config": {
+      "parameters": {
+        "reaction_types": [
+          "esterification",
+          "hydrolysis",
+          "acyl_halide_formation"
+        ],
+        "min_cycles": 2,
+        "functional_group": "carboxylic_acid_derivatives"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route cycles through multiple carboxylic acid derivatives (acid \u2192 acyl chloride \u2192 ester \u2192 acid \u2192 acyl fluoride \u2192 amide \u2192 ester \u2192 acid \u2192 ester) in a repetitive pattern.",
+    "_source": {
+      "file": "target_058.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.5,
+      "std_score": 2.179449471770337,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CS(=O)(=O)CCN1CCC(c2ccc3c(c2)-n2nc(-c4ncnn4CC(F)(F)F)cc2CCO3)CC1",
+    "prompt": "Early stage tricyclic core assembly",
+    "id": "target_060",
+    "eval_type": "Feature_342",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#6]1:[#6]:[#6]:[#6]:[#6]:[#6]:1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The complex tricyclic core structure is assembled early in the synthesis via cascade cyclization.",
+    "_source": {
+      "file": "target_060.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 2.620183314627759,
+      "std_score": 1.7410521307510787,
+      "min_score": 0.0,
+      "max_score": 5.0,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "CS(=O)(=O)CCN1CCC(c2ccc3c(c2)-n2nc(-c4ncnn4CC(F)(F)F)cc2CCO3)CC1",
+    "prompt": "Late stage piperidine ring closure",
+    "id": "target_060",
+    "eval_type": "Feature_341",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The six-membered piperidine ring is formed in the final step via intramolecular nucleophilic substitution.",
+    "_source": {
+      "file": "target_060.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 3.979236812570146,
+      "std_score": 4.449590617251981,
+      "min_score": 0.0,
+      "max_score": 9.09090909090909,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "CCCc1c(Cc2ccc(-c3ccccc3C#N)cc2F)c(=O)n([C@H]2CC[C@H](OCC3(C(C)=O)CCC3)CC2)c2ncnn12",
+    "prompt": "Weinreb amide intermediate for selective ketone formation",
+    "id": "target_059",
+    "eval_type": "Feature_339",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "weinreb_amide_formation",
+        "substrate_smarts": "C(=O)O",
+        "product_smarts": "C(=O)N(C)OC"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Strategic use of Weinreb amide prevents over-addition and ensures high-yield ketone formation in the final step.",
+    "_source": {
+      "file": "target_059.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 79.09130869130868,
+      "std_score": 4.580806400804273,
+      "min_score": 72.72727272727273,
+      "max_score": 84.61538461538461,
+      "n_routes": 25
+    }
+  },
+  {
+    "smiles": "CC(C)N1CCC(Oc2ccc3c(c2)cc2n3[C@H](C)CN(CCO)C2=O)CC1",
+    "prompt": "Early indole ring formation via Reissert synthesis",
+    "id": "target_063",
+    "eval_type": "Feature_367",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccc2[nH]ccc2c1",
+        "timing": "early",
+        "formation_depth": 5
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Indole core is constructed early in the sequence (depth 5) through intramolecular cyclization of nitroaryl precursor.",
+    "_source": {
+      "file": "target_063.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 46.875,
+      "std_score": 31.093357409581873,
+      "min_score": 0.0,
+      "max_score": 87.5,
+      "n_routes": 8
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)OCC(=O)N(C)C)c1",
+    "prompt": "Late stage cyclopropane formation",
+    "id": "target_064",
+    "eval_type": "Feature_377",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "late",
+        "stage_threshold": 0.7
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring is formed via Corey-Chaykovsky reaction in the later stages rather than early installation.",
+    "_source": {
+      "file": "target_064.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 11.05679241393527,
+      "std_score": 3.160447015686904,
+      "min_score": 5.194805194805196,
+      "max_score": 14.285714285714286,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)OCC(=O)N(C)C)c1",
+    "prompt": "Late stage ether formation",
+    "id": "target_064",
+    "eval_type": "Feature_376",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "williamson_ether_synthesis",
+        "timing": "late",
+        "stage_threshold": 0.8
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses Williamson ether synthesis to connect two complex fragments in the last transformation.",
+    "_source": {
+      "file": "target_064.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 50.49693362193362,
+      "std_score": 32.14863972479118,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "O=C1C=C(N2CCNCC2)C(C2CCCCC2)CC1",
+    "prompt": "Late piperazine ring formation",
+    "id": "target_067",
+    "eval_type": "Feature_392",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CNCCN1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The piperazine ring is formed via double N-alkylation in step 2, very late in the synthesis.",
+    "_source": {
+      "file": "target_067.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 7.946428571428571,
+      "std_score": 0.8035714285714284,
+      "min_score": 7.142857142857143,
+      "max_score": 8.75,
+      "n_routes": 2
+    }
+  },
+  {
+    "smiles": "O=C1C=C(N2CCNCC2)C(C2CCCCC2)CC1",
+    "prompt": "Late piperazinone ring formation",
+    "id": "target_067",
+    "eval_type": "Feature_395",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#7]1[#6][#6][#7][#6][#6](=[#8])1",
+        "formation_step": 2,
+        "total_steps": 7,
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The piperazinone ring is constructed late in the sequence via intramolecular cyclization.",
+    "_source": {
+      "file": "target_067.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 14.285714285714285,
+      "std_score": 14.285714285714285,
+      "min_score": 0.0,
+      "max_score": 28.57142857142857,
+      "n_routes": 2
+    }
+  },
+  {
+    "smiles": "COC[C@H](C)COCc1ccc([C@@]2(O)CCN(C(=O)OC(C)(C)C)C[C@@H]2CO)cc1",
+    "prompt": "Trityl protecting group for primary alcohol",
+    "id": "target_066",
+    "eval_type": "Feature_386",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "trityl",
+        "functional_group": "primary_alcohol",
+        "pattern": "COTr"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Uses trityl ether protection followed by acid-mediated deprotection in final step",
+    "_source": {
+      "file": "target_066.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 9.545454545454545,
+      "std_score": 2.0829889522526543,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CC[C@@H](OC(=O)c1ccccc1)[C@H]1CCCN(C(=O)OC(C)(C)C)C1",
+    "prompt": "Azide intermediate for nitrogen introduction",
+    "id": "target_071",
+    "eval_type": "Feature_421",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "azide_formation",
+        "smarts_pattern": "[N-]=[N+]=[N-]"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Azide serves as a protected nitrogen precursor that is later reduced to amine before cyclization.",
+    "_source": {
+      "file": "target_071.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 1.25,
+      "std_score": 3.307189138830738,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 32
+    }
+  },
+  {
+    "smiles": "CC[C@@H](OC(=O)c1ccccc1)[C@H]1CCCN(C(=O)OC(C)(C)C)C1",
+    "prompt": "Late pyrrolidine ring formation via cyclization",
+    "id": "target_071",
+    "eval_type": "Feature_420",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCCN1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyrrolidine ring is formed in the final step through intramolecular SN2 cyclization.",
+    "_source": {
+      "file": "target_071.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.8504464285714286,
+      "std_score": 1.9470108381215434,
+      "min_score": 0.0,
+      "max_score": 8.0,
+      "n_routes": 32
+    }
+  },
+  {
+    "smiles": "CC[C@@H](OC(=O)c1ccccc1)[C@H]1CCCN(C(=O)OC(C)(C)C)C1",
+    "prompt": "Late stage ester formation",
+    "id": "target_071",
+    "eval_type": "Feature_419",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "esterification",
+        "timing": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The benzoate ester is formed as the final transformation at depth 0.",
+    "_source": {
+      "file": "target_071.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 28.125,
+      "std_score": 44.96092053105674,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 32
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@H]1CN(C(=O)OC(C)(C)C)CC[C@@H]1c1ccc(OCCOc2c(Cl)cc(C)cc2Cl)cc1",
+    "prompt": "Convergent synthesis via two fragments",
+    "id": "target_074",
+    "eval_type": "Feature_431",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "coupling_step": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Two independently prepared fragments are joined in the final SNAr reaction",
+    "_source": {
+      "file": "target_074.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 8.722222222222223,
+      "std_score": 0.965452622054598,
+      "min_score": 7.666666666666667,
+      "max_score": 10.0,
+      "n_routes": 3
+    }
+  },
+  {
+    "smiles": "CC(=O)NC[C@H]1CC[C@@H](C(=O)Nc2cccc(OC(F)(F)F)c2)N1",
+    "prompt": "Late stage nitrile to acetamido conversion",
+    "id": "target_073",
+    "eval_type": "Feature_426",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "nitrile_reduction_acetylation",
+        "functional_group": "nitrile",
+        "product_group": "acetamido",
+        "stage": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The nitrile group is maintained through most of the synthesis and converted to the final acetamido functionality in the last step.",
+    "_source": {
+      "file": "target_073.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 3.095238095238095,
+      "std_score": 0.23809523809523814,
+      "min_score": 2.8571428571428568,
+      "max_score": 3.333333333333333,
+      "n_routes": 2
+    }
+  },
+  {
+    "smiles": "CN(C1CC1)[C@H]1CC[C@H]2[C@@H]3CC=C4C[C@@H](O)CC[C@]4(C)[C@H]3CC[C@]12C",
+    "prompt": "Late stage alcohol deprotection",
+    "id": "target_075",
+    "eval_type": "Feature_439",
+    "eval_config": {
+      "parameters": {
+        "protection_type": "ethoxyethyl_acetal",
+        "functional_group": "alcohol",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The ethoxyethyl acetal protecting group is removed in the final step to reveal the target alcohol.",
+    "_source": {
+      "file": "target_075.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 2.031547619047619,
+      "std_score": 2.807278852374424,
+      "min_score": 0.0,
+      "max_score": 7.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(=O)OCc1nc2cnc(Br)cc2n1C(C)(C)COC(C)=O",
+    "prompt": "TBDMS protecting group strategy",
+    "id": "target_077",
+    "eval_type": "Feature_453",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "TBDMS",
+        "functional_group": "alcohol"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "TBDMS is used to protect the primary alcohol throughout the synthesis until deprotection in step 2.",
+    "_source": {
+      "file": "target_077.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.35714285714285715,
+      "std_score": 1.855768722395226,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 84
+    }
+  },
+  {
+    "smiles": "COC[C@H](C)COCc1ccc([C@@]2(O)CCN(C(=O)OC(C)(C)C)C[C@@H]2C=O)cc1",
+    "prompt": "Weinreb amide for ketone synthesis",
+    "id": "target_080",
+    "eval_type": "Feature_471",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "weinreb_amide_ketone_formation",
+        "functional_group_smarts": "C(=O)N(C)OC"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Uses Weinreb amide methodology to avoid over-addition issues common with other ketone-forming reactions.",
+    "_source": {
+      "file": "target_080.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.8163780663780664,
+      "std_score": 1.8824101082532367,
+      "min_score": 0.0,
+      "max_score": 5.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC[C@H](C)COCc1ccc([C@@]2(O)CCN(C(=O)OC(C)(C)C)C[C@@H]2C=O)cc1",
+    "prompt": "Late stage nitrile to aldehyde reduction",
+    "id": "target_080",
+    "eval_type": "Feature_475",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "nitrile_reduction",
+        "timing": "final_step",
+        "product": "aldehyde"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final transformation converts nitrile to aldehyde using controlled reduction conditions.",
+    "_source": {
+      "file": "target_080.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 3.6363636363636362,
+      "std_score": 4.810456929208346,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "O=S(=O)(C#Cc1ccc(Cl)cc1)N1CCNCC1",
+    "prompt": "Late stage Cbz deprotection",
+    "id": "target_081",
+    "eval_type": "Feature_477",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Cbz",
+        "timing": "late",
+        "operation": "deprotection"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cbz protecting group is removed in the final step to reveal the free amine product",
+    "_source": {
+      "file": "target_081.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": -7.201872201872202,
+      "std_score": 28.70183650516049,
+      "min_score": -80.0,
+      "max_score": 62.857142857142854,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "C[C@@H](n1ccn(-c2ccc(Cl)cc2)c1=O)[C@@]1(c2ccc(F)cc2F)CO1",
+    "prompt": "Late stage epoxide ring formation",
+    "id": "target_084",
+    "eval_type": "Feature_501",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CO1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Epoxide is formed as the final step via intramolecular cyclization from a diol.",
+    "_source": {
+      "file": "target_084.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 86.16883116883118,
+      "std_score": 3.4006227999988097,
+      "min_score": 83.33333333333334,
+      "max_score": 91.66666666666666,
+      "n_routes": 15
+    }
+  },
+  {
+    "smiles": "C[C@@H](n1ccn(-c2ccc(Cl)cc2)c1=O)[C@@]1(c2ccc(F)cc2F)CO1",
+    "prompt": "Late stage epoxide formation",
+    "id": "target_084",
+    "eval_type": "Feature_499",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CO1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The epoxide ring is formed in the final step using Corey-Chaykovsky reaction.",
+    "_source": {
+      "file": "target_084.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 3.4163059163059164,
+      "std_score": 3.728127822623019,
+      "min_score": 0.0,
+      "max_score": 8.333333333333334,
+      "n_routes": 15
+    }
+  },
+  {
+    "smiles": "C=C(C[C@@H](Cc1ccc(-c2ccccc2)cc1)NC(=O)OC(C)(C)C)C(=O)OC",
+    "prompt": "Late stage aryl alkyl coupling",
+    "id": "target_079",
+    "eval_type": "Feature_467",
+    "eval_config": {
+      "parameters": {
+        "bond_type": "C-C",
+        "connection": "aryl-alkyl",
+        "timing": "late",
+        "step_position_from_end": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step forms the aryl-alkyl bond via organocuprate displacement of alkyl chloride.",
+    "_source": {
+      "file": "target_079.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 2.3403078403078403,
+      "std_score": 2.8021062728171597,
+      "min_score": 0.0,
+      "max_score": 7.777777777777778,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "C=C(C[C@@H](Cc1ccc(-c2ccccc2)cc1)NC(=O)OC(C)(C)C)C(=O)OC",
+    "prompt": "Late stage Suzuki cross-coupling for biaryl formation",
+    "id": "target_079",
+    "eval_type": "Feature_463",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Suzuki_coupling",
+        "timing": "late",
+        "step_position_from_end": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Suzuki coupling occurs in the second-to-last step to form the biaryl system.",
+    "_source": {
+      "file": "target_079.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 5.714285714285714,
+      "std_score": 4.948716593053935,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "O[C@H]1C[C@H](c2cnn3c(N[C@H]4CCc5ccccc54)ncnc23)C=C1COCc1ccccc1",
+    "prompt": "Orthogonal protecting group strategy for alcohols",
+    "id": "target_083",
+    "eval_type": "Feature_491",
+    "eval_config": {
+      "parameters": {
+        "strategy_type": "orthogonal",
+        "functional_groups": [
+          "alcohol"
+        ],
+        "protecting_groups": [
+          "TBDMS",
+          "acetate"
+        ],
+        "purpose": "differential_functionalization"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "TBDMS protects primary alcohol while acetate protects secondary alcohol, enabling selective benzylation.",
+    "_source": {
+      "file": "target_083.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 7.619047619047619,
+      "std_score": 4.2591770999996,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CC(=O)N1c2ccc(N3CCNCC3)nc2[C@H](Nc2ccccc2)[C@@H](C)[C@@H]1C1CC1",
+    "prompt": "Late stage Buchwald-Hartwig amination",
+    "id": "target_086",
+    "eval_type": "Feature_513",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Buchwald-Hartwig",
+        "position": "final_step",
+        "bond_formed": "C-N"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Final C-N bond formation uses Buchwald-Hartwig coupling as the last synthetic step.",
+    "_source": {
+      "file": "target_086.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 23.139287612971824,
+      "std_score": 10.213937304669553,
+      "min_score": 10.0,
+      "max_score": 40.0,
+      "n_routes": 38
+    }
+  },
+  {
+    "smiles": "CC(=O)N1c2ccc(N3CCNCC3)nc2[C@H](Nc2ccccc2)[C@@H](C)[C@@H]1C1CC1",
+    "prompt": "Late stage piperazine ring formation",
+    "id": "target_086",
+    "eval_type": "Feature_520",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CNCCN1",
+        "formation_depth": 1,
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key piperazine ring is formed very late in the synthesis (depth 1) through double alkylation cyclization.",
+    "_source": {
+      "file": "target_086.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 56.719829877724614,
+      "std_score": 39.19363008401426,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 38
+    }
+  },
+  {
+    "smiles": "CN(C)CC(OCC1(c2ccc(F)cc2)CCN(C(=O)OC(C)(C)C)CC1)c1cc(Cl)cc2cn(COCC[Si](C)(C)C)nc12",
+    "prompt": "Convergent synthesis via two fragment coupling",
+    "id": "target_085",
+    "eval_type": "Feature_504",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "coupling_step_position": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route builds two complex fragments separately and couples them in the final ether formation step.",
+    "_source": {
+      "file": "target_085.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 90.34391534391533,
+      "std_score": 3.1965730088874476,
+      "min_score": 83.33333333333334,
+      "max_score": 92.85714285714286,
+      "n_routes": 9
+    }
+  },
+  {
+    "smiles": "CN(C)CC(OCC1(c2ccc(F)cc2)CCN(C(=O)OC(C)(C)C)CC1)c1cc(Cl)cc2cn(COCC[Si](C)(C)C)nc12",
+    "prompt": "Late stage Williamson ether synthesis",
+    "id": "target_085",
+    "eval_type": "Feature_506",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "williamson_ether_synthesis",
+        "timing": "late_stage",
+        "step_position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final coupling step attempts to form the key ether linkage between two major fragments using Williamson ether synthesis.",
+    "_source": {
+      "file": "target_085.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 4.62962962962963,
+      "std_score": 4.145427517273872,
+      "min_score": 0.0,
+      "max_score": 8.571428571428573,
+      "n_routes": 9
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)N[C@@H]1c2cccnc2[C@H](O)CC[C@H]1c1cccc(F)c1F",
+    "prompt": "Late pyridine ring formation",
+    "id": "target_090",
+    "eval_type": "Feature_541",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccncc1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyridine ring is constructed late in the synthesis via Skraup-type reaction from an enamine precursor.",
+    "_source": {
+      "file": "target_090.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 6.229912764003675,
+      "std_score": 2.5190123053342517,
+      "min_score": 1.6666666666666663,
+      "max_score": 8.88888888888889,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)N[C@@H]1c2cccnc2[C@H](O)CC[C@H]1c1cccc(F)c1F",
+    "prompt": "Late stage pyridine ring formation",
+    "id": "target_090",
+    "eval_type": "Feature_543",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccncc1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyridine ring is constructed via Friedl\u00e4nder annulation at depth 1, making it a late-stage ring formation strategy.",
+    "_source": {
+      "file": "target_090.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 6.229912764003675,
+      "std_score": 2.5190123053342517,
+      "min_score": 1.6666666666666663,
+      "max_score": 8.88888888888889,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)N[C@@H]1c2cccnc2[C@H](O)CC[C@H]1c1cccc(F)c1F",
+    "prompt": "Early azide introduction via SN2 displacement",
+    "id": "target_090",
+    "eval_type": "Feature_545",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "SN2_azide_substitution",
+        "timing": "early",
+        "substrate": "mesylate"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Azide is introduced early in the sequence through mesylate displacement with stereochemical inversion.",
+    "_source": {
+      "file": "target_090.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.030303030303030346,
+      "std_score": 0.13886593015017715,
+      "min_score": 0.0,
+      "max_score": 0.6666666666666676,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "C[C@H](O[Si](C)(C)C(C)(C)C)[C@@H]1CC(=O)CC(C)(C)N1",
+    "prompt": "Grignard addition to aldehyde with ketone present",
+    "id": "target_091",
+    "eval_type": "Feature_553",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "grignard_addition",
+        "substrate_features": [
+          "aldehyde",
+          "ketone"
+        ],
+        "chemoselectivity_challenge": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route attempts Grignard addition to an aldehyde in the presence of a competing ketone electrophile.",
+    "_source": {
+      "file": "target_091.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.6284132534132536,
+      "std_score": 2.8725384598399715,
+      "min_score": 0.0,
+      "max_score": 7.272727272727273,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "CC1=NC2(N=C1N)c1cc(-c3cc(F)cc(C#N)c3)ccc1CCC21CC1",
+    "prompt": "Late stage Suzuki cross-coupling formation",
+    "id": "target_092",
+    "eval_type": "Feature_554",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "timing": "late",
+        "stage_threshold": 0.2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses Suzuki coupling to form the biaryl bond, a strategic late-stage C-C bond formation.",
+    "_source": {
+      "file": "target_092.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 68.9625850340136,
+      "std_score": 40.10014211115023,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "CC(=O)c1ccc2c(c1)C=CC(O)(CO)CO2",
+    "prompt": "Carboxylic acid protection deprotection cycling",
+    "id": "target_094",
+    "eval_type": "Feature_573",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protecting_group": "ethyl_ester",
+        "cycle_count": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route involves esterification followed by hydrolysis of the carboxylic acid group.",
+    "_source": {
+      "file": "target_094.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 4.583333333333333,
+      "std_score": 4.982608642958916,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "CC(=O)c1ccc2c(c1)C=CC(O)(CO)CO2",
+    "prompt": "Ester formation followed by immediate hydrolysis",
+    "id": "target_094",
+    "eval_type": "Feature_575",
+    "eval_config": {
+      "parameters": {
+        "reaction_sequence": [
+          "esterification",
+          "hydrolysis"
+        ],
+        "consecutive": true,
+        "functional_group": "carboxylic_acid"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Route contains redundant ester formation and hydrolysis steps that return to the original carboxylic acid functionality.",
+    "_source": {
+      "file": "target_094.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.8333333333333334,
+      "std_score": 2.7638539919628333,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)NC1(c2nc(NCc3ccccn3)c3c(Cl)ccn3n2)CC1",
+    "prompt": "Early ester protecting group installation",
+    "id": "target_093",
+    "eval_type": "Feature_569",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "ethyl_ester",
+        "functional_group": "carboxylic_acid",
+        "timing": "early",
+        "steps_protected": 4
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Carboxylic acid is protected as ethyl ester in step 1 to survive harsh POCl3 conditions and basic reactions in subsequent steps",
+    "_source": {
+      "file": "target_093.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 42.546524356869185,
+      "std_score": 37.00663326622419,
+      "min_score": 0.0,
+      "max_score": 90.0,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "COC(=O)CC12CCC(c3ccc(-c4ccc(NC(=O)c5nc(C)oc5C(F)(F)F)cc4)cc3)(CC1)CO2",
+    "prompt": "Late oxazole ring formation",
+    "id": "target_101",
+    "eval_type": "Feature_618",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ocnc1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Oxazole ring is constructed in the final step via Hantzsch synthesis from \u03b1-bromoketone and acetamide.",
+    "_source": {
+      "file": "target_101.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 86.27369611065262,
+      "std_score": 5.371360032326222,
+      "min_score": 77.77777777777777,
+      "max_score": 93.75,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COC(=O)CC12CCC(c3ccc(-c4ccc(NC(=O)c5nc(C)oc5C(F)(F)F)cc4)cc3)(CC1)CO2",
+    "prompt": "Late stage Suzuki cross-coupling",
+    "id": "target_101",
+    "eval_type": "Feature_623",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "stage": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Final step uses Suzuki coupling to connect two major fragments, indicating a convergent approach.",
+    "_source": {
+      "file": "target_101.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 7.529488627314714,
+      "std_score": 2.9477538733391992,
+      "min_score": 0.0,
+      "max_score": 9.285714285714286,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COC(=O)C(C)(C)CC(CCCCO)CCCc1cccnc1",
+    "prompt": "Early Sonogashira coupling for C-C bond formation",
+    "id": "target_097",
+    "eval_type": "Feature_594",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sonogashira",
+        "stage": "early",
+        "depth_threshold": 5
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The Sonogashira coupling occurs at depth 5, representing an early-stage key C-C bond formation step in the 10-step sequence.",
+    "_source": {
+      "file": "target_097.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 10.848416289592759,
+      "std_score": 26.154474874623702,
+      "min_score": 0.0,
+      "max_score": 76.92307692307692,
+      "n_routes": 34
+    }
+  },
+  {
+    "smiles": "COC(=O)C(C)(C)CC(CCCCO)CCCc1cccnc1",
+    "prompt": "Late stage Sonogashira coupling for pyridine attachment",
+    "id": "target_097",
+    "eval_type": "Feature_591",
+    "eval_config": {
+      "parameters": {
+        "bond_smarts": "[#6]-[c]1[c][c][c][n][c]1",
+        "timing": "late",
+        "reaction_type": "sonogashira"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key C-C bond between the alkyl chain and pyridine ring is formed via late-stage Sonogashira coupling.",
+    "_source": {
+      "file": "target_097.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 4.312280040221217,
+      "std_score": 2.3707345890290386,
+      "min_score": 0.0,
+      "max_score": 9.0,
+      "n_routes": 34
+    }
+  },
+  {
+    "smiles": "COC(=O)C(C)(C)CC(CCCCO)CCCc1cccnc1",
+    "prompt": "Extensive protecting group cycling strategy",
+    "id": "target_097",
+    "eval_type": "Feature_593",
+    "eval_config": {
+      "parameters": {
+        "cycle_count": 2,
+        "functional_groups": [
+          "alcohol",
+          "carboxylic_acid"
+        ],
+        "total_protection_steps": 5
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses multiple protect-deprotect cycles for both alcohol (THP->OH->Cl->OAc->OH) and acid (ester->acid->ester) functionalities.",
+    "_source": {
+      "file": "target_097.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 0.8823529411764706,
+      "std_score": 2.836367870880281,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 34
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@@]12C[C@H]1C=CCCCCC[C@H](NC(=O)CC1CC1)C(=O)N1C[C@H](Oc3nc(-c4ccccn4)nc4ccsc34)C[C@H]1C(=O)N2",
+    "prompt": "Late stage amide coupling",
+    "id": "target_099",
+    "eval_type": "Feature_603",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Amide bond formation occurs near the end of the synthesis between macrocycle amine and carboxylic acid.",
+    "_source": {
+      "file": "target_099.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 73.92279677993963,
+      "std_score": 14.378888868265102,
+      "min_score": 33.33333333333334,
+      "max_score": 91.66666666666666,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@@]12C[C@H]1C=CCCCCC[C@H](NC(=O)CC1CC1)C(=O)N1C[C@H](Oc3nc(-c4ccccn4)nc4ccsc34)C[C@H]1C(=O)N2",
+    "prompt": "Late macrocycle formation via RCM",
+    "id": "target_099",
+    "eval_type": "Feature_608",
+    "eval_config": {
+      "parameters": {
+        "ring_size_min": 12,
+        "reaction_type": "metathesis",
+        "timing": "late",
+        "step_position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The macrocycle is formed in the final step using ring-closing metathesis, a strategic late-stage cyclization approach.",
+    "_source": {
+      "file": "target_099.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 86.56457299314442,
+      "std_score": 6.7928537317046915,
+      "min_score": 66.66666666666667,
+      "max_score": 92.85714285714286,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@@]12C[C@H]1C=CCCCCC[C@H](NC(=O)CC1CC1)C(=O)N1C[C@H](Oc3nc(-c4ccccn4)nc4ccsc34)C[C@H]1C(=O)N2",
+    "prompt": "Late stage amide coupling approach",
+    "id": "target_099",
+    "eval_type": "Feature_607",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late_stage",
+        "bond_formed": "C-N"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Amide formation occurs late in the sequence after deprotection of the amine.",
+    "_source": {
+      "file": "target_099.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 86.56457299314442,
+      "std_score": 6.792853731704691,
+      "min_score": 66.66666666666669,
+      "max_score": 92.85714285714286,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CC1(C)OCC(C)(CO)N(Cc2ccccc2)C1=O",
+    "prompt": "Late stage lactam ring formation",
+    "id": "target_100",
+    "eval_type": "Feature_611",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#6]1[#6][#8][#6][#6](=[#8])[#7]1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key six-membered morpholinone ring is formed late via intramolecular amidation cyclization.",
+    "_source": {
+      "file": "target_100.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 1.75,
+      "std_score": 2.5046253508555223,
+      "min_score": 0.0,
+      "max_score": 8.0,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "CC1(C)OCC(C)(CO)N(Cc2ccccc2)C1=O",
+    "prompt": "Late stage alcohol formation via ester reduction",
+    "id": "target_100",
+    "eval_type": "Feature_616",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "reduction",
+        "substrate": "ester",
+        "product": "alcohol",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final alcohol functionality is installed in the last step by reducing a tert-butyl ester",
+    "_source": {
+      "file": "target_100.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 7.923868312757202,
+      "std_score": 2.2353980867719927,
+      "min_score": 0.0,
+      "max_score": 9.0,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "COc1ccc(C[C@H](C[C@H](O[Si](C)(C)C(C)(C)C)[C@H](CC2CCCCC2)NC(=O)OC(C)(C)C)C(=O)O)c(OC)c1OC",
+    "prompt": "Late stage nitrile hydrolysis to carboxylic acid",
+    "id": "target_103",
+    "eval_type": "Feature_638",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "nitrile_hydrolysis",
+        "timing": "late_stage",
+        "product_functional_group": "carboxylic_acid"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step converts nitrile to carboxylic acid under harsh conditions that risk deprotection and epimerization.",
+    "_source": {
+      "file": "target_103.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 17.37356846052498,
+      "std_score": 19.008549159948462,
+      "min_score": 0.0,
+      "max_score": 50.0,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COc1ccc(C[C@H](C[C@H](O[Si](C)(C)C(C)(C)C)[C@H](CC2CCCCC2)NC(=O)OC(C)(C)C)C(=O)O)c(OC)c1OC",
+    "prompt": "Sequential electrophile preparation then alkylation",
+    "id": "target_103",
+    "eval_type": "Feature_637",
+    "eval_config": {
+      "parameters": {
+        "reaction_sequence": [
+          "alcohol_to_halide",
+          "alkylation"
+        ],
+        "bond_formed": "C-C"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Benzyl alcohol is converted to bromide electrophile which then participates in the stereoselective alkylation reaction.",
+    "_source": {
+      "file": "target_103.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 2.608695652173913,
+      "std_score": 4.391089103635687,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCCC(C)(C)C(=O)OC)c1",
+    "prompt": "Protection-deprotection cycling for alcohol",
+    "id": "target_102",
+    "eval_type": "Feature_633",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "alcohol",
+        "protecting_group": "acetate",
+        "sequence_type": "cycling"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route protects a primary alcohol as acetate, performs demethylation, then deprotects the alcohol in consecutive steps.",
+    "_source": {
+      "file": "target_102.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.5,
+      "std_score": 3.570714214271425,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(=O)N1c2ccc(N3CCNCC3)cc2[C@H](Nc2ccccc2)[C@@H](C)[C@@H]1C",
+    "prompt": "Late stage Buchwald-Hartwig amination coupling",
+    "id": "target_104",
+    "eval_type": "Feature_642",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Buchwald-Hartwig",
+        "timing": "late",
+        "stage_cutoff": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Key C-N bonds are formed in the final two steps using palladium-catalyzed cross-coupling reactions.",
+    "_source": {
+      "file": "target_104.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 36.83333333333333,
+      "std_score": 31.146854467343513,
+      "min_score": 0.0,
+      "max_score": 77.77777777777777,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CNC(=O)c1ccc2ncc(C(=O)OCn3ccnc3)c(Nc3ccc(OC)cc3)c2c1",
+    "prompt": "Late stage quinoline ring formation",
+    "id": "target_106",
+    "eval_type": "Feature_653",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccc2ncccc2c1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The quinoline core is assembled via Gould-Jacobs cyclization after building the enamine precursor.",
+    "_source": {
+      "file": "target_106.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 85.71542686338604,
+      "std_score": 4.416504709389715,
+      "min_score": 71.42857142857143,
+      "max_score": 90.0,
+      "n_routes": 98
+    }
+  },
+  {
+    "smiles": "CC1=NC2(N=C1N)c1cc(-c3cc(Cl)cc(C#N)c3)ccc1CCC21CC1",
+    "prompt": "Late stage cyclopropane formation",
+    "id": "target_108",
+    "eval_type": "Feature_675",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring is formed in the final step as the last synthetic transformation.",
+    "_source": {
+      "file": "target_108.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 6.424546353117781,
+      "std_score": 2.90976747113883,
+      "min_score": 1.9999999999999996,
+      "max_score": 9.230769230769232,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CC1(C)OCC(C)(C=O)N(Cc2ccccc2)C1=O",
+    "prompt": "Benzyl ester as carboxylic acid protecting group",
+    "id": "target_105",
+    "eval_type": "Feature_651",
+    "eval_config": {
+      "parameters": {
+        "protecting_group_smarts": "C(=O)OCc1ccccc1",
+        "substrate_smarts": "C(=O)O",
+        "deprotection_method": "hydrogenation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Benzyl ester protection followed by hydrogenative deprotection is used as a temporary carboxylic acid protecting strategy.",
+    "_source": {
+      "file": "target_105.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 4.033564814814815,
+      "std_score": 1.4891579006272926,
+      "min_score": 1.25,
+      "max_score": 6.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "CN1CCN(c2ccc3c(c2)[nH]c2c(C(N)=O)cc(-c4cnn(C)c4)nc23)CC1",
+    "prompt": "Benzyl protecting group with aryl bromide present",
+    "id": "target_112",
+    "eval_type": "Feature_706",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "benzyl",
+        "protected_atom": "nitrogen",
+        "incompatible_functionality": "aryl_bromide",
+        "deprotection_method": "hydrogenation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Benzyl protection creates a chemoselectivity issue during hydrogenolytic deprotection due to competing hydrodebromination.",
+    "_source": {
+      "file": "target_112.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 10.0,
+      "std_score": 24.49489742783178,
+      "min_score": 0.0,
+      "max_score": 70.0,
+      "n_routes": 7
+    }
+  },
+  {
+    "smiles": "CC1(C)OCC(C)(CO[Si](C)(C)C(C)(C)C)N(Cc2ccccc2)C1=O",
+    "prompt": "Late stage N-alkylation of lactam",
+    "id": "target_111",
+    "eval_type": "Feature_695",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "N-alkylation",
+        "substrate_pattern": "[#7]C(=O)",
+        "timing": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The N-benzylation of the lactam occurs at depth 2, representing a late-stage C-N bond formation strategy.",
+    "_source": {
+      "file": "target_111.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 28.008935508935508,
+      "std_score": 27.14908229037001,
+      "min_score": 0.0,
+      "max_score": 92.30769230769232,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "O=C(O)[C@H]1CCOC[C@H]1c1ccc(I)cc1",
+    "prompt": "Evans auxiliary attachment to pre-formed stereocenter",
+    "id": "target_115",
+    "eval_type": "Feature_726",
+    "eval_config": {
+      "parameters": {
+        "auxiliary_type": "evans_oxazolidinone",
+        "stereocenter_preexisting": true,
+        "attachment_depth": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Chiral auxiliary is attached to a molecule that already contains the required stereochemistry.",
+    "_source": {
+      "file": "target_115.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 27.787037037037038,
+      "std_score": 39.297203885215026,
+      "min_score": 0.0,
+      "max_score": 83.75,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "C[C@@]1(O)[C@H](O)[C@@H](CO)O[C@H]1n1cc(-c2ccccc2)c2c(N)ncnc21",
+    "prompt": "Orthogonal protecting group strategy using PMB, TBDMS, Bz",
+    "id": "target_118",
+    "eval_type": "Feature_745",
+    "eval_config": {
+      "parameters": {
+        "protecting_groups": [
+          "PMB",
+          "TBDMS",
+          "Bz"
+        ],
+        "strategy": "orthogonal",
+        "selectivity": "position-selective"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Three different protecting groups that can be removed under different conditions allow selective manipulation at different sugar positions.",
+    "_source": {
+      "file": "target_118.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.7391304347826086,
+      "std_score": 3.7903469074266716,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCCC(C)(C)C(=O)O)c1",
+    "prompt": "Late stage Williamson ether formation",
+    "id": "target_119",
+    "eval_type": "Feature_755",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Williamson ether synthesis",
+        "timing": "late",
+        "step_position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses Williamson ether synthesis to form the key aryl ether bond between two complex fragments.",
+    "_source": {
+      "file": "target_119.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 8.804793923514023,
+      "std_score": 0.5915081439984202,
+      "min_score": 7.5,
+      "max_score": 9.5,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCCC(C)(C)C(=O)O)c1",
+    "prompt": "Benzyl protecting group strategy for phenol",
+    "id": "target_119",
+    "eval_type": "Feature_751",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "benzyl",
+        "functional_group": "phenol",
+        "deprotection_method": "hydrogenolysis"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Benzyl ether protection allows selective manipulation before final phenol etherification in reaction #4.",
+    "_source": {
+      "file": "target_119.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.034090909090909,
+      "std_score": 2.7093714899443775,
+      "min_score": 0.0,
+      "max_score": 6.25,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@@H]1CCCC2(CCCCC2)[C@H]1O",
+    "prompt": "Beta-keto acid esterification under decarboxylation conditions",
+    "id": "target_122",
+    "eval_type": "Feature_776",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "esterification",
+        "substrate_pattern": "beta_keto_acid",
+        "side_reaction_risk": "decarboxylation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Esterification of thermally sensitive \u03b2-keto acid creates significant decarboxylation side reaction risk.",
+    "_source": {
+      "file": "target_122.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 30.32647907647909,
+      "std_score": 24.69237986034066,
+      "min_score": 0.0,
+      "max_score": 70.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC(=O)[C@@H]1CCCC2(CCCCC2)[C@H]1O",
+    "prompt": "Late stage ketone reduction",
+    "id": "target_122",
+    "eval_type": "Feature_774",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "ketone",
+        "timing": "late",
+        "direction": "reduction"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final synthetic step involves diastereoselective reduction of the ketone to form the target alcohol.",
+    "_source": {
+      "file": "target_122.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 5.267857142857145,
+      "std_score": 2.5323673027796993,
+      "min_score": 0.0,
+      "max_score": 9.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CC1(C)COCc2nc3cnc(Br)cc3n21",
+    "prompt": "Late stage complex double cyclization",
+    "id": "target_125",
+    "eval_type": "Feature_791",
+    "eval_config": {
+      "parameters": {
+        "step_position": "final",
+        "rings_formed": 2,
+        "cyclization_type": "intramolecular"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step attempts to form both an amide ring and imidazole ring simultaneously in a single transformation.",
+    "_source": {
+      "file": "target_125.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 11.0,
+      "std_score": 22.11334438749598,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 60
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)Oc2ccc3c(c2)CCC3)c1",
+    "prompt": "Early stage piperidine ring formation",
+    "id": "target_127",
+    "eval_type": "Feature_809",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Piperidine ring is constructed early via intramolecular SN2 cyclization in reaction #16.",
+    "_source": {
+      "file": "target_127.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.47058823529411764,
+      "std_score": 1.4117647058823533,
+      "min_score": 0.0,
+      "max_score": 4.705882352941177,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)Oc2ccc3c(c2)CCC3)c1",
+    "prompt": "Late stage cyclopropanation",
+    "id": "target_127",
+    "eval_type": "Feature_808",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring is formed in the final step using Corey-Chaykovsky reagent.",
+    "_source": {
+      "file": "target_127.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 28.07754987960096,
+      "std_score": 27.302848878421113,
+      "min_score": 0.0,
+      "max_score": 85.71428571428571,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)Oc2ccc3c(c2)CCC3)c1",
+    "prompt": "Standard Boc protecting group strategy",
+    "id": "target_127",
+    "eval_type": "Feature_805",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Boc",
+        "frequency": "single",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Boc protection is applied to the piperidine nitrogen as the final step.",
+    "_source": {
+      "file": "target_127.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 23.76218118826478,
+      "std_score": 9.421850342456173,
+      "min_score": 0.0,
+      "max_score": 37.5,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC1=NC2(N=C1N)c1cc(-c3cc(F)cc(F)c3)ccc1CCC21CC1",
+    "prompt": "Late stage Suzuki cross-coupling",
+    "id": "target_129",
+    "eval_type": "Feature_822",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Suzuki coupling is used as the final step to install the biaryl moiety with high functional group tolerance",
+    "_source": {
+      "file": "target_129.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 73.15640708497851,
+      "std_score": 25.409947288016294,
+      "min_score": 0.0,
+      "max_score": 90.0,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "O=C(Nc1ccc(-c2cnc(C34CC5CC(CC(C(=O)O)(C5)C3)C4)s2)cc1)Nc1cccc(C(F)(F)F)c1",
+    "prompt": "Late stage thiazole assembly",
+    "id": "target_133",
+    "eval_type": "Feature_847",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1scnc1",
+        "formation_stage": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Thiazole ring is constructed via Hantzsch synthesis at depth 3 in the synthetic route.",
+    "_source": {
+      "file": "target_133.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 35.2561468822781,
+      "std_score": 7.204901084319768,
+      "min_score": 22.22222222222222,
+      "max_score": 50.0,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "O=C(Nc1ccc(-c2cnc(C34CC5CC(CC(C(=O)O)(C5)C3)C4)s2)cc1)Nc1cccc(C(F)(F)F)c1",
+    "prompt": "Ester protecting group strategy for carboxylic acid",
+    "id": "target_133",
+    "eval_type": "Feature_854",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protecting_group": "ethyl_ester",
+        "deprotection_stage": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "An ethyl ester is used to protect the carboxylic acid throughout most of the synthesis, then hydrolyzed in a late stage.",
+    "_source": {
+      "file": "target_133.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 41.235542361107974,
+      "std_score": 17.601913913062344,
+      "min_score": 0.0,
+      "max_score": 66.66666666666666,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "O=C(Nc1ccc(-c2cnc(C34CC5CC(CC(C(=O)O)(C5)C3)C4)s2)cc1)Nc1cccc(C(F)(F)F)c1",
+    "prompt": "Convergent synthesis via two fragments",
+    "id": "target_133",
+    "eval_type": "Feature_850",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "coupling_step": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route assembles the target by coupling an adamantane-thiazole fragment with an aryl-urea fragment.",
+    "_source": {
+      "file": "target_133.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 9.013186819465101,
+      "std_score": 0.45602878022260257,
+      "min_score": 7.857142857142857,
+      "max_score": 9.444444444444445,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "NS(=O)(=O)OC[C@H]1C[C@@H](c2cnn3c(N[C@H]4CCc5ccccc54)ncnc23)C[C@@H]1O",
+    "prompt": "Late stage sulfamate ester formation",
+    "id": "target_131",
+    "eval_type": "Feature_837",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sulfamate_formation",
+        "timing": "late",
+        "functional_group": "sulfamate_ester"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key sulfamate functional group is installed in the penultimate step using sulfamoyl chloride on the primary alcohol.",
+    "_source": {
+      "file": "target_131.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 14.061868686868687,
+      "std_score": 9.643718456608932,
+      "min_score": 8.333333333333332,
+      "max_score": 50.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(C)S(=O)(=O)N[C@H]1CCOC[C@H]1c1ccc(I)cc1",
+    "prompt": "Late stage sulfonamide formation",
+    "id": "target_132",
+    "eval_type": "Feature_844",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sulfonamide_formation",
+        "timing": "late",
+        "step_position": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The sulfonamide bond is formed in the final step using sulfonyl chloride coupling.",
+    "_source": {
+      "file": "target_132.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 24.75665748393021,
+      "std_score": 11.166191367112578,
+      "min_score": 9.090909090909092,
+      "max_score": 45.45454545454545,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COC(=O)c1ccc(-c2ccc(O[C@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]3O)c(Cl)c2)cc1",
+    "prompt": "Early Suzuki coupling for biphenyl core",
+    "id": "target_137",
+    "eval_type": "Feature_879",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "timing": "early",
+        "stage_threshold": 0.3
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Suzuki coupling constructs the central biphenyl scaffold early in the synthetic sequence.",
+    "_source": {
+      "file": "target_137.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 92.34848484848484,
+      "std_score": 11.957434635464752,
+      "min_score": 71.42857142857142,
+      "max_score": 100.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "C[C@H](O[Si](C)(C)C(C)(C)C)[C@@H]1CC(O)CC(C)(C)N1",
+    "prompt": "Early stage ester reduction to alcohol",
+    "id": "target_135",
+    "eval_type": "Feature_866",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "ester_reduction",
+        "timing": "early",
+        "depth_threshold": 7
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Methyl ester is reduced to primary alcohol at depth 8, establishing the carbon framework early in the synthesis.",
+    "_source": {
+      "file": "target_135.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 90.47619047619048,
+      "std_score": 29.35435239509037,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2CO)c1",
+    "prompt": "Multiple sequential Williamson ether formations",
+    "id": "target_140",
+    "eval_type": "Feature_909",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "williamson_ether_synthesis",
+        "count": "3",
+        "sequential": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route employs three consecutive Williamson ether syntheses as the primary bond-forming strategy.",
+    "_source": {
+      "file": "target_140.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.7692307692307693,
+      "std_score": 2.6646935501059645,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "COC(=O)CCc1cc2cc(-c3noc(-c4ccc(OC(C)C)c(Cl)c4)n3)ccc2n1C",
+    "prompt": "Early Fischer indole core assembly",
+    "id": "target_142",
+    "eval_type": "Feature_920",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1cc2[nH]ccc2cc1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The tricyclic indole-like core is constructed early via Fischer indole synthesis from ortho-nitroaryl ketone",
+    "_source": {
+      "file": "target_142.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 4.013528138528138,
+      "std_score": 3.238854341037419,
+      "min_score": 0.0,
+      "max_score": 9.09090909090909,
+      "n_routes": 48
+    }
+  },
+  {
+    "smiles": "O=S(=O)(c1cc(C(F)(F)F)ccc1Br)C1CCOC(c2ccc(Cl)cc2)C1",
+    "prompt": "Late stage sulfide oxidation to sulfone",
+    "id": "target_145",
+    "eval_type": "Feature_943",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "sulfide_oxidation",
+        "timing": "late",
+        "substrate_pattern": "[S]",
+        "product_pattern": "S(=O)(=O)"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Final step uses sulfide oxidation as the last transformation to install the target sulfone functionality.",
+    "_source": {
+      "file": "target_145.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 5.255693581780539,
+      "std_score": 1.2763242604566618,
+      "min_score": 3.333333333333334,
+      "max_score": 7.333333333333334,
+      "n_routes": 23
+    }
+  },
+  {
+    "smiles": "C=C(C[C@@H](Cc1ccc(-c2ccccc2)cc1)NC(=O)OC(C)(C)C)C(=O)O",
+    "prompt": "Late stage aryl-alkyl cross coupling",
+    "id": "target_139",
+    "eval_type": "Feature_895",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "cross_coupling",
+        "substrate_types": [
+          "aryl_halide",
+          "alkyl_halide"
+        ],
+        "timing": "final_step"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step attempts to form a C(sp2)-C(sp3) bond between an aryl iodide and alkyl chloride via cross-coupling.",
+    "_source": {
+      "file": "target_139.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 5.459265734265734,
+      "std_score": 4.457812957462197,
+      "min_score": 0.0,
+      "max_score": 9.230769230769232,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CCc1[nH]c(C(=O)N[C@H]2CCN(c3nc(C(=O)O)c(C)s3)C[C@H]2OC)nc1C(F)(F)F",
+    "prompt": "Late thiazole ring formation",
+    "id": "target_146",
+    "eval_type": "Feature_952",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1scnc1",
+        "stage": "early"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Thiazole ring is constructed early in the synthesis via Hantzsch-type cyclization before final fragment coupling.",
+    "_source": {
+      "file": "target_146.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.7641552891552892,
+      "std_score": 1.0193436215541525,
+      "min_score": 0.0,
+      "max_score": 3.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)N[C@@H]1c2cccnc2[C@H](N2C(=O)c3ccccc3C2=O)CC[C@H]1c1cccc(F)c1F",
+    "prompt": "Multiple azide to amine conversions",
+    "id": "target_148",
+    "eval_type": "Feature_963",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "azide_reduction",
+        "minimum_count": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Route uses azide reduction/protection twice at different stages (reactions 1 and 6).",
+    "_source": {
+      "file": "target_148.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 5.862068965517241,
+      "std_score": 4.925123054167483,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CC1=NC2(N=C1N)c1cc(Br)ccc1CCC21CC1",
+    "prompt": "Early spirocyclic cyclopropane ring formation",
+    "id": "target_149",
+    "eval_type": "Feature_972",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The spirocyclic cyclopropane ring is formed early in the sequence via cyclopropanation of an exocyclic alkene.",
+    "_source": {
+      "file": "target_149.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 8.014550264550264,
+      "std_score": 2.1307672205658066,
+      "min_score": 1.25,
+      "max_score": 9.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCCCC#N)c1",
+    "prompt": "Late stage cyclopropanation as final step",
+    "id": "target_150",
+    "eval_type": "Feature_980",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "final",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring formation is performed as the very last synthetic step on a complex, highly functionalized intermediate.",
+    "_source": {
+      "file": "target_150.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 71.32158944658946,
+      "std_score": 38.047405179863155,
+      "min_score": 0.0,
+      "max_score": 96.875,
+      "n_routes": 37
+    }
+  },
+  {
+    "smiles": "CCOC(=O)[C@@H]1C[C@H]1COc1cc(CCCOC)cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)c1",
+    "prompt": "Early cyclopropane formation via alkene cyclopropanation",
+    "id": "target_151",
+    "eval_type": "Feature_986",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "early",
+        "formation_method": "diazo_cyclopropanation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring is constructed early using classic diazo compound addition to alkene",
+    "_source": {
+      "file": "target_151.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 1.8903318903318904,
+      "std_score": 2.953002149930545,
+      "min_score": 0.0,
+      "max_score": 7.777777777777778,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CC(C)c1ccc2c(c1)OC1(O)c3ccccc3C(=O)C21NC(=O)C(=O)c1cccs1",
+    "prompt": "Cbz protecting group strategy",
+    "id": "target_154",
+    "eval_type": "Feature_1007",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Cbz",
+        "functional_group": "amine"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Benzyl carbamate protection is used to mask the amine throughout multiple synthetic steps.",
+    "_source": {
+      "file": "target_154.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 1.9916666666666665,
+      "std_score": 3.108643614738877,
+      "min_score": 0.0,
+      "max_score": 8.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC(=O)OCC1=CS[C@@H]2C(NC(=O)Cc3cccs3)C(=O)N2C1C(=O)O",
+    "prompt": "Late stage amide coupling",
+    "id": "target_155",
+    "eval_type": "Feature_1011",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "final_step",
+        "position": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key bioactive amide bond is formed in the final step between 7-ACA and 2-thienylacetic acid.",
+    "_source": {
+      "file": "target_155.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 7.494252873563218,
+      "std_score": 1.957643612491915,
+      "min_score": 1.428571428571429,
+      "max_score": 9.0,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CC(=O)OCC1=CS[C@@H]2C(NC(=O)Cc3cccs3)C(=O)N2C1C(=O)O",
+    "prompt": "N-Boc protection of amide nitrogen",
+    "id": "target_155",
+    "eval_type": "Feature_1012",
+    "eval_config": {
+      "parameters": {
+        "protecting_group": "Boc",
+        "functional_group": "amide_nitrogen",
+        "present": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses N-Boc protection on an amide nitrogen, which is chemically challenging and strategically questionable.",
+    "_source": {
+      "file": "target_155.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 49.24466338259443,
+      "std_score": 30.413827796413596,
+      "min_score": 0.0,
+      "max_score": 85.71428571428572,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "NC(=O)c1cc(-c2ccc3c(cnn3CCN3CCOCC3)c2)nc2c1[nH]c1cc(N3CCOCC3)ccc12",
+    "prompt": "Late stage morpholine ring formation",
+    "id": "target_156",
+    "eval_type": "Feature_1020",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1COCCN1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Six-membered morpholine ring is formed in the final step via intramolecular cyclization.",
+    "_source": {
+      "file": "target_156.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 2.880962533401558,
+      "std_score": 2.960865501924563,
+      "min_score": 0.0,
+      "max_score": 8.461538461538462,
+      "n_routes": 41
+    }
+  },
+  {
+    "smiles": "NC(=O)c1cc(-c2ccc3c(cnn3CCN3CCOCC3)c2)nc2c1[nH]c1cc(N3CCOCC3)ccc12",
+    "prompt": "Late morpholine ring formation via intramolecular cyclization",
+    "id": "target_156",
+    "eval_type": "Feature_1021",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1COCCN1",
+        "timing": "late",
+        "mechanism": "intramolecular_cyclization"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The morpholine ring is formed in the final step through intramolecular N-alkylation, which is strategically positioned after all other complexity is built.",
+    "_source": {
+      "file": "target_156.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 0.20637898686679174,
+      "std_score": 1.3052553193940777,
+      "min_score": 0.0,
+      "max_score": 8.461538461538462,
+      "n_routes": 41
+    }
+  },
+  {
+    "smiles": "CCOC(=O)/C=C1\\CC[C@@H](c2cccc(F)c2F)[C@H](NC(=O)OC(C)(C)C)c2cccnc21",
+    "prompt": "Late pyridine ring formation",
+    "id": "target_159",
+    "eval_type": "Feature_1041",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccncc1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The pyridine ring is formed late in the synthesis via condensation with glycerol, which is a high-risk strategy for complex substrates.",
+    "_source": {
+      "file": "target_159.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.978335478335478,
+      "std_score": 2.772727773732539,
+      "min_score": 0.0,
+      "max_score": 7.777777777777778,
+      "n_routes": 37
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OS(=O)(=O)C(F)(F)F)c1",
+    "prompt": "Late stage ether formation via Williamson synthesis",
+    "id": "target_158",
+    "eval_type": "Feature_1038",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Williamson ether synthesis",
+        "stage": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final C-O bond formation occurs at depth 0 as a convergent coupling step.",
+    "_source": {
+      "file": "target_158.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 6.8502182539682535,
+      "std_score": 4.486472197993428,
+      "min_score": 0.0,
+      "max_score": 9.88888888888889,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)O)c1",
+    "prompt": "Late stage piperidine ring formation",
+    "id": "target_161",
+    "eval_type": "Feature_1057",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The six-membered piperidine ring is formed late in the synthesis via intramolecular N-alkylation.",
+    "_source": {
+      "file": "target_161.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 5.5317460317460325,
+      "std_score": 4.261572339652125,
+      "min_score": 0.0,
+      "max_score": 9.375,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)O)c1",
+    "prompt": "Late stage amide coupling",
+    "id": "target_161",
+    "eval_type": "Feature_1062",
+    "eval_config": {
+      "parameters": {
+        "reaction_smarts": "[N][C](=O)[C]",
+        "timing": "late",
+        "bond_formation": true
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Key amide bond formation occurs in the late stages of the synthesis as a convergent coupling step.",
+    "_source": {
+      "file": "target_161.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 0.6341991341991342,
+      "std_score": 1.5996666811406908,
+      "min_score": 0.0,
+      "max_score": 5.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OC[C@@H]2C[C@H]2C(=O)O)c1",
+    "prompt": "Early ester hydrolysis before ether formation",
+    "id": "target_161",
+    "eval_type": "Feature_1060",
+    "eval_config": {
+      "parameters": {
+        "bond_smarts": "[C](=O)[O][C]",
+        "timing": "early",
+        "direction": "break"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Ester is hydrolyzed to carboxylic acid before the final ether coupling step, creating complications for the Williamson ether synthesis.",
+    "_source": {
+      "file": "target_161.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 26.182853524184793,
+      "std_score": 29.73429291140833,
+      "min_score": 0.0,
+      "max_score": 70.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "C[C@H](c1ccccc1)N1C[C@H]2CC=C[C@@]2(C(=O)OC(C)(C)C)C1",
+    "prompt": "Late stage dehalogenation",
+    "id": "target_160",
+    "eval_type": "Feature_1050",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "dehalogenation",
+        "timing": "final_step",
+        "bond_type": "C-Br"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final transformation converts the aryl bromide to the target phenyl group via reductive dehalogenation.",
+    "_source": {
+      "file": "target_160.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 2.5,
+      "std_score": 4.330127018922194,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "C[C@H](c1ccccc1)N1C[C@H]2CC=C[C@@]2(C(=O)OC(C)(C)C)C1",
+    "prompt": "Triflate intermediate for carbonylation coupling",
+    "id": "target_160",
+    "eval_type": "Feature_1054",
+    "eval_config": {
+      "parameters": {
+        "bond_type": "C=O",
+        "intermediate": "triflate",
+        "transformation": "carbonylation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The ketone is converted to enol triflate to enable Pd-catalyzed carbonylation for ester formation.",
+    "_source": {
+      "file": "target_160.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 1.8821428571428573,
+      "std_score": 0.631658410011911,
+      "min_score": 0.9999999999999998,
+      "max_score": 2.5,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "Cc1nnc(SCC2=C(C(=O)O)N3C(=O)C(NC(=O)C(O)c4csc(N)n4)[C@H]3SC2)s1",
+    "prompt": "Late stage thiazole ring formation",
+    "id": "target_164",
+    "eval_type": "Feature_1081",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1scnc1",
+        "formation_stage": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Thiazole ring is constructed late in the sequence via Hantzsch synthesis before final coupling.",
+    "_source": {
+      "file": "target_164.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 83.35007079754979,
+      "std_score": 5.797926228991043,
+      "min_score": 71.42857142857143,
+      "max_score": 93.75,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CCc1[nH]c(C(=O)N[C@H]2CCN(c3cccc(C(=O)OC(C)(C)C)c3)C[C@H]2OC)nc1C(F)(F)F",
+    "prompt": "Late stage amide coupling",
+    "id": "target_162",
+    "eval_type": "Feature_1063",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The target molecule is assembled via amide bond formation at depth 0, connecting two major fragments.",
+    "_source": {
+      "file": "target_162.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 4.090909090909091,
+      "std_score": 18.746900570273894,
+      "min_score": 0.0,
+      "max_score": 90.0,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CCc1[nH]c(C(=O)N[C@H]2CCN(c3cccc(C(=O)OC(C)(C)C)c3)C[C@H]2OC)nc1C(F)(F)F",
+    "prompt": "Late stage amide coupling",
+    "id": "target_162",
+    "eval_type": "Feature_1068",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final amide bond formation occurs at depth 0 as the last step to assemble the target molecule.",
+    "_source": {
+      "file": "target_162.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 93.6035706717525,
+      "std_score": 20.42823900968499,
+      "min_score": 0.0,
+      "max_score": 98.46153846153847,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CCOC(=O)CCc1cc2cc(-c3noc(-c4ccc(OC(C)C)c(Cl)c4)n3)ccc2[nH]1",
+    "prompt": "Early indole core annulation",
+    "id": "target_165",
+    "eval_type": "Feature_1087",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1c[nH]c2ccccc12",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The indole core is formed early via Larock-type palladium-catalyzed annulation in a single step.",
+    "_source": {
+      "file": "target_165.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 5.53257647702092,
+      "std_score": 1.790430655317694,
+      "min_score": 2.5,
+      "max_score": 9.166666666666666,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "C=CCC1C=C(C)CC(C)CC(OC)C2OC(O)(C(=O)C(=O)N3CCCCC3C(=O)OC(C(C)=CC3CCC(O)C(OC)C3)C(C)C=CC1O)C(C)CC2OC",
+    "prompt": "Late stage ring closing metathesis macrocyclization",
+    "id": "target_163",
+    "eval_type": "Feature_1072",
+    "eval_config": {
+      "parameters": {
+        "ring_formation_depth": 2,
+        "reaction_type": "RCM",
+        "ring_size": "macrocycle"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key macrocyclic ring is formed late in the synthesis using ring-closing metathesis.",
+    "_source": {
+      "file": "target_163.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.0303350970017635,
+      "std_score": 3.3913759213523624,
+      "min_score": 0.0,
+      "max_score": 9.5,
+      "n_routes": 45
+    }
+  },
+  {
+    "smiles": "C[C@@H]1CNC(=O)c2cc3cc(OCCCN4CCCCC4)ccc3n21",
+    "prompt": "Late stage lactam ring closure",
+    "id": "target_167",
+    "eval_type": "Feature_1099",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#6]1[#6][#7][#6](=[#8])[#6][#6]1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The six-membered lactam ring of the tricyclic core is formed in step 2 via intramolecular cyclization after Boc deprotection.",
+    "_source": {
+      "file": "target_167.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.07222222222222222,
+      "std_score": 0.3440858348267116,
+      "min_score": 0.0,
+      "max_score": 2.0,
+      "n_routes": 45
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)NC1(c2nc(O)c3c(Cl)ccn3n2)CC1",
+    "prompt": "Late stage cyclopropane ring formation",
+    "id": "target_168",
+    "eval_type": "Feature_1107",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CC1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The cyclopropane ring is formed in the final step via Corey-Chaykovsky reaction.",
+    "_source": {
+      "file": "target_168.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 11.040404040404042,
+      "std_score": 2.9621287469657096,
+      "min_score": 8.333333333333332,
+      "max_score": 16.666666666666664,
+      "n_routes": 20
+    }
+  },
+  {
+    "smiles": "CC1=NC2(N=C1N)c1cc(-c3cncc(Cl)c3)ccc1CCC21CC1",
+    "prompt": "Suzuki coupling for biaryl bond formation",
+    "id": "target_171",
+    "eval_type": "Feature_1128",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "suzuki_coupling",
+        "bond_formed": "C-C"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Uses Suzuki-Miyaura cross-coupling to form the key biaryl connection between aromatic rings.",
+    "_source": {
+      "file": "target_171.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 7.996336996336996,
+      "std_score": 0.6218481422098464,
+      "min_score": 7.142857142857143,
+      "max_score": 9.0,
+      "n_routes": 26
+    }
+  },
+  {
+    "smiles": "C[C@@H]1CCCN1CCc1nnc2cc(Br)ccc2c1O",
+    "prompt": "Late stage N-alkylation coupling",
+    "id": "target_169",
+    "eval_type": "Feature_1113",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "N_alkylation",
+        "timing": "late",
+        "step_position": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses N-alkylation to connect the pyrrolidine fragment with the triazolopyridine core.",
+    "_source": {
+      "file": "target_169.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 14.166666666666666,
+      "std_score": 27.70441701646548,
+      "min_score": 0.0,
+      "max_score": 75.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "CC(=O)Nc1nc2c(s1)-c1c(c(C3CC3)nn1C1CCNCC1)CC2",
+    "prompt": "Early complex multicomponent pyrazole formation",
+    "id": "target_172",
+    "eval_type": "Feature_1139",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccnn1",
+        "timing": "early",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Pyrazole core is formed in the first step via ambitious multicomponent condensation.",
+    "_source": {
+      "file": "target_172.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 6.6454203691045794,
+      "std_score": 2.4306969349235983,
+      "min_score": 0.0,
+      "max_score": 9.09090909090909,
+      "n_routes": 38
+    }
+  },
+  {
+    "smiles": "CC(C)c1ccc(OC2CCC3(CC2)N[C@@H](C(=O)O)C(C)(C)S3)cc1",
+    "prompt": "Multiple carboxylic acid protecting group exchanges",
+    "id": "target_170",
+    "eval_type": "Feature_1120",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protection_changes": 4,
+        "sequence": [
+          "benzyl_ester",
+          "free_acid",
+          "ethyl_ester",
+          "free_acid",
+          "tosyl_anhydride",
+          "butyl_ester",
+          "free_acid"
+        ]
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route involves multiple unnecessary protecting group changes on the carboxylic acid throughout the synthesis.",
+    "_source": {
+      "file": "target_170.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 1.9047619047619047,
+      "std_score": 3.926767262493011,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "N[C@H]1CCOC[C@H]1c1ccc(I)cc1",
+    "prompt": "Regioselective bromination via TMS group placeholder",
+    "id": "target_174",
+    "eval_type": "Feature_1153",
+    "eval_config": {
+      "parameters": {
+        "bond_smarts": "[Si]-c",
+        "replacement_atom": "Br",
+        "purpose": "regioselectivity"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "TMS group is strategically placed and replaced with bromine to ensure perfect regiocontrol and avoid isomeric mixtures.",
+    "_source": {
+      "file": "target_174.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 2.9697420634920637,
+      "std_score": 1.2002868529908637,
+      "min_score": 0.0,
+      "max_score": 3.75,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCC2(CC(=O)OC)CC2)c1",
+    "prompt": "Late stage Williamson ether formation",
+    "id": "target_175",
+    "eval_type": "Feature_1161",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "Williamson_ether_synthesis",
+        "timing": "late",
+        "step_position": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The key ether linkage is formed in the final step using phenol nucleophilic displacement of alkyl iodide.",
+    "_source": {
+      "file": "target_175.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 35.288690476190474,
+      "std_score": 16.79255470002032,
+      "min_score": 0.0,
+      "max_score": 63.99999999999999,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "C[C@H](C(=O)NCCF)N(C)C(=O)c1ccc2c(c1)c1c(n2C)CCC(C2CCOCC2)C1",
+    "prompt": "Late indole ring formation via Fischer synthesis",
+    "id": "target_176",
+    "eval_type": "Feature_1164",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1ccc2[nH]ccc2c1",
+        "timing": "late",
+        "formation_method": "Fischer indole synthesis"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The core indole ring is formed late-stage through Fischer indole synthesis as the key bond-forming step.",
+    "_source": {
+      "file": "target_176.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 3.885281385281385,
+      "std_score": 9.751959063259278,
+      "min_score": 0.0,
+      "max_score": 33.33333333333333,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "C[C@H](C(=O)NCCF)N(C)C(=O)c1ccc2c(c1)c1c(n2C)CCC(C2CCOCC2)C1",
+    "prompt": "Convergent synthesis via two fragments",
+    "id": "target_176",
+    "eval_type": "Feature_1167",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "coupling_step": 1
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Route assembles target from two major fragments: carboxylic acid core and N-methylalanine-derived amine",
+    "_source": {
+      "file": "target_176.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 8.547442986518616,
+      "std_score": 0.6520244786879574,
+      "min_score": 7.0,
+      "max_score": 9.411764705882353,
+      "n_routes": 28
+    }
+  },
+  {
+    "smiles": "CC(C)(C)OC(=O)N[C@@H]1c2cccnc2[C@@H](O)CC[C@H]1c1cccc(F)c1F",
+    "prompt": "Azide intermediate for amine installation",
+    "id": "target_180",
+    "eval_type": "Feature_1191",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "azide_reduction",
+        "intermediate_smarts": "[C]N=[N+]=[N-]"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route uses azide as an intermediate that is later reduced to install the amine functionality.",
+    "_source": {
+      "file": "target_180.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 0.9567099567099568,
+      "std_score": 1.1309270073170121,
+      "min_score": 0.0,
+      "max_score": 3.333333333333334,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CCc1ccc(S(=O)(=O)NC2c3cc(CC(=O)NC4CCCc5ccccc54)ccc3OC(C)(C)C2O)cc1",
+    "prompt": "Acid protecting group cycling strategy",
+    "id": "target_181",
+    "eval_type": "Feature_1199",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "carboxylic_acid",
+        "protection_count": 2,
+        "deprotection_count": 2,
+        "strategy_type": "cycling"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route involves multiple protection-deprotection cycles of the carboxylic acid through different ester forms.",
+    "_source": {
+      "file": "target_181.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 0.8333333333333334,
+      "std_score": 2.7638539919628333,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "CCc1ccc(S(=O)(=O)NC2c3cc(CC(=O)NC4CCCc5ccccc54)ccc3OC(C)(C)C2O)cc1",
+    "prompt": "Late stage amide coupling",
+    "id": "target_181",
+    "eval_type": "Feature_1198",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "amide_coupling",
+        "timing": "late",
+        "stage_threshold": 0.8
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final step uses amide coupling to connect two major fragments of the molecule.",
+    "_source": {
+      "file": "target_181.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 20.9832702020202,
+      "std_score": 9.218159217098467,
+      "min_score": 10.416666666666664,
+      "max_score": 41.66666666666666,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "O=C(OCc1ccccc1)N1CC[C@H]2CCCNC[C@H]21",
+    "prompt": "Late stage lactam reduction",
+    "id": "target_178",
+    "eval_type": "Feature_1179",
+    "eval_config": {
+      "parameters": {
+        "functional_group": "lactam",
+        "timing": "late",
+        "direction": "reduction"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Lactam reduction to cyclic amine occurs near the end of the synthesis rather than early stage.",
+    "_source": {
+      "file": "target_178.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 4.623619766476909,
+      "std_score": 1.5705211105437678,
+      "min_score": 0.0,
+      "max_score": 6.0,
+      "n_routes": 21
+    }
+  },
+  {
+    "smiles": "CCCCOC(=O)N1CCN(C(=O)[C@H](CCCO[Si](c2ccccc2)(c2ccccc2)C(C)(C)C)NC(=O)OC(C)(C)C)CC1",
+    "prompt": "Late stage carbamate formation",
+    "id": "target_182",
+    "eval_type": "Feature_1200",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "carbamate_formation",
+        "timing": "late",
+        "depth_threshold": 2
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The target carbamate is formed in the final step via acyl chloride reaction with n-butanol",
+    "_source": {
+      "file": "target_182.json",
+      "route_index": 1
+    },
+    "_stats": {
+      "mean_score": 50.0,
+      "std_score": 50.0,
+      "min_score": 0.0,
+      "max_score": 100.0,
+      "n_routes": 32
+    }
+  },
+  {
+    "smiles": "CC(=O)OC1CCC2C(CO)CCC12",
+    "prompt": "Evans auxiliary for achiral center formation",
+    "id": "target_183",
+    "eval_type": "Feature_1212",
+    "eval_config": {
+      "parameters": {
+        "auxiliary_type": "evans_oxazolidinone",
+        "stereocenter_created": false,
+        "smarts_pattern": "O=C1OC[C@@H](Cc2ccccc2)N1"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Evans chiral auxiliary is used despite forming no new stereocenters in the target molecule.",
+    "_source": {
+      "file": "target_183.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 95.28735632183907,
+      "std_score": 17.320889462868593,
+      "min_score": 30.0,
+      "max_score": 100.0,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CC(=O)OC1CCC2C(CO)CCC12",
+    "prompt": "Ester hydrolysis re-esterification sequence",
+    "id": "target_183",
+    "eval_type": "Feature_1209",
+    "eval_config": {
+      "parameters": {
+        "reaction_type": "ester_hydrolysis_reesterification",
+        "substrate": "methyl_ester"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The route hydrolyzes a methyl ester then immediately re-forms it in the next step.",
+    "_source": {
+      "file": "target_183.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 1.7241379310344827,
+      "std_score": 3.7773969483114906,
+      "min_score": 0.0,
+      "max_score": 10.0,
+      "n_routes": 29
+    }
+  },
+  {
+    "smiles": "CCC(C)(C)OC(=O)Nc1nc(C(O)C(=O)NC2C(=O)N3C(C(=O)O)=C(CSc4nnc(C)s4)CS[C@H]23)cs1",
+    "prompt": "Late thiazole ring formation",
+    "id": "target_185",
+    "eval_type": "Feature_1225",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1scnc1",
+        "timing": "late"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The final thiazole ring is formed in the last step via Hantzsch synthesis with Boc-thiourea.",
+    "_source": {
+      "file": "target_185.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 9.40294591029885,
+      "std_score": 3.1923137827460883,
+      "min_score": 5.555555555555555,
+      "max_score": 14.285714285714285,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "CCC(C)(C)OC(=O)Nc1nc(C(O)C(=O)NC2C(=O)N3C(C(=O)O)=C(CSc4nnc(C)s4)CS[C@H]23)cs1",
+    "prompt": "Late thiazole ring formation",
+    "id": "target_185",
+    "eval_type": "Feature_1227",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "c1scnc1",
+        "timing": "late",
+        "stage_threshold": 0.8
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Thiazole side chain is constructed via Hantzsch synthesis in the final coupling steps rather than early in the route.",
+    "_source": {
+      "file": "target_185.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 11.753682387873562,
+      "std_score": 3.99039222843261,
+      "min_score": 6.944444444444443,
+      "max_score": 17.857142857142854,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "C[C@H]1OC[C@@H]2CC[C@@H](c3nc(-c4ccc(C(=O)Nc5cc(C(F)(F)F)ccn5)cc4)c4c(N)nccn34)CN2C1=O",
+    "prompt": "Convergent synthesis via two fragments",
+    "id": "target_184",
+    "eval_type": "Feature_1219",
+    "eval_config": {
+      "parameters": {
+        "fragment_count": 2,
+        "convergence_stage": "final"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Two separately prepared fragments are joined in the final Suzuki coupling step.",
+    "_source": {
+      "file": "target_184.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 7.934330715580715,
+      "std_score": 1.1018610479499924,
+      "min_score": 6.0,
+      "max_score": 9.166666666666666,
+      "n_routes": 24
+    }
+  },
+  {
+    "smiles": "O=C(CO)N1CCC(c2ccc3c(c2)-n2nc(-c4ncnn4CC(F)(F)F)cc2CCO3)CC1",
+    "prompt": "Early piperidine ring saturation",
+    "id": "target_188",
+    "eval_type": "Feature_1251",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "C1CCNCC1",
+        "stage": "early",
+        "depth_threshold": 6
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "The tetrahydropyridine is reduced to piperidine at depth 8, establishing the saturated ring early in the synthesis.",
+    "_source": {
+      "file": "target_188.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 17.81705948372615,
+      "std_score": 28.151371095181172,
+      "min_score": 0.0,
+      "max_score": 75.0,
+      "n_routes": 27
+    }
+  },
+  {
+    "smiles": "COCCCc1cc(CN(C(=O)[C@H]2CN(C(=O)OC(C)(C)C)CC[C@@H]2c2ccc(OCCOc3c(Cl)cc(C)cc3Cl)cc2)C2CC2)cc(OCC(C)(C)O)c1",
+    "prompt": "Late stage cyclopropane formation",
+    "id": "target_189",
+    "eval_type": "Feature_1260",
+    "eval_config": {
+      "parameters": {
+        "ring_size": 3,
+        "timing": "late",
+        "depth": 1,
+        "reaction_type": "cyclopropanation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Cyclopropane ring is formed at depth 1 via Simmons-Smith cyclopropanation of an alkene.",
+    "_source": {
+      "file": "target_189.json",
+      "route_index": 2
+    },
+    "_stats": {
+      "mean_score": 37.87878787878788,
+      "std_score": 23.034788239483188,
+      "min_score": 0.0,
+      "max_score": 66.66666666666669,
+      "n_routes": 22
+    }
+  },
+  {
+    "smiles": "Oc1ccc2c(c1)[C@H](c1ccc(OCCN3CCCC3)cc1)[C@H](c1ccccc1)CO2",
+    "prompt": "Late pyrrolidine ring formation",
+    "id": "target_190",
+    "eval_type": "Feature_1264",
+    "eval_config": {
+      "parameters": {
+        "ring_smarts": "[#7]1[#6][#6][#6][#6]1",
+        "timing": "late",
+        "direction": "formation"
+      }
+    },
+    "config": {
+      "iter_lim": 500,
+      "time_lim": 1000,
+      "max_tree": 20
+    },
+    "_rationale": "Pyrrolidine ring is formed in the final step via double N-alkylation with dibromobutane.",
+    "_source": {
+      "file": "target_190.json",
+      "route_index": 0
+    },
+    "_stats": {
+      "mean_score": 2.1474116161616164,
+      "std_score": 2.9945043055929004,
+      "min_score": 0.0,
+      "max_score": 7.272727272727273,
+      "n_routes": 32
+    }
+  }
+]
