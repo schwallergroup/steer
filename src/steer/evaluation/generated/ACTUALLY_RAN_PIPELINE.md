@@ -37,5 +37,11 @@ grep "correlation"  data/outputs/generated_benchmark_2025-10-13_100121/evaluatio
 grep "correlation"  data/outputs/generated_benchmark_2025-10-13_100121/evaluation_results.json | awk '{sub(",", "", $2); if($2!="NaN") {a+=$2;c+=1}}END{print a/c}'
 # avg score: 0.1904
 
+# gpt-4o
+grep "correlation" data/outputs/generated_benchmark_2025-10-13_124720/evaluation_results.json| awk '{sub(",", "", $2); if($2!="NaN") {a+=$2;c+=1}}END{print a/c}'
+# 101 non-nan
+# avg score: 0.1275
+
+
 
 ```

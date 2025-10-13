@@ -146,14 +146,17 @@ def bench(ctx, task):
             logger.info("Skipping task:", t.id)
             continue
 
-        routes = synthesis.run_task(
-            lm,
-            t,
-            n=200,
-            nclusters=0,
-            cache_path=ctx.obj["cache_path"],
-            results_path=ctx.obj["results_dir"],
-        )
+        try:
+            routes = synthesis.run_task(
+                lm,
+                t,
+                n=200,
+                nclusters=0,
+                cache_path=ctx.obj["cache_path"],
+                results_path=ctx.obj["results_dir"],
+            )
+        except:
+            routes = None
         if routes is None:
             logger.info("Skipping task due to None routes:", t.id)
             continue
