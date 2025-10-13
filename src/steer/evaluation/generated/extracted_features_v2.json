@@ -370,35 +370,6 @@
    ],
   "target_011.json": [
     {
-      "route_index": 1,
-      "smiles": "O=C(Cc1cccs1)NC1C(=O)N2C(C(=O)O)C(CBr)=CS[C@H]12",
-      "features": [
-        {
-          "prompt": "Protecting group swap mid-synthesis",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "strategy_type": "sequential_swap",
-            "groups": [
-              "Boc",
-              "Fmoc"
-            ],
-            "timing": "mid_synthesis"
-          },
-          "rationale": "Route performs Boc deprotection immediately followed by Fmoc protection on the same amine."
-        },
-        {
-          "prompt": "Late stage carboxylic acid deprotection",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "functional_group": "carboxylic_acid",
-            "protecting_group": "trichloroethyl",
-            "timing": "final_step"
-          },
-          "rationale": "Trichloroethyl ester deprotection is performed as the very last step in the synthesis."
-        }
-      ]
-    },
-    {
       "route_index": 2,
       "smiles": "O=C(Cc1cccs1)NC1C(=O)N2C(C(=O)O)C(CBr)=CS[C@H]12",
       "features": [
@@ -432,44 +403,6 @@
           "rationale": "Performs allylic bromination of the C3-methyl group using NBS in a late synthetic step."
         }
       ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "O=C(Cc1cccs1)NC1C(=O)N2C(C(=O)O)C(CBr)=CS[C@H]12",
-      "features": [
-        {
-          "prompt": "Late stage amide coupling",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "amide_formation",
-            "timing": "late",
-            "depth_threshold": 2
-          },
-          "rationale": "The amide side chain is installed via acyl chloride coupling at depth 1, representing a late-stage functionalization strategy."
-        },
-        {
-          "prompt": "Penam to cephem ring expansion",
-          "feature_type": "specific_bond_break",
-          "parameters": {
-            "bond_type": "ring_expansion",
-            "from_ring_size": 5,
-            "to_ring_size": 6,
-            "heteroatom": "S"
-          },
-          "rationale": "The route attempts a penicillin-to-cephalosporin core rearrangement, expanding the 5-membered thiazolidine to a 6-membered thiazine ring."
-        },
-        {
-          "prompt": "Trichloroethyl ester protecting group strategy",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "trichloroethyl_ester",
-            "functional_group": "carboxylic_acid",
-            "installation_depth": 5,
-            "removal_depth": 0
-          },
-          "rationale": "The route employs trichloroethyl ester protection for the carboxylic acid, which is orthogonal to other functional groups and removable under mild reductive conditions."
-        }
-      ]
     }
   ],
   "target_012.json": [
@@ -495,62 +428,6 @@
             "timing": "early"
           },
           "rationale": "The key C-O bond is formed early via nucleophilic aromatic substitution on the activated pyridine ring."
-        }
-      ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "O=[N+]([O-])c1ccc(OC2(S(=O)(=O)c3ccccc3)CC2)nc1Cl",
-      "features": [
-        {
-          "prompt": "Late cyclopropane ring formation",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "C1CC1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "The cyclopropane ring is formed in the final step via Corey-Chaykovsky reaction."
-        },
-        {
-          "prompt": "Pyridine chlorination-hydrolysis cycle present",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_types": [
-              "chlorination",
-              "hydrolysis"
-            ],
-            "cyclic_pattern": true,
-            "substrate_class": "pyridine"
-          },
-          "rationale": "The route contains a chlorination followed by hydrolysis of the same pyridine position, creating a synthetic loop."
-        }
-      ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "O=[N+]([O-])c1ccc(OC2(S(=O)(=O)c3ccccc3)CC2)nc1Cl",
-      "features": [
-        {
-          "prompt": "Late stage cyclopropane ring formation",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "C1CC1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "The spirocyclopropane ring is formed in the final step via intramolecular alkylation."
-        },
-        {
-          "prompt": "Early stage sulfur oxidation sequence",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "oxidation",
-            "substrate_pattern": "CSc",
-            "product_pattern": "CS(=O)(=O)c",
-            "timing": "early"
-          },
-          "rationale": "Sulfide is oxidized to sulfone early to activate the methylene for subsequent cyclopropanation."
         }
       ]
     }
@@ -579,90 +456,6 @@
             "product": "triphenylmethanol"
           },
           "rationale": "Classical Grignard reaction used to synthesize triphenylmethanol precursor for protecting group."
-        }
-      ]
-    },
-    {
-      "route_index": 0,
-      "smiles": "CCCN(CCC)Cc1cc(CO)c(=O)n2c(-c3c(C)cc(C)cc3C)cccc12",
-      "features": [
-        {
-          "prompt": "Benzyl ether protection followed by immediate deprotection",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "benzyl",
-            "functional_group": "alcohol",
-            "cycles": "protection_deprotection",
-            "steps_between": 0
-          },
-          "rationale": "The route protects a benzylic alcohol as benzyl ether then immediately deprotects it in the next step."
-        },
-        {
-          "prompt": "Two-step tertiary amine formation via sequential alkylation",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_sequence": [
-              "reductive_amination",
-              "alkylation"
-            ],
-            "target_functional_group": "tertiary_amine",
-            "sequential": true
-          },
-          "rationale": "The route forms tertiary amine through reductive amination to secondary amine followed by direct alkylation."
-        },
-        {
-          "prompt": "Late stage trityl ether installation",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "ether_formation",
-            "protecting_group": "trityl",
-            "timing": "final_step"
-          },
-          "rationale": "Trityl ether formation is performed as the final transformation in the synthesis."
-        }
-      ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "CCCN(CCC)Cc1cc(CO)c(=O)n2c(-c3c(C)cc(C)cc3C)cccc12",
-      "features": [
-        {
-          "prompt": "Final step trityl ether protection",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_group": "trityl",
-            "functional_group": "alcohol",
-            "timing": "final_step"
-          },
-          "rationale": "The route unusually adds a trityl protecting group as the final synthetic step rather than removing one."
-        },
-        {
-          "prompt": "Commercial reagent multi-step synthesis",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_types": [
-              "grignard",
-              "friedel_crafts",
-              "alcohol_to_chloride"
-            ],
-            "target": "trityl_chloride",
-            "steps": 4
-          },
-          "rationale": "The route synthesizes commercially available trityl chloride through a 4-step sequence including Grignard and Friedel-Crafts reactions."
-        },
-        {
-          "prompt": "Ester hydrolysis re-esterification cycle",
-          "feature_type": "specific_bond_break",
-          "parameters": {
-            "bond_type": "ester",
-            "sequence": [
-              "hydrolysis",
-              "esterification"
-            ],
-            "initial_ester": "methyl",
-            "final_ester": "ethyl"
-          },
-          "rationale": "The route converts methyl ester to carboxylic acid then to ethyl ester instead of direct transesterification or reduction."
         }
       ]
     }
@@ -697,124 +490,9 @@
           "rationale": "Multiple protection-deprotection cycles are used on phenolic groups throughout the synthesis."
         }
       ]
-    },
-    {
-      "route_index": 1,
-      "smiles": "C/N=C(\\C)C1=C(O)C=C2Oc3c(C(=O)NCc4c(C)ccc5ccccc45)c(OC)cc(O)c3[C@]2(C)C1=O",
-      "features": [
-        {
-          "prompt": "Early stage selective phenol methylation",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "selective_methylation",
-            "substrate": "multi_phenol",
-            "timing": "early"
-          },
-          "rationale": "Selective methylation of one phenol among multiple phenols is attempted early in the synthesis."
-        }
-      ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "C/N=C(\\C)C1=C(O)C=C2Oc3c(C(=O)NCc4c(C)ccc5ccccc45)c(OC)cc(O)c3[C@]2(C)C1=O",
-      "features": [
-        {
-          "prompt": "Multiple protecting group cycles on phenols",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "functional_group": "phenol",
-            "protection_cycles": 3,
-            "protecting_groups": [
-              "MOM",
-              "benzyl",
-              "acetyl"
-            ]
-          },
-          "rationale": "The route employs three distinct protect-deprotect cycles on phenolic groups using MOM, benzyl, and acetyl protections."
-        },
-        {
-          "prompt": "Late stage nitrile to amide conversion",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "nitrile_hydrolysis",
-            "functional_groups": [
-              "nitrile",
-              "amide"
-            ],
-            "stage": "late"
-          },
-          "rationale": "The nitrile is converted to amide in the penultimate step, representing a late-stage functional group interconversion."
-        }
-      ]
     }
   ],
   "target_015.json": [
-    {
-      "route_index": 1,
-      "smiles": "CCOC(=O)c1cc2c(F)cccc2nc1[C@H](C)NC(=O)OC(C)(C)C",
-      "features": [
-        {
-          "prompt": "Late stage esterification after quinoline formation",
-          "feature_type": "reaction_type_presence",
-          "parameters": {
-            "reaction_type": "esterification",
-            "position": "final_step",
-            "substrate_contains": "quinoline"
-          },
-          "rationale": "Esterification is performed as the final step on the fully assembled quinoline scaffold."
-        },
-        {
-          "prompt": "Quinoline ring formation via aldehyde-ketone cyclization",
-          "feature_type": "ring_formation_count",
-          "parameters": {
-            "ring_smarts": "c1ccc2ncccc2c1",
-            "formation_method": "condensation",
-            "precursors": [
-              "aldehyde",
-              "ketone"
-            ]
-          },
-          "rationale": "The quinoline core is assembled through cyclization between an aminobenzaldehyde and \u03b1-bromo ketone."
-        }
-      ]
-    },
-    {
-      "route_index": 2,
-      "smiles": "CCOC(=O)c1cc2c(F)cccc2nc1[C@H](C)NC(=O)OC(C)(C)C",
-      "features": [
-        {
-          "prompt": "Late quinoline ring formation",
-          "feature_type": "ring_break_timing",
-          "parameters": {
-            "ring_smarts": "c1ccc2ncccc2c1",
-            "timing": "late",
-            "direction": "formation"
-          },
-          "rationale": "Quinoline core is assembled late in the sequence via Friedl\u00e4nder annulation of two fragments."
-        },
-        {
-          "prompt": "Convergent synthesis via two fragments",
-          "feature_type": "convergent_strategy",
-          "parameters": {
-            "fragment_count": 2,
-            "key_coupling": "friedlander_annulation"
-          },
-          "rationale": "Route converges two major fragments (aminobenzaldehyde and bromo ketone) to form quinoline."
-        },
-        {
-          "prompt": "Single Boc protecting group strategy",
-          "feature_type": "protecting_group_strategy",
-          "parameters": {
-            "protecting_groups": [
-              "Boc"
-            ],
-            "group_count": 1,
-            "strategy_type": "minimal"
-          },
-          "rationale": "Route uses only one Boc group throughout the entire synthesis to protect the amine."
-        }
-      ]
-    },
     {
       "route_index": 0,
       "smiles": "CCOC(=O)c1cc2c(F)cccc2nc1[C@H](C)NC(=O)OC(C)(C)C",

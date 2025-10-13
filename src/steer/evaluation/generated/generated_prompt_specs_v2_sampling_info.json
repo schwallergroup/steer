@@ -1,0 +1,7 @@
+{
+  "total_molecules": 189,
+  "total_features": 1268,
+  "sampled_features": 557,
+  "sampling_strategy": "diverse_per_molecule",
+  "n_per_molecule": 3
+}

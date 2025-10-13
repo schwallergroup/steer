@@ -89,7 +89,7 @@ def run_single_evaluation(
     """Run evaluation for a single benchmark entry.
 
     Returns:
-        Dictionary with ground truth scores, LM scores, and metadata
+        Dictionary with ground truth scores and statistics
     """
     try:
         # Get source file
@@ -114,26 +114,24 @@ def run_single_evaluation(
         eval_config = entry['eval_config']
         evaluator = EvalClass(eval_config)
 
-        # Run evaluation
-        ground_truth_scores, lm_scores = evaluator(routes)
+        # Run evaluation - only use ground truth scores (first return value)
+        ground_truth_scores, _ = evaluator(routes)
 
         return {
             'success': True,
             'prompt': entry['prompt'],
             'smiles': entry['smiles'],
+            'eval_type': eval_type,
             'n_routes': len(routes),
-            'ground_truth_scores': ground_truth_scores,
-            'lm_scores': lm_scores
+            'ground_truth_scores': ground_truth_scores
         }
 
     except Exception as e:
-        import traceback
-        full_error = traceback.format_exc()
         return {
             'success': False,
             'error': str(e),
-            'traceback': full_error,
-            'prompt': entry.get('prompt', 'N/A')
+            'prompt': entry.get('prompt', 'N/A'),
+            'eval_type': entry.get('eval_type', 'N/A')
         }
 
 
@@ -193,7 +191,7 @@ def evaluate_benchmark(
         Evaluation results dictionary
     """
     print("="*80)
-    print("BENCHMARK EVALUATION")
+    print("BENCHMARK EVALUATION - Score Variation Analysis")
     print("="*80)
 
     # Load benchmark
@@ -204,12 +202,9 @@ def evaluate_benchmark(
         'benchmark_file': benchmark_file,
         'n_entries': len(benchmark),
         'entries': [],
-        'overall_correlation': None,
         'summary': {}
     }
 
-    all_ground_truth = []
-    all_lm_scores = []
     successful = 0
     failed = 0
 
@@ -222,64 +217,53 @@ def evaluate_benchmark(
         if eval_result.get('success'):
             successful += 1
 
-            # Compute correlation for this entry
-            correlation = compute_correlation(
-                eval_result['ground_truth_scores'],
-                eval_result['lm_scores']
-            )
+            # Compute statistics for ground truth scores
+            gt_scores = eval_result['ground_truth_scores']
+            mean_score = float(np.mean(gt_scores))
+            std_score = float(np.std(gt_scores))
+            min_score = float(np.min(gt_scores))
+            max_score = float(np.max(gt_scores))
 
             print(f"  ✓ Routes: {eval_result['n_routes']}")
-            print(f"    Spearman ρ: {correlation['spearman_rho']:.3f} (p={correlation['spearman_p']:.3f})")
-            print(f"    MAE: {correlation['mae']:.3f}")
-
-            # Accumulate for overall correlation
-            all_ground_truth.extend(eval_result['ground_truth_scores'])
-            all_lm_scores.extend(eval_result['lm_scores'])
+            print(f"    Mean: {mean_score:.3f}, Std: {std_score:.3f}")
+            print(f"    Range: [{min_score:.3f}, {max_score:.3f}]")
 
             results['entries'].append({
                 'prompt': entry['prompt'],
+                'eval_type': eval_result['eval_type'],
                 'smiles': entry['smiles'],
                 'n_routes': eval_result['n_routes'],
-                'correlation': correlation,
-                'mean_gt_score': float(np.mean(eval_result['ground_truth_scores'])),
-                'mean_lm_score': float(np.mean(eval_result['lm_scores']))
+                'mean_score': mean_score,
+                'std_score': std_score,
+                'min_score': min_score,
+                'max_score': max_score,
+                'scores': gt_scores  # Keep raw scores for filtering
             })
 
         else:
             failed += 1
             print(f"  ✗ Error: {eval_result['error']}")
-            if 'traceback' in eval_result:
-                print(f"\nFull traceback:\n{eval_result['traceback']}")
 
             results['entries'].append({
                 'prompt': entry['prompt'],
+                'eval_type': eval_result.get('eval_type', entry.get('eval_type', 'unknown')),
                 'error': eval_result['error']
             })
 
-    # Compute overall correlation
-    if all_ground_truth and all_lm_scores:
-        overall = compute_correlation(all_ground_truth, all_lm_scores)
-        results['overall_correlation'] = overall
-
-        print("\n" + "="*80)
-        print("OVERALL RESULTS")
-        print("="*80)
-        print(f"Total entries: {len(benchmark)}")
-        print(f"Successful: {successful} ({100*successful/len(benchmark):.1f}%)")
-        print(f"Failed: {failed} ({100*failed/len(benchmark):.1f}%)")
-        print(f"\nTotal route evaluations: {len(all_ground_truth)}")
-        print(f"Spearman ρ: {overall['spearman_rho']:.3f} (p={overall['spearman_p']:.3f})")
-        print(f"Pearson r: {overall['pearson_r']:.3f} (p={overall['pearson_p']:.3f})")
-        print(f"MAE: {overall['mae']:.3f}")
-        print("="*80)
+    print("\n" + "="*80)
+    print("OVERALL RESULTS")
+    print("="*80)
+    print(f"Total entries: {len(benchmark)}")
+    print(f"Successful: {successful} ({100*successful/len(benchmark):.1f}%)")
+    print(f"Failed: {failed} ({100*failed/len(benchmark):.1f}%)")
+    print("="*80)
 
     # Summary statistics
     results['summary'] = {
         'total_entries': len(benchmark),
         'successful': successful,
         'failed': failed,
-        'success_rate': successful / len(benchmark) if benchmark else 0,
-        'total_routes_evaluated': len(all_ground_truth)
+        'success_rate': successful / len(benchmark) if benchmark else 0
     }
 
     # Save results
@@ -310,7 +294,7 @@ def main():
     )
     parser.add_argument(
         "--codes-dir",
-        default="src/steer/evaluation/generated/eval_types",
+        default="src/steer/evaluation/generated/eval_types_v2",
         help="Directory with evaluation code files"
     )
     parser.add_argument(
