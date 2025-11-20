@@ -920,4 +920,4 @@ data/*png
 data/vus_route
 
 uspto190/*/*json
-src/steer/evaluation/generated/eval_types_v2/*
+# src/steer/evaluation/generated/eval_types_v2/*

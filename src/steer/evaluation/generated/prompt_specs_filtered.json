@@ -1,26 +1,4 @@
 [
- {
-    "smiles": "C[C@H](c1ccccc1)N1C[C@]2(C(=O)OC(C)(C)C)C=CC[C@@H]2C1=S",
-    "prompt": "Ring-closing metathesis for bicyclic core formation",
-    "id": "target_001",
-    "eval_type": "Feature_001",
-    "eval_config": {
-      "parameters": {
-        "reaction_type": "ring_closing_metathesis",
-        "required": true
-      }
-    },
-    "config": {
-      "iter_lim": 500,
-      "time_lim": 1000,
-      "max_tree": 20
-    },
-    "_rationale": "RCM is identified as the key strategic step for building the bicyclic core structure with high efficiency and yield",
-    "_source": {
-      "file": "target_001.json",
-      "route_index": 0
-    }
-  },
   {
     "smiles": "COc1ccc2nc(-c3ccc(OC)c(F)c3)nc(C(=O)NC(CO)Cc3c[nH]c4cccnc34)c2c1",
     "prompt": "Late stage amide coupling",
