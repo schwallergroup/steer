@@ -74,14 +74,14 @@ The repository includes two main benchmarks:
 If you use this work in your research, please cite:
 
 ```bibtex
-@misc{bran2025chemicalreasoningllmsunlocks,
-      title={Chemical reasoning in LLMs unlocks steerable synthesis planning and reaction mechanism elucidation}, 
-      author={Andres M Bran and Theo A Neukomm and Daniel P Armstrong and Zlatko Jončev and Philippe Schwaller},
-      year={2025},
-      eprint={2503.08537},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2503.08537}, 
+@article{bran2026chemical,
+  title={Chemical reasoning in LLMs unlocks strategy-aware synthesis planning and reaction mechanism elucidation},
+  author={Bran, Andres M and Neukomm, Theo A and Armstrong, Daniel and Jon{\v{c}}ev, Zlatko and Schwaller, Philippe},
+  journal={Matter},
+  volume={9},
+  number={5},
+  year={2026},
+  publisher={Elsevier}
 }
 ```
 
